@@ -1,0 +1,139 @@
+@layer iphone {
+
+/*
+
+Referencia de mockup: https://codepen.io/adielhercules/pen/dJJGBQ
+
+*/
+
+  .iphone-frame {
+    position: relative;
+  }
+
+  .iphone-frame {
+    width: 390px;
+  }
+
+  .iphone-frame {
+    height: 844px;
+  }
+
+  .iphone-frame {
+    border-radius: 40px;
+  }
+
+  .iphone-frame {
+    background: #111;
+  }
+
+  .iphone-frame {
+    padding: 12px;
+  }
+
+  .iphone-frame {
+    box-shadow:
+      0 0 0 10px #1f1f1f,
+      0 0 0 12px #191919,
+      0 0 0 18px #111,
+      0 30px 60px rgba(0, 0, 0, 0.6);
+  }
+
+  .iphone-screen {
+    width: 100%;
+  }
+
+  .iphone-screen {
+    height: 100%;
+  }
+
+  .iphone-screen {
+    border-radius: 32px;
+  }
+
+  .iphone-screen {
+    overflow: hidden;
+  }
+
+  .iphone-screen {
+    background: #eee7dd;
+  }
+
+  .iphone-frame::before {
+    content: "";
+  }
+
+  .iphone-frame::before {
+    position: absolute;
+  }
+
+  .iphone-frame::before {
+    top: 0;
+  }
+
+  .iphone-frame::before {
+    left: 50%;
+  }
+
+  .iphone-frame::before {
+    transform: translateX(-50%);
+  }
+
+  .iphone-frame::before {
+    width: 55%;
+  }
+
+  .iphone-frame::before {
+    height: 28px;
+  }
+
+  .iphone-frame::before {
+    background: #1f1f1f;
+  }
+
+  .iphone-frame::before {
+    border-radius: 0 0 20px 20px;
+  }
+
+  /* Barra */
+  .iphone-frame::after {
+    content: "";
+  }
+
+  .iphone-frame::after {
+    position: absolute;
+  }
+
+  .iphone-frame::after {
+    bottom: 8px;
+  }
+
+  .iphone-frame::after {
+    left: 50%;
+  }
+
+  .iphone-frame::after {
+    transform: translateX(-50%);
+  }
+
+  .iphone-frame::after {
+    width: 120px;
+  }
+
+  .iphone-frame::after {
+    height: 4px;
+  }
+
+  .iphone-frame::after {
+    background: #f2f2f2;
+  }
+
+  .iphone-frame::after {
+    border-radius: 10px;
+  }
+
+  .iphone-wrapper {
+  width: 390px;
+  height: 844px;
+  transform-origin: top center;
+}
+}
