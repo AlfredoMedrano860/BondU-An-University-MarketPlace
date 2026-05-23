@@ -22,3 +22,4 @@ function AddProductScreen({ onBack, currentUser }: AddProductScreenProps) {
 }
 
 export default AddProductScreen;
+//
