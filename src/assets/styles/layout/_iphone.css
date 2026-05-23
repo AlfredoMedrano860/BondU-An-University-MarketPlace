@@ -23,7 +23,7 @@ Referencia de mockup: https://codepen.io/adielhercules/pen/dJJGBQ
   }
 
   .iphone-frame {
-    background: #111;
+    background: hsl(0, 0%, 7%);
   }
 
   .iphone-frame {
@@ -32,10 +32,10 @@ Referencia de mockup: https://codepen.io/adielhercules/pen/dJJGBQ
 
   .iphone-frame {
     box-shadow:
-      0 0 0 10px #1f1f1f,
-      0 0 0 12px #191919,
-      0 0 0 18px #111,
-      0 30px 60px rgba(0, 0, 0, 0.6);
+      0 0 0 10px hsl(0, 0%, 12%),
+      0 0 0 12px hsl(0, 0%, 10%),
+      0 0 0 18px hsl(0, 0%, 7%),
+      0 30px 60px hsla(0, 0%, 0%, 0.6)
   }
 
   .iphone-screen {
@@ -55,7 +55,7 @@ Referencia de mockup: https://codepen.io/adielhercules/pen/dJJGBQ
   }
 
   .iphone-screen {
-    background: #eee7dd;
+    background: hsl(35, 33%, 90%);
   }
 
   .iphone-frame::before {
@@ -87,14 +87,13 @@ Referencia de mockup: https://codepen.io/adielhercules/pen/dJJGBQ
   }
 
   .iphone-frame::before {
-    background: #1f1f1f;
+    background: hsl(0, 0%, 12%);
   }
 
   .iphone-frame::before {
     border-radius: 0 0 20px 20px;
   }
 
-  /* Barra */
   .iphone-frame::after {
     content: "";
   }
@@ -124,7 +123,7 @@ Referencia de mockup: https://codepen.io/adielhercules/pen/dJJGBQ
   }
 
   .iphone-frame::after {
-    background: #f2f2f2;
+    background: hsl(0, 0%, 95%);
   }
 
   .iphone-frame::after {
