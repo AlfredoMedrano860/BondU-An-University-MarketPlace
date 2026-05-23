@@ -20,7 +20,7 @@ function InfoScreen({ onFinish }: InfoScreenProps) {
 
   return (
     <div className="min-h-screen grid grid-rows-[90px_300px_auto] info-grid">
-      <InfoContent item={currentItem} currentIndex={currentIndex} total={infoItems.length} onNext={handleNext} />
+      <InfoContent item={currentItem} currentIndex={currentIndex} total={infoItems.length} onNext={handleNext} onSkip={onFinish} />
     </div>
   );
 }

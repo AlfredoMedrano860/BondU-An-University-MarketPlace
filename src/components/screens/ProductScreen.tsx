@@ -28,7 +28,7 @@ function ProductScreen({ product, onBack}: ProductScreenProps) {
 
       <div className="bg-[#eee7dd] px-4 pt-5 pb-10 min-h-[calc(100vh-338px)]">
         <ProductGallery gallery={product.gallery} selectedImage={selectedImage} onSelect={setSelectedImage}/>
-        <ProductInfo name={product.name} price={product.price} />
+        <ProductInfo name={product.name} price={product.price} state={product.state} />
         <ProductTabs product={product} selectedTab={selectedTab} onSelectTab={setSelectedTab} />
       </div>
       

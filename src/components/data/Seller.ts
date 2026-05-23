@@ -1,9 +1,7 @@
 import avatarImg from "../../assets/imgs/IconoPerfil.png";
+import type { User } from "./User";
 
-export interface Seller {
-  id: number;
-  name: string;
-  avatar: string;
+export interface Seller extends User {
   rating: number;
   reviews: number;
 }
@@ -11,10 +9,12 @@ export interface Seller {
 export const sellers: Seller[] = [
   {
     id: 1,
-    name: "Alfredo Medrano Saravia",
+    username: "Alfredo Medrano",
+    email: "mc.alfredomedra@gmail.com",
+    password: "",          
     avatar: avatarImg,
+    createdAt: new Date("2024-01-15"),
     rating: 3.0,
     reviews: 50,
   },
 ];
-

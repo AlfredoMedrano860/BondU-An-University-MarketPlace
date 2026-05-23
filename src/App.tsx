@@ -9,68 +9,100 @@ import HomeScreen from "./components/screens/HomeScreen";
 import MarketPlaceScreen from "./components/screens/MarketPlaceScreen";
 import SettingsScreen from "./components/screens/SettingsScreen";
 import AddProductScreen from "./components/screens/AddProductScreen";
+import AccountScreen from "./components/screens/AccountScreen";
+import MyProductsScreen from "./components/screens/MyProductsScreen";
+import type { UserProfile } from "./components/data/UserProfile";
 
 function App() {
-  const [screen, setScreen] = useState("info");
+  const [screen, setScreen]           = useState("info");
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
 
-// Este useEffect se lo pedí a chat para el mockup del iphone y que a todos 
-// se nos viera bien sin importar el tamaño de la pantalla.
-// El mockup es solo para desarrollo, despues se quita.
+  useEffect(() => {
+    function scaleIphone() {
+      const wrapper = document.querySelector<HTMLElement>(".iphone-wrapper");
+      if (!wrapper) return;
+      const scale = Math.min(
+        (window.innerHeight * 0.95) / 844,
+        (window.innerWidth  * 0.95) / 390,
+        1
+      );
+      wrapper.style.width          = `${390 * scale}px`;
+      wrapper.style.height         = `${844 * scale}px`;
+      wrapper.style.transform      = `scale(${scale})`;
+      wrapper.style.transformOrigin = "top center";
+    }
+    scaleIphone();
+    window.addEventListener("resize", scaleIphone);
+    return () => window.removeEventListener("resize", scaleIphone);
+  }, []);
 
-useEffect(() => {
-  function scaleIphone() {
-    const wrapper = document.querySelector<HTMLElement>(".iphone-wrapper");
-    if (!wrapper) return;
-
-    const scale = Math.min(
-      (window.innerHeight * 0.95) / 844,
-      (window.innerWidth  * 0.95) / 390,
-      1
-    );
-    wrapper.style.width  = `${390 * scale}px`;
-    wrapper.style.height = `${844 * scale}px`;
-    wrapper.style.transform = `scale(${scale})`;
-    wrapper.style.transformOrigin = "top center";
+  function handleLogin(user: UserProfile) {
+    setCurrentUser(user);
+    setScreen("home");
   }
 
-  scaleIphone();
-  window.addEventListener("resize", scaleIphone);
-  return () => window.removeEventListener("resize", scaleIphone);
-}, []);
+  function handleLogout() {
+    setCurrentUser(null);
+    setScreen("welcome");
+  }
 
   return (
     <div className="min-h-screen flex justify-center items-center app-background-gradient">
       <div className="iphone-wrapper">
         <div className="iphone-frame">
-        <div className="iphone-screen">
-          <AppLayout>
-            {screen === "info" && (
-              <InfoScreen onFinish={() => setScreen("welcome")} />
-            )}
-            {screen === "welcome" && (
-              <WelcomeScreen onLogin={() => setScreen("login")} />
-            )}
-            {screen === "login" && (
-              <LoginScreen onBack={() => setScreen("welcome")} onLogin={() => setScreen("home")} onSignUp={() => setScreen("signup")}/>
-            )}
-            {screen === "signup" && (
-              <SignUpScreen onBack={() => setScreen("login")} onRegister={() => setScreen("home")} />
-            )}
-            {screen === "home" && (
-              <HomeScreen onNavigate={setScreen} />
-            )}
-            {screen === "marketplace" && (
-              <MarketPlaceScreen onNavigate={setScreen} />
-            )}
-            {screen === "settings" && (
-              <SettingsScreen onNavigate={setScreen} />
-            )}
-            {screen === "addproduct" && (
-              <AddProductScreen onBack={() => setScreen("marketplace")} />
-            )}
-          </AppLayout>
+          <div className="iphone-screen">
+            <AppLayout>
+              {screen === "info" && (
+                <InfoScreen onFinish={() => setScreen("welcome")} />
+              )}
+              {screen === "welcome" && (
+                <WelcomeScreen onLogin={() => setScreen("login")} />
+              )}
+              {screen === "login" && (
+                <LoginScreen
+                  onBack={() => setScreen("welcome")}
+                  onLogin={handleLogin}
+                  onSignUp={() => setScreen("signup")}
+                />
+              )}
+              {screen === "signup" && (
+                <SignUpScreen
+                  onBack={() => setScreen("login")}
+                  onRegister={() => setScreen("login")}
+                />
+              )}
+              {screen === "home" && currentUser && (
+                <HomeScreen onNavigate={setScreen} currentUser={currentUser} />
+              )}
+              {screen === "marketplace" && currentUser && (
+                <MarketPlaceScreen onNavigate={setScreen} currentUser={currentUser} />
+              )}
+              {screen === "settings" && currentUser && (
+                <SettingsScreen
+                  onNavigate={setScreen}
+                  currentUser={currentUser}
+                  onLogout={handleLogout}
+                />
+              )}
+              {screen === "addproduct" && currentUser && (
+                <AddProductScreen onBack={() => setScreen("marketplace")} currentUser={currentUser} />
+              )}
+              {screen === "account" && currentUser && (
+                <AccountScreen
+                  currentUser={currentUser}
+                  onBack={() => setScreen("settings")}
+                  onUpdate={setCurrentUser}
+                />
+              )}
+              {screen === "myproducts" && currentUser && (
+                <MyProductsScreen
+                  userId={currentUser.id}
+                  onBack={() => setScreen("settings")}
+                />
+              )}
+            </AppLayout>
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );
