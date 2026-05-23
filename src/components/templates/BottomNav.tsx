@@ -30,10 +30,7 @@ function BottomNav({ onNavigate, currentScreen }: BottomNavProps) {
   return (
     <nav className="absolute bottom-6 left-1/2 -translate-x-1/2 w-85 h-16 bg-primary rounded-full grid grid-cols-5 items-center z-50">
 
-      <div
-        className="absolute -top-6 w-18 h-18 rounded-full bg-beige p-2 transition-all duration-300 ease-in-out"
-        style={{ left: `${(selectedIndex + 0.5) * 20}%`, transform: "translateX(-50%)"}} // Para el efecto me ayudé con IA
-      >
+      <div className="absolute -top-6 w-18 h-18 rounded-full bg-beige p-2 transition-all duration-300 ease-in-out"style={{ left: `${(selectedIndex + 0.5) * 20}%`, transform: "translateX(-50%)"}} /* Para el efecto me ayudé con IA */ >
         <div className="w-full h-full bg-secondary rounded-full flex justify-center items-center">
           <SelectedIcon size={28} color="white" strokeWidth={1.5} />
         </div>

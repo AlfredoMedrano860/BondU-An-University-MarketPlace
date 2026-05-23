@@ -14,7 +14,7 @@ function InfoContent({ item, currentIndex, total, onNext, onSkip }: InfoContentP
   const buttonText = item.buttonText ?? "SIGUIENTE";
 
   return (
-    <>
+    <div>
       <div className="grid-area-skip flex justify-end items-start px-6 pt-8">
         <button onClick={onSkip} className="color-primary font-bold text-sm">Skip</button>
       </div>
@@ -35,7 +35,7 @@ function InfoContent({ item, currentIndex, total, onNext, onSkip }: InfoContentP
 
         <PrimaryButton text={buttonText} onClick={onNext} />
       </div>
-    </>
+    </div>
   );
 }
 
