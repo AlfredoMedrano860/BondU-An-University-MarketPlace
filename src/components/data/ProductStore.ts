@@ -32,14 +32,14 @@ export function addProduct(input: NewProductInput): ProductResult {
   if (error) return { ok: false, error };
 
   const product: Product = {
-    id:          nextId++,
-    name:        input.name,
-    price:       input.price,
-    state:       input.state,
-    image:       input.gallery[0],
-    gallery:     input.gallery,
-    description: input.description,
-    seller:      input.seller,
+    id: nextId++,
+    name: input.name,
+    price: input.price,
+    state: input.state,
+    image: input.gallery[0],
+    gallery: input.gallery,
+    description:input.description,
+    seller: input.seller,
   };
 
   products = [product].concat(products);

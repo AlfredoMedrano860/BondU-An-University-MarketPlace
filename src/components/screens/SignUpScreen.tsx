@@ -44,7 +44,7 @@ function SignUpScreen({ onBack, onRegister }: SignUpScreenProps) {
         <InputSpace type="text" placeholder="Usuario" value={username} onChange={setUsername} />
         <InputSpace type="text" placeholder="Correo" value={email} onChange={setEmail} />
         <InputSpace type="password" placeholder="Contraseña" value={password} onChange={setPassword} />
-
+        {/* Momentaneo, se ocupa reemplazar con notificaciones */}
         {error && (
           <p className="text-red-500 text-sm text-center -mt-2">{error}</p>
         )}

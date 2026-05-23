@@ -37,17 +37,17 @@ function AccountScreen({ currentUser, onBack, onUpdate }: AccountScreenProps) {
 
         <div className="bg-white-app rounded-3xl p-5 flex flex-col gap-4">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Información Personal</p>
-          <InputSpace placeholder="Usuario"     value={fields.username}   onChange={setters.setUsername} />
-          <InputSpace placeholder="Correo"      value={fields.email}      onChange={setters.setEmail} />
-          <InputSpace placeholder="Teléfono"    value={fields.phone}      onChange={setters.setPhone} />
+          <InputSpace placeholder="Usuario" value={fields.username} onChange={setters.setUsername} />
+          <InputSpace placeholder="Correo" value={fields.email} onChange={setters.setEmail} />
+          <InputSpace placeholder="Teléfono" value={fields.phone} onChange={setters.setPhone} />
           <InputSpace placeholder="Universidad" value={fields.university} onChange={setters.setUniversity} />
-          <InputSpace placeholder="Carrera"     value={fields.career}     onChange={setters.setCareer} />
+          <InputSpace placeholder="Carrera" value={fields.career} onChange={setters.setCareer} />
         </div>
 
         <div className="bg-white-app rounded-3xl p-5 flex flex-col gap-4">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Cambiar Contraseña</p>
-          <InputSpace type="password" placeholder="Nueva contraseña"     value={fields.password} onChange={setters.setPassword} />
-          <InputSpace type="password" placeholder="Confirmar contraseña" value={fields.confirm}  onChange={setters.setConfirm} />
+          <InputSpace type="password" placeholder="Nueva contraseña" value={fields.password} onChange={setters.setPassword} />
+          <InputSpace type="password" placeholder="Confirmar contraseña" value={fields.confirm} onChange={setters.setConfirm} />
         </div>
         {/* Momentaneo, se ocupa reemplazar con notificaciones */}
         {status.error && <p className="text-red-500 text-sm text-center">{status.error}</p>}

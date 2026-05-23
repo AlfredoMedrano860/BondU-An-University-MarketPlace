@@ -20,10 +20,7 @@ function MyProductCard({ product, onRemove }: MyProductCardProps) {
 
       <p className="text-xs text-gray-400 w-full px-1">{product.state}</p>
 
-      <button
-        onClick={() => onRemove(product.id)}
-        className="w-full h-8 rounded-full bg-aux text-white text-xs font-bold"
-      >
+      <button onClick={() => onRemove(product.id)} className="w-full h-8 rounded-full bg-aux text-white text-xs font-bold">
         ELIMINAR
       </button>
 
