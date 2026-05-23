@@ -7,15 +7,16 @@ interface InfoContentProps {
   currentIndex: number;
   total: number;
   onNext: () => void;
+  onSkip: () => void;
 }
 
-function InfoContent({ item, currentIndex, total, onNext }: InfoContentProps) {
+function InfoContent({ item, currentIndex, total, onNext, onSkip }: InfoContentProps) {
   const buttonText = item.buttonText ?? "SIGUIENTE";
 
   return (
     <>
       <div className="grid-area-skip flex justify-end items-start px-6 pt-8">
-        <button className="color-primary font-bold text-sm">Skip</button>
+        <button onClick={onSkip} className="color-primary font-bold text-sm">Skip</button>
       </div>
 
       <div className="grid-area-image flex justify-center items-center">

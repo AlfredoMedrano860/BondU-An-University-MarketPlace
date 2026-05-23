@@ -25,7 +25,13 @@ function InputSpace({ type = "text", placeholder, value, onChange, multiline = f
 
   return (
     <div className="w-full relative">
-      <input type={inputType} placeholder={placeholder} value={value} onChange={(e) => onChange(e.target.value)} className="w-full h-14 rounded-full px-5 pr-12 bg-input text-black text-sm outline-none placeholder:text-gray-400"/>
+      <input
+        type={inputType}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full h-14 rounded-full px-5 pr-12 bg-input text-black text-sm outline-none placeholder:text-gray-400 [&::-ms-reveal]:hidden [&::-webkit-contacts-auto-fill-button]:hidden [&::-webkit-credentials-auto-fill-button]:hidden"
+      />
       {isPassword && (
         <button onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
           {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}

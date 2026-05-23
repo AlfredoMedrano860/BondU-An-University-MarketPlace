@@ -5,11 +5,11 @@ import itemProduct3 from "../../assets/imgs/AudifonosGallery3.png";
 import type { Seller } from "./Seller";
 import { sellers } from "./Seller";
 
-
 export interface Product {
   id: number;
   name: string;
   price: number;
+  state: string;
   image: string;
   gallery: string[];
   description: string;
@@ -21,40 +21,40 @@ export const products: Product[] = [
     id: 1,
     name: "Audífonos",
     price: 60,
+    state: "Nuevo",
     image: Producto,
     gallery: [itemProduct, itemProduct2, itemProduct3],
-    description:
-      "Audífonos inalámbricos negros con diseño moderno y acabado minimalista. Cuentan con almohadillas cómodas para uso prolongado y diadema ajustable para mejor adaptación.",
+    description: "Audífonos inalámbricos negros con diseño moderno y acabado minimalista. Cuentan con almohadillas cómodas para uso prolongado y diadema ajustable para mejor adaptación.",
     seller: sellers[0],
   },
   {
     id: 2,
     name: "Audífonos",
     price: 60,
+    state: "Usado",
     image: Producto,
     gallery: [itemProduct, itemProduct2, itemProduct3],
-    description:
-      "Audífonos inalámbricos negros con diseño moderno y acabado minimalista. Cuentan con almohadillas cómodas para uso prolongado y diadema ajustable para mejor adaptación.",
+    description: "Audífonos inalámbricos negros con diseño moderno y acabado minimalista. Cuentan con almohadillas cómodas para uso prolongado y diadema ajustable para mejor adaptación.",
     seller: sellers[0],
   },
   {
     id: 3,
     name: "Audífonos",
     price: 60,
+    state: "Nuevo",
     image: Producto,
     gallery: [itemProduct, itemProduct2, itemProduct3],
-    description:
-      "Audífonos inalámbricos negros con diseño moderno y acabado minimalista. Cuentan con almohadillas cómodas para uso prolongado y diadema ajustable para mejor adaptación.",
+    description: "Audífonos inalámbricos negros con diseño moderno y acabado minimalista. Cuentan con almohadillas cómodas para uso prolongado y diadema ajustable para mejor adaptación.",
     seller: sellers[0],
   },
   {
     id: 4,
     name: "Audífonos",
     price: 60,
+    state: "Usado",
     image: Producto,
     gallery: [itemProduct, itemProduct2, itemProduct3],
-    description:
-      "Audífonos inalámbricos negros con diseño moderno y acabado minimalista. Cuentan con almohadillas cómodas para uso prolongado y diadema ajustable para mejor adaptación.",
+    description: "Audífonos inalámbricos negros con diseño moderno y acabado minimalista. Cuentan con almohadillas cómodas para uso prolongado y diadema ajustable para mejor adaptación.",
     seller: sellers[0],
   },
 ];

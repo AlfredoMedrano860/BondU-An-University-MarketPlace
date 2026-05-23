@@ -3,16 +3,29 @@ import register from "../../assets/imgs/RegisterCard.png";
 import BackButton from "../ui/BackButton";
 import PrimaryButton from "../ui/PrimaryButton";
 import InputSpace from "../ui/InputSpace";
+import { login } from "../data/AuthStore";
+import type { UserProfile } from "../data/UserProfile";
 
 interface LoginScreenProps {
   onBack: () => void;
-  onLogin: () => void;
+  onLogin: (user: UserProfile) => void;
   onSignUp: () => void;
 }
 
 function LoginScreen({ onBack, onLogin, onSignUp }: LoginScreenProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  function handleLogin() {
+    const result = login(email, password);
+    if (result.ok) {
+      setError("");
+      onLogin(result.user);
+    } else {
+      setError(result.error);
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-beige">
@@ -32,11 +45,15 @@ function LoginScreen({ onBack, onLogin, onSignUp }: LoginScreenProps) {
         <InputSpace type="text" placeholder="Correo" value={email} onChange={setEmail} />
         <InputSpace type="password" placeholder="Contraseña" value={password} onChange={setPassword} />
 
+        {error && (
+          <p className="text-red-500 text-sm text-center -mt-2">{error}</p>
+        )}
+
         <div className="flex justify-end -mt-2">
           <button className="text-sm text-gray-500">¿Olvidaste la contraseña?</button>
         </div>
 
-        <PrimaryButton text="INICIAR SESIÓN" onClick={onLogin} />
+        <PrimaryButton text="INICIAR SESIÓN" onClick={handleLogin} />
 
         <p className="text-center text-sm text-gray-500 mt-1">
           ¿No tienes una cuenta?{" "}
