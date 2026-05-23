@@ -26,7 +26,7 @@ function ProductForm({ name, price, state, description, error, onNameChange, onP
         <InputSpace placeholder="Estado (Nuevo / Usado)..." value={state} onChange={onStateChange} />
         <InputSpace placeholder="Descripción del producto..." value={description} onChange={onDescriptionChange} multiline />
       </div>
-
+      
       {error && <p className="text-red-500 text-sm text-left mt-3">{error}</p>}
 
       <div className="mt-8">

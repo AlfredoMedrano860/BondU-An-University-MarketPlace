@@ -7,8 +7,7 @@ import { faqItems } from "../data/Faq";
 
 const FaqTrigger = React.forwardRef<HTMLButtonElement, { children: React.ReactNode } >(({ children }, ref) => (
   <Accordion.Header>
-    <Accordion.Trigger ref={ref} className="accordion-trigger w-full flex items-center justify-between px-5 py-3 text-xs font-medium text-black text-left"
-    >
+    <Accordion.Trigger ref={ref} className="accordion-trigger w-full flex items-center justify-between px-5 py-3 text-xs font-medium text-black text-left">
       {children}
       <ChevronDown size={15} className="accordion-chevron text-gray-400 shrink-0 ml-2" aria-hidden />
     </Accordion.Trigger>
@@ -25,10 +24,7 @@ const FaqContent = React.forwardRef<HTMLDivElement, { children: React.ReactNode 
 
 const MainTrigger = React.forwardRef<HTMLButtonElement,{ children: React.ReactNode }>(({ children }, ref) => (
   <Accordion.Header>
-    <Accordion.Trigger
-      ref={ref}
-      className="accordion-trigger w-full flex items-center justify-between px-5 py-4"
-    >
+    <Accordion.Trigger ref={ref} className="accordion-trigger w-full flex items-center justify-between px-5 py-4">
       <div className="flex items-center gap-3">
         <HelpCircle size={22} className="text-black" />
         <span className="text-sm font-medium text-black">{children}</span>
@@ -51,11 +47,7 @@ function FaqAccordion() {
          
           <Accordion.Root type="single" collapsible>
             {faqItems.map((item, i) => (
-              <Accordion.Item
-                key={i}
-                value={`faq-${i}`}
-                className="border-b border-beige last:border-b-0"
-              >
+              <Accordion.Item key={i} value={`faq-${i}`}className="border-b border-beige last:border-b-0">
                 <FaqTrigger>{item.question}</FaqTrigger>
                 <FaqContent>{item.answer}</FaqContent>
               </Accordion.Item>
