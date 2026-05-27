@@ -8,13 +8,14 @@ const navItems = [
   { id: 0, icon: HouseHeart, screen: "home" },
   { id: 1, icon: Store, screen: "marketplace" },
   { id: 2, icon: CirclePlus, screen: "addproduct" },
-  { id: 3, icon: Star, screen: "" },
+  { id: 3, icon: Star, screen: "favorite" },
   { id: 4, icon: Bolt, screen: "settings" },
 ];
 
 const screenToIndex: Record<string, number> = {
   home: 0,
   marketplace: 1,
+  favorite:3,
   settings: 4,
 };
 
