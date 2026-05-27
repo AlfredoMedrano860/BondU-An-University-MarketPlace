@@ -11,6 +11,7 @@ import SettingsScreen from "./components/screens/SettingsScreen";
 import AddProductScreen from "./components/screens/AddProductScreen";
 import AccountScreen from "./components/screens/AccountScreen";
 import MyProductsScreen from "./components/screens/MyProductsScreen";
+import FavoriteScreen from "./components/screens/FavoriteScreen";
 import type { UserProfile } from "./components/data/UserProfile";
 
 function App() {
@@ -98,6 +99,13 @@ function App() {
                 <MyProductsScreen
                   userId={currentUser.id}
                   onBack={() => setScreen("settings")}
+                />
+              )}
+                {screen === "favorite" && currentUser && (
+                <FavoriteScreen
+                  onNavigate={setScreen}
+                  currentUser={currentUser}
+                  
                 />
               )}
             </AppLayout>
