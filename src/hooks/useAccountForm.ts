@@ -2,6 +2,21 @@ import { useState } from "react";
 import { updateUser } from "../components/data/AuthStore";
 import type { UserProfile } from "../components/data/UserProfile";
 
+/**
+ * Hook para manejar el estado y lógica del formulario de edición de cuenta.
+ *
+ * Inicializa los campos con los datos del usuario actual y valida
+ * que las contraseñas coincidan antes de guardar.
+ * El mensaje de confirmación desaparece automáticamente después de 2 segundos.
+ * Usado en {@link AccountScreen}.
+ *
+ * @param currentUser - Usuario actualmente autenticado cuyos datos se precargan.
+ * @param onUpdate - Se ejecuta al guardar exitosamente con el perfil actualizado.
+ * @returns `fields` — valores actuales de los campos,
+ * `setters` — funciones para actualizar cada campo,
+ * `status` — estado de error y confirmación de guardado,
+ * `handleSave` — función que valida y guarda los cambios.
+ */
 export function useAccountForm(currentUser: UserProfile, onUpdate: (user: UserProfile) => void) {
   const [username, setUsername] = useState(currentUser.username);
   const [email, setEmail] = useState(currentUser.email);
@@ -13,6 +28,11 @@ export function useAccountForm(currentUser: UserProfile, onUpdate: (user: UserPr
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
 
+  /**
+   * Valida y guarda los cambios del perfil en el AuthStore.
+   * Muestra error si las contraseñas no coinciden.
+   * Llama a {@link onUpdate} con el perfil actualizado si es exitoso.
+   */
   const handleSave = () => {
     if (password && password !== confirm) {
       setError("Las contraseñas no coinciden.");

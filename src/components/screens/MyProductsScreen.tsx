@@ -1,60 +1,65 @@
 import { useState } from "react";
 import BackButton from "../ui/BackButton";
+import MyProductCard from "../templates/MyProductCard";
+import EmptyState from "../ui/EmptyState";
+import type { Product } from "../data/Product";
 import { getProductsByUser, removeProduct } from "../data/ProductStore";
 
+/**
+ * Props de MyProductsScreen.
+ */
 interface MyProductsScreenProps {
+  /** ID del usuario autenticado para filtrar sus productos. */
   userId: number;
+  /** Navega a la pantalla anterior. */
   onBack: () => void;
 }
 
+/**
+ * Pantalla de gestión de productos publicados por el usuario.
+ *
+ * Muestra los productos del usuario en una grilla usando {@link MyProductCard}.
+ * Permite eliminar productos individualmente.
+ * Si no tiene productos publicados muestra {@link EmptyState}.
+ *
+ * @param userId - ID del usuario autenticado para filtrar sus productos.
+ * @param onBack - Navega a la pantalla anterior.
+ */
 function MyProductsScreen({ userId, onBack }: MyProductsScreenProps) {
-  const [, forceUpdate] = useState(0);
-  const userProducts = getProductsByUser(userId);
+  const [userProducts, setUserProducts] = useState<Product[]>(getProductsByUser(userId));
 
+  /**
+   * Elimina un producto del store y sincroniza el estado local.
+   * @param productId - ID del producto a eliminar.
+   */
   const handleRemove = (productId: number) => {
     removeProduct(productId);
-    forceUpdate((n) => n + 1);
+    setUserProducts(getProductsByUser(userId));
   };
 
   return (
     <div className="h-screen bg-beige overflow-y-auto no-scrollbar">
-      
+
+      {/* ── HEADER ── */}
       <div className="absolute top-10 left-3">
         <BackButton onClick={onBack} />
       </div>
-      <div className="bg-primary px-6 pt-15 pb-16  text-center ">
+      <div className="bg-primary px-6 pt-15 pb-16 text-center">
         <h1 className="text-white text-xl font-bold">Mis Productos</h1>
       </div>
 
+      {/* ── CONTENIDO ── grilla de productos o estado vacío */}
       <div className="px-5 -mt-8 pb-10">
-        {userProducts.length === 0 ? (
-          <div className="bg-white-app rounded-3xl p-8 flex flex-col items-center gap-2 mt-4">
-            <p className="text-sm font-medium text-gray-400">No tenés productos publicados.</p>
-            <p className="text-xs text-gray-400">Tocá el + para agregar uno.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-4 mt-4">
-            {userProducts.map((product) => (
-              <div key={product.id} className="bg-white-app rounded-3xl p-3 flex flex-col items-center gap-2">
-                <div className="w-full h-28 rounded-2xl overflow-hidden">
-                  <img src={product.image} alt={product.name} className="w-full h-full object-cover"/>
-                </div>
-
-                <div className="w-full flex justify-between items-center px-1">
-                  <p className="text-sm font-semibold text-black"> {product.name}</p>
-                  <span className="text-xs font-bold" style={{ color: "hsl(54,80%,63%)" }}> ${product.price}</span>
-                </div>
-
-                <p className="text-xs text-gray-400 w-full px-1"> {product.state} </p>
-
-                <button onClick={() => handleRemove(product.id)}className="w-full h-8 rounded-full bg-aux text-white text-xs font-bold">
-                  ELIMINAR
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
+        {userProducts.length === 0
+          ? <EmptyState message="No tenés productos publicados" />
+          : <div className="grid grid-cols-2 gap-4 mt-4">
+              {userProducts.map((product) => (
+                <MyProductCard key={product.id} product={product} onRemove={handleRemove} />
+              ))}
+            </div>
+        }
       </div>
+
     </div>
   );
 }

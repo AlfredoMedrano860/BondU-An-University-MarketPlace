@@ -1,8 +1,23 @@
+/**
+ * Props de DotsIndicator.
+ */
 interface DotsIndicatorProps {
+  /** Índice del punto actualmente activo. */
   currentIndex: number;
+  /** Total de puntos a mostrar. */
   total: number;
 }
 
+/**
+ * Indicador de puntos para carruseles y onboarding.
+ *
+ * El punto activo se muestra más ancho y en color primario.
+ * Los puntos inactivos son circulares y en color suave.
+ * Usado en {@link FeaturedBanner} e {@link InfoContent}.
+ *
+ * @param currentIndex - Índice del punto actualmente activo.
+ * @param total - Total de puntos a mostrar.
+ */
 function DotsIndicator({ currentIndex, total }: DotsIndicatorProps) {
   return (
     <div className="flex gap-2">
