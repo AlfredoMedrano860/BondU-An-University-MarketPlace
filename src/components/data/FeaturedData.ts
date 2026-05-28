@@ -2,12 +2,19 @@ import banner1 from "../../assets/imgs/Banner1.png";
 import banner2 from "../../assets/imgs/Banner2.png";
 import banner3 from "../../assets/imgs/Banner3.png";
 
+/**
+ * Item del banner destacado en la pantalla principal.
+ */
 export interface FeaturedItem {
+  /** Identificador único del item. */
   id: number;
+  /** URL de la imagen del banner. */
   image: string;
+  /** Texto alternativo de la imagen. */
   alt: string;
 }
 
+/** Banners del carrusel mostrado en {@link FeaturedBanner}. */
 export const featuredItems: FeaturedItem[] = [
   {
     id: 1,

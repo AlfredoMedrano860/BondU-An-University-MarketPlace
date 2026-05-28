@@ -1,8 +1,14 @@
+/**
+ * Pregunta y respuesta individual del FAQ.
+ */
 export interface FaqItem {
+  /** Pregunta frecuente. */
   question: string;
+  /** Respuesta a la pregunta. */
   answer: string;
 }
 
+/** Lista de preguntas frecuentes mostradas en {@link FaqAccordion}. */
 export const faqItems: FaqItem[] = [
   {
     question: "¿Cómo contacto a un vendedor?",

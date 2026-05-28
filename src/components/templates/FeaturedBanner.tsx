@@ -2,12 +2,21 @@ import { useEffect, useState } from "react";
 import { featuredItems } from "../data/FeaturedData";
 import DotsIndicator from "../ui/DotsIndicator";
 
+/**
+ * Banner de contenido destacado con rotación automática.
+ *
+ * Rota entre los items de {@link featuredItems} cada 2 segundos usando
+ * un intervalo limpiado al desmontar el componente.
+ * Muestra un {@link DotsIndicator} para indicar el item activo.
+ *
+ * @see {@link https://react.dev/reference/react/useEffect Updating state based on previous state from an Effect}
+ */
 function FeaturedBanner() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentItem = featuredItems[currentIndex];
 
+  // Rotación automática cada 2 segundos
   // Ref: https://react.dev/reference/react/useEffect
-  // En la sección: Updating state based on previous state from an Effect
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % featuredItems.length);
@@ -18,14 +27,18 @@ function FeaturedBanner() {
 
   return (
     <div className="px-6 mt-5">
-      <h2 className="secondary-text text-2xl font-bold mb-4"> #EspecialParaTi</h2>
 
+      {/* ── TÍTULO ── */}
+      <h2 className="secondary-text text-2xl font-bold mb-4">#EspecialParaTi</h2>
+
+      {/* ── IMAGEN ── cambia automáticamente con indicador de puntos */}
       <div className="relative w-full h-40 rounded-2xl overflow-hidden">
         <img src={currentItem.image} alt={currentItem.alt} className="w-full h-full object-cover" />
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
           <DotsIndicator currentIndex={currentIndex} total={featuredItems.length} />
         </div>
       </div>
+
     </div>
   );
 }

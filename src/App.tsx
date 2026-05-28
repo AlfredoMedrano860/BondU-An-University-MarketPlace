@@ -5,6 +5,7 @@ import InfoScreen from "./components/screens/InfoScreen";
 import WelcomeScreen from "./components/screens/WelcomeScreen";
 import LoginScreen from "./components/screens/LoginScreen";
 import SignUpScreen from "./components/screens/SignUpScreen";
+import ForgotPasswordScreen from "./components/screens/ForgotPasswordScreen";
 import HomeScreen from "./components/screens/HomeScreen";
 import MarketPlaceScreen from "./components/screens/MarketPlaceScreen";
 import SettingsScreen from "./components/screens/SettingsScreen";
@@ -27,9 +28,9 @@ function App() {
         (window.innerWidth  * 0.95) / 390,
         1
       );
-      wrapper.style.width          = `${390 * scale}px`;
-      wrapper.style.height         = `${844 * scale}px`;
-      wrapper.style.transform      = `scale(${scale})`;
+      wrapper.style.width  = `${390 * scale}px`;
+      wrapper.style.height = `${844 * scale}px`;
+      wrapper.style.transform = `scale(${scale})`;
       wrapper.style.transformOrigin = "top center";
     }
     scaleIphone();
@@ -60,17 +61,13 @@ function App() {
                 <WelcomeScreen onLogin={() => setScreen("login")} />
               )}
               {screen === "login" && (
-                <LoginScreen
-                  onBack={() => setScreen("welcome")}
-                  onLogin={handleLogin}
-                  onSignUp={() => setScreen("signup")}
-                />
+                <LoginScreen onBack={() => setScreen("welcome")} onLogin={handleLogin} onSignUp={() => setScreen("signup")} onForgotPassword={() => setScreen("forgotpassword")}/>
               )}
               {screen === "signup" && (
-                <SignUpScreen
-                  onBack={() => setScreen("login")}
-                  onRegister={() => setScreen("login")}
-                />
+                <SignUpScreen onBack={() => setScreen("login")} onRegister={() => setScreen("login")} />
+              )}
+              {screen === "forgotpassword" && (
+                <ForgotPasswordScreen onBack={() => setScreen("login")} onSuccess={() => setScreen("login")} />
               )}
               {screen === "home" && currentUser && (
                 <HomeScreen onNavigate={setScreen} currentUser={currentUser} />
@@ -79,34 +76,19 @@ function App() {
                 <MarketPlaceScreen onNavigate={setScreen} currentUser={currentUser} />
               )}
               {screen === "settings" && currentUser && (
-                <SettingsScreen
-                  onNavigate={setScreen}
-                  currentUser={currentUser}
-                  onLogout={handleLogout}
-                />
+                <SettingsScreen onNavigate={setScreen} currentUser={currentUser} onLogout={handleLogout} />
               )}
               {screen === "addproduct" && currentUser && (
                 <AddProductScreen onBack={() => setScreen("marketplace")} currentUser={currentUser} />
               )}
               {screen === "account" && currentUser && (
-                <AccountScreen
-                  currentUser={currentUser}
-                  onBack={() => setScreen("settings")}
-                  onUpdate={setCurrentUser}
-                />
+                <AccountScreen currentUser={currentUser} onBack={() => setScreen("settings")} onUpdate={setCurrentUser} />
               )}
               {screen === "myproducts" && currentUser && (
-                <MyProductsScreen
-                  userId={currentUser.id}
-                  onBack={() => setScreen("settings")}
-                />
+                <MyProductsScreen userId={currentUser.id} onBack={() => setScreen("settings")} />
               )}
-                {screen === "favorite" && currentUser && (
-                <FavoriteScreen
-                  onNavigate={setScreen}
-                  currentUser={currentUser}
-                  
-                />
+              {screen === "favorite" && currentUser && (
+                <FavoriteScreen onNavigate={setScreen} currentUser={currentUser} />
               )}
             </AppLayout>
           </div>
