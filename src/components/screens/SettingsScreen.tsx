@@ -64,7 +64,7 @@ function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenPro
         {/* Mi Perfil */}
         <SectionTitle title="Mi Perfil" />
         <div className="bg-white-app rounded-3xl">
-          <SettingRow icon={CircleUserRound} label="Cuenta" onClick={() => onNavigate("account")} />
+          <SettingRow icon={CircleUserRound} label="Perfil" onClick={() => onNavigate("profile")} />
           <SettingRow icon={Package} label="Mis Productos" onClick={() => onNavigate("myproducts")} border={false} />
         </div>
 

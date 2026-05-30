@@ -15,4 +15,7 @@ export interface User {
   avatar: string;
   /** Fecha de creación de la cuenta. */
   createdAt: Date;
+
+  //ubicacion
+  location: string
 }
