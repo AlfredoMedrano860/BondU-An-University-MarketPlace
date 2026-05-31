@@ -92,7 +92,7 @@ function App() {
                 <FavoriteScreen onNavigate={setScreen} currentUser={currentUser} />
               )}
               {screen === 'profile' && currentUser && (
-                <ProfileScreen />
+                <ProfileScreen currentUser={currentUser} onBack={() => setScreen("settings")} />
               )}
             </AppLayout>
           </div>

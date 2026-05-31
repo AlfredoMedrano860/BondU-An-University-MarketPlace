@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Product } from "../data/Product";
 import type { UserProfile } from "../data/UserProfile";
 
-import ProductGrid from "../templates/ProductGrid";
-
 import CommentHeader from "./CommentHeader";
-import { getFavorites, toggleFavorite } from "../data/ProductStore";
+import EmptyState from "../ui/EmptyState";
+import MyProductCard from "./MyProductCard";
+import reviewerAvatar from "../../assets/imgs/IconoPerfil.png";
+import ReviewCard from "./ReviewCard";
+import { getProductsByUser, removeProduct, subscribeProducts } from "../data/ProductStore";
 
 type Choice = "contacto" | "productos" | "reseñas";
 
@@ -15,13 +17,16 @@ interface ProfileInfoProps {
 }
 
 function ProfileInfo({ currentUser, choice }: ProfileInfoProps) {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [favorites, setFavorites] = useState<Product[]>(getFavorites());
+  const [userProducts, setUserProducts] = useState<Product[]>(getProductsByUser(currentUser.id));
 
-    const handleToggleFavorite = (product: Product) => {
-      toggleFavorite(product.id);
-      setFavorites(getFavorites());
-    };
+  useEffect(() => {
+    const unsub = subscribeProducts(() => setUserProducts(getProductsByUser(currentUser.id)));
+    return unsub;
+  }, [currentUser.id]);
+
+  const handleRemove = (productId: number) => {
+    removeProduct(productId);
+  };
     
   return (
     <div>
@@ -29,26 +34,41 @@ function ProfileInfo({ currentUser, choice }: ProfileInfoProps) {
         <>
         <div className="bg-white px-6 pt-4 pb-4 rounded-2xl m-4 flex items-center justify-center">
 
-          <p className="m-1 text-[12px] text-gray-400">
-            Estafa
+          <p className="m-1 text-[20px] text-gray-600">
+            Contactame! 
+            Soy confiable 
         </p>
         </div>
         </>
       )}
 
       {choice === "productos" && (
-        <ProductGrid
-            products={favorites}
-            onBuy={setSelectedProduct}
-            onToggleFavorite={handleToggleFavorite}
-          />
+        <div className="px-5 pb-6">
+          {userProducts.length === 0 ? (
+            <EmptyState message="No tenés productos publicados" />
+          ) : (
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              {userProducts.map((product) => (
+                <MyProductCard key={product.id} product={product} onRemove={handleRemove} />
+              ))}
+            </div>
+          )}
+        </div>
       )}
 
       {choice === "reseñas" && (
-        <CommentHeader
-            name={currentUser.username}
-            avatar={currentUser.avatar}
-          />
+        <div className="w-full max-w-md">
+          <CommentHeader name={"María López"} avatar={reviewerAvatar} />
+
+          {/* Lista de reseñas de ejemplo */}
+          {[
+            { id: 1, name: "Sophia Kane", avatar: reviewerAvatar, rating: 4, text: "Muy buen vendedor, llegó a tiempo y el producto estaba tal cual." },
+            { id: 2, name: "Aaron Mayorga", avatar: reviewerAvatar, rating: 5, text: "Excelente comunicación y producto en perfectas condiciones." },
+            { id: 3, name: "Alfredo Medrano", avatar: reviewerAvatar, rating: 3, text: "Todo bien, aunque el envío tardó un poco más de lo esperado." }
+          ].map((r) => (
+            <ReviewCard key={r.id} review={r} />
+          ))}
+        </div>
       )}
     </div>
   );
@@ -62,28 +82,25 @@ export default function Profile({ currentUser }: ProfileProps) {
   const [choice, setChoice] = useState<Choice>("contacto");
 
   return (
-    <div className="flex flex-wrap justify-center">
-      <div className="flex gap-2 justify-between">
+    <div className="flex flex-wrap justify-center mt-6">
+      <div className="flex gap-2 justify-between mb-8">
         <button
           onClick={() => setChoice("contacto")}
-          className="flex items-center justify-center h-[40px] w-auto px-4 border
-            border-white rounded-3xl text-white bg-[#9BAB00] text-[18px]"
+          className="flex items-center justify-center h-[40px] w-auto px-4 border border-white rounded-3xl text-white bg-[#9BAB00] text-[18px] transition-colors duration-200 hover:bg-[#accb30] hover:shadow-md"
         >
           Contactos
         </button>
 
         <button
           onClick={() => setChoice("productos")}
-          className="flex items-center justify-center h-[40px] w-auto px-4 border
-            border-white rounded-3xl text-white bg-[#9BAB00] text-[18px]"
+          className="flex items-center justify-center h-[40px] w-auto px-4 border border-white rounded-3xl text-white bg-[#9BAB00] text-[18px] transition-colors duration-200 hover:bg-[#accb30] hover:shadow-md"
         >
           Productos
         </button>
 
         <button
           onClick={() => setChoice("reseñas")}
-          className="flex items-center justify-center h-[40px] w-auto px-4 border
-          border-white rounded-3xl text-white bg-[#9BAB00] text-[18px]"
+          className="flex items-center justify-center h-[40px] w-auto px-4 border border-white rounded-3xl text-white bg-[#9BAB00] text-[18px] transition-colors duration-200 hover:bg-[#accb30] hover:shadow-md"
         >
           Reseñas
         </button>
