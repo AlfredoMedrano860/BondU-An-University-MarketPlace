@@ -8,6 +8,11 @@ export const MAX_PRODUCT_IMAGES = 3;
 
 let products: Product[] = initialProducts.slice();
 let nextId = initialProducts.length + 1;
+const subscribers: Array<() => void> = [];
+
+function notifySubscribers() {
+  subscribers.forEach((s) => s());
+}
 
 /**
  * Datos necesarios para publicar un nuevo producto.
@@ -79,6 +84,7 @@ export function addProduct(input: NewProductInput): ProductResult {
   };
 
   products = [product].concat(products);
+  notifySubscribers();
   return { ok: true, product };
 }
 
@@ -88,6 +94,7 @@ export function addProduct(input: NewProductInput): ProductResult {
  */
 export function removeProduct(productId: number): void {
   products = products.filter(p => p.id !== productId);
+  notifySubscribers();
 }
 
 /**
@@ -114,6 +121,7 @@ export function toggleFavorite(productId: number): void {
 
     return updated;
   });
+  notifySubscribers();
 }
 
 /**
@@ -122,4 +130,15 @@ export function toggleFavorite(productId: number): void {
  */
 export function getFavorites(): Product[] {
   return products.filter(p => p.isFavorite);
+}
+
+/**
+ * Subscribe to store changes. Returns an unsubscribe function.
+ */
+export function subscribeProducts(cb: () => void) {
+  subscribers.push(cb);
+  return () => {
+    const idx = subscribers.indexOf(cb);
+    if (idx >= 0) subscribers.splice(idx, 1);
+  };
 }

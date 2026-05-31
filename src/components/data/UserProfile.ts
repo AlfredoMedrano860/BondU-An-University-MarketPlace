@@ -15,4 +15,10 @@ export interface UserProfile extends User {
   notifications?: boolean;
   /** Idioma preferido de la interfaz. Por defecto `"es"`. */
   language?: "es" | "en";
+  /** Calificación promedio del vendedor entre 0 y 5. */
+  rating?: number;
+  /** Número total de reseñas recibidas. */
+  reviews?: number;
+  /** Número de ventas realizadas. */
+  sales?: number;
 }

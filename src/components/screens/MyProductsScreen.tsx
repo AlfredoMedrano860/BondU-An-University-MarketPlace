@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BackButton from "../ui/BackButton";
 import MyProductCard from "../templates/MyProductCard";
 import EmptyState from "../ui/EmptyState";
 import type { Product } from "../data/Product";
-import { getProductsByUser, removeProduct } from "../data/ProductStore";
+import { getProductsByUser, removeProduct, subscribeProducts } from "../data/ProductStore";
 
 /**
  * Props de MyProductsScreen.
@@ -28,13 +28,17 @@ interface MyProductsScreenProps {
 function MyProductsScreen({ userId, onBack }: MyProductsScreenProps) {
   const [userProducts, setUserProducts] = useState<Product[]>(getProductsByUser(userId));
 
+  useEffect(() => {
+    const unsub = subscribeProducts(() => setUserProducts(getProductsByUser(userId)));
+    return unsub;
+  }, [userId]);
+
   /**
-   * Elimina un producto del store y sincroniza el estado local.
+   * Elimina un producto del store; suscripciones actualizarán la lista.
    * @param productId - ID del producto a eliminar.
    */
   const handleRemove = (productId: number) => {
     removeProduct(productId);
-    setUserProducts(getProductsByUser(userId));
   };
 
   return (

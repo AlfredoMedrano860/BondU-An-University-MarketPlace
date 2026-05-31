@@ -14,6 +14,7 @@ import AccountScreen from "./components/screens/AccountScreen";
 import MyProductsScreen from "./components/screens/MyProductsScreen";
 import FavoriteScreen from "./components/screens/FavoriteScreen";
 import type { UserProfile } from "./components/data/UserProfile";
+import ProfileScreen from "./components/screens/ProfileScreen";
 
 function App() {
   const [screen, setScreen]           = useState("info");
@@ -89,6 +90,9 @@ function App() {
               )}
               {screen === "favorite" && currentUser && (
                 <FavoriteScreen onNavigate={setScreen} currentUser={currentUser} />
+              )}
+              {screen === 'profile' && currentUser && (
+                <ProfileScreen currentUser={currentUser} onBack={() => setScreen("settings")} />
               )}
             </AppLayout>
           </div>

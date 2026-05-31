@@ -10,6 +10,8 @@ export interface Seller extends User {
   rating: number;
   /** Número total de reseñas recibidas. */
   reviews: number;
+  //numero de ventas realizadas
+  sales: number
 }
 
 /**
@@ -21,10 +23,12 @@ export const sellers: Seller[] = [
     id: 1,
     username: "Alfredo Medrano",
     email: "mc.alfredomedra@gmail.com",
+    location: "Esparza, Puntarenas",
     password: "",
     avatar: avatarImg,
     createdAt: new Date("2024-01-15"),
     rating: 3.0,
     reviews: 50,
+    sales: 40
   },
 ];
