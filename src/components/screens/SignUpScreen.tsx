@@ -33,6 +33,7 @@ function SignUpScreen({ onBack, onRegister }: SignUpScreenProps) {
   /**
    * Intenta registrar al usuario con los datos ingresados.
    * Llama a {@link onRegister} si es exitoso, o muestra el error si falla.
+   * Se puede llamar a ErrorLogin.tsx
    */
   function handleRegister() {
     const result = registerUser(username, email, password);
