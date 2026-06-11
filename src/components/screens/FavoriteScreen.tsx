@@ -7,6 +7,7 @@ import BottomNav from "../templates/BottomNav";
 import ProductScreen from "./ProductScreen";
 import EmptyState from "../ui/EmptyState";
 import { getFavorites, toggleFavorite } from "../data/ProductStore";
+import ProductUnavailable from "../templates/ProductUnavailable";
 
 /**
  * Props de FavoriteScreen.
@@ -56,11 +57,12 @@ function FavoriteScreen({ onNavigate, currentUser }: FavoriteScreenProps) {
       {favorites.length === 0
         ? <EmptyState message="No tienes favoritos aún" />
         : <ProductGrid
-            products={favorites}
-            onBuy={setSelectedProduct}
-            onToggleFavorite={handleToggleFavorite}
-          />
+        products={favorites}
+        onBuy={setSelectedProduct}
+        onToggleFavorite={handleToggleFavorite}
+        />
       }
+      
 
       {/* ── NAVEGACIÓN ── */}
       <BottomNav onNavigate={onNavigate} currentScreen="favorite" />
