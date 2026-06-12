@@ -1,31 +1,18 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import BackButton from "../ui/BackButton";
 import MyProductCard from "../templates/MyProductCard";
 import EmptyState from "../ui/EmptyState";
 import type { Product } from "../data/Product";
 import { getProductsByUser, removeProduct, subscribeProducts } from "../data/ProductStore";
 
-/**
- * Props de MyProductsScreen.
- */
 interface MyProductsScreenProps {
-  /** ID del usuario autenticado para filtrar sus productos. */
   userId: number;
-  /** Navega a la pantalla anterior. */
   onBack: () => void;
 }
 
-/**
- * Pantalla de gestión de productos publicados por el usuario.
- *
- * Muestra los productos del usuario en una grilla usando {@link MyProductCard}.
- * Permite eliminar productos individualmente.
- * Si no tiene productos publicados muestra {@link EmptyState}.
- *
- * @param userId - ID del usuario autenticado para filtrar sus productos.
- * @param onBack - Navega a la pantalla anterior.
- */
 function MyProductsScreen({ userId, onBack }: MyProductsScreenProps) {
+  const { t } = useTranslation();
   const [userProducts, setUserProducts] = useState<Product[]>(getProductsByUser(userId));
 
   useEffect(() => {
@@ -33,10 +20,6 @@ function MyProductsScreen({ userId, onBack }: MyProductsScreenProps) {
     return unsub;
   }, [userId]);
 
-  /**
-   * Elimina un producto del store; suscripciones actualizarán la lista.
-   * @param productId - ID del producto a eliminar.
-   */
   const handleRemove = (productId: number) => {
     removeProduct(productId);
   };
@@ -44,19 +27,17 @@ function MyProductsScreen({ userId, onBack }: MyProductsScreenProps) {
   return (
     <div className="h-screen bg-beige overflow-y-auto no-scrollbar">
 
-      {/* ── HEADER ── */}
       <div className="absolute top-10 left-3">
         <BackButton onClick={onBack} />
       </div>
-      <div className="bg-primary px-6 pt-15 pb-16 text-center">
-        <h1 className="text-white text-xl font-bold">Mis Productos</h1>
+      <div className="bg-primary px-6 pt-15 pb-16 text-center shadow-md">
+        <h1 className="text-white text-xl font-bold">{t("myProducts.title")}</h1>
       </div>
 
-      {/* ── CONTENIDO ── grilla de productos o estado vacío */}
-      <div className="px-5 -mt-8 pb-10">
+      <div className="px-6 sm:px-10 md:px-16 lg:px-20 -mt-8 pb-10">
         {userProducts.length === 0
-          ? <EmptyState message="No tenés productos publicados" />
-          : <div className="grid grid-cols-2 gap-4 mt-4">
+          ? <EmptyState message={t("myProducts.empty")} />
+          : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-4">
               {userProducts.map((product) => (
                 <MyProductCard key={product.id} product={product} onRemove={handleRemove} />
               ))}

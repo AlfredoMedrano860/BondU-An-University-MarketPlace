@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { featuredItems } from "../data/FeaturedData";
 import DotsIndicator from "../ui/DotsIndicator";
 
@@ -12,6 +13,7 @@ import DotsIndicator from "../ui/DotsIndicator";
  * @see {@link https://react.dev/reference/react/useEffect Updating state based on previous state from an Effect}
  */
 function FeaturedBanner() {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentItem = featuredItems[currentIndex];
 
@@ -26,13 +28,13 @@ function FeaturedBanner() {
   }, []);
 
   return (
-    <div className="px-6 mt-5">
+    <div className="px-6 sm:px-10 md:px-16 lg:px-20 mt-5">
 
       {/* ── TÍTULO ── */}
-      <h2 className="secondary-text text-2xl font-bold mb-4">#EspecialParaTi</h2>
+      <h2 className="secondary-text text-2xl font-bold mb-4">{t("home.specialForYou")}</h2>
 
       {/* ── IMAGEN ── cambia automáticamente con indicador de puntos */}
-      <div className="relative w-full h-40 rounded-2xl overflow-hidden">
+      <div className="relative w-full h-40 sm:h-56 md:h-72 lg:h-88 xl:h-96 rounded-2xl overflow-hidden">
         <img src={currentItem.image} alt={currentItem.alt} className="w-full h-full object-cover" />
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
           <DotsIndicator currentIndex={currentIndex} total={featuredItems.length} />

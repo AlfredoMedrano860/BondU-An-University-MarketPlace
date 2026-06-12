@@ -22,7 +22,7 @@ interface ProfileHeaderProps {
  */
 function ProfileHeader({ name, email, avatar }: ProfileHeaderProps) {
   return (
-    <div className="bg-primary px-6 pt-10 pb-6 text-white flex items-center gap-4">
+    <div className="bg-primary px-6 sm:px-10 md:px-16 lg:px-20 pt-10 pb-6 text-white flex items-center gap-4 shadow-md">
 
       {/* Avatar */}
       <div className="w-16 h-16 rounded-full overflow-hidden">

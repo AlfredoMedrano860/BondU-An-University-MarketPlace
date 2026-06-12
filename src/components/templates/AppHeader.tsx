@@ -1,40 +1,33 @@
+import { useTranslation } from "react-i18next";
 import SearchBar from "./SearchBar";
 import type { UserProfile } from "../data/UserProfile";
 
-/**
- * Props de AppHeader.
- * @see UserProfile
- */
 interface AppHeaderProps {
-  /** Usuario actualmente autenticado. */
   currentUser: UserProfile;
+  onSearch?: (term: string) => void;
 }
 
-/**
- * Encabezado principal de la aplicación.
- *
- * Muestra el avatar, nombre del usuario y la barra de búsqueda.
- * Aparece en HomeScreen, MarketPlaceScreen y FavoriteScreen.
- *
- * @param currentUser - Usuario actualmente autenticado.
- */
-function AppHeader({ currentUser }: AppHeaderProps) {
+function AppHeader({ currentUser, onSearch }: AppHeaderProps) {
+  const { t } = useTranslation();
+
   return (
-    <div className="bg-primary px-6 pt-10 pb-6 text-white">
+    <div className="bg-primary px-6 sm:px-10 md:px-16 lg:px-20 pt-10 pb-6 text-white shadow-md">
 
-      {/* ── USUARIO ── avatar y nombre */}
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full overflow-hidden">
-          <img src={currentUser.avatar} alt="user" className="w-full h-full object-cover" />
+      <div className="flex flex-col md:flex-row md:items-center md:gap-8">
+
+        <div className="flex items-center gap-3 md:shrink-0">
+          <div className="w-10 h-10 rounded-full overflow-hidden">
+            <img src={currentUser.avatar} alt="user" className="w-full h-full object-cover" />
+          </div>
+          <div>
+            <p className="text-sm">{t("home.welcomeBack")}</p>
+            <h2 className="text-xl font-bold">{currentUser.username}</h2>
+          </div>
         </div>
-        <div>
-          <p className="text-sm">Welcome back!</p>
-          <h2 className="text-xl font-bold">{currentUser.username}</h2>
-        </div>
+
+        <SearchBar onSearch={onSearch} />
+
       </div>
-
-      {/* ── BÚSQUEDA ── funcionalidad pendiente de implementar */}
-      <SearchBar />
 
     </div>
   );

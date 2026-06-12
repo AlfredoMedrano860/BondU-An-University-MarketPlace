@@ -17,6 +17,7 @@ export interface Seller extends User {
 /**
  * Vendedores de muestra para desarrollo.
  * Reemplazar con datos reales del backend cuando esté disponible.
+ * IDs reservados: 1–9. Los usuarios registrados comienzan en ID 100 para evitar colisiones.
  */
 export const sellers: Seller[] = [
   {
@@ -26,9 +27,45 @@ export const sellers: Seller[] = [
     location: "Esparza, Puntarenas",
     password: "",
     avatar: avatarImg,
-    createdAt: new Date("2024-01-15"),
+    createdAt: new Date(),
     rating: 3.0,
     reviews: 50,
-    sales: 40
+    sales: 40,
+  },
+  {
+    id: 2,
+    username: "Camila Rojas",
+    email: "camila.rojas@ucr.ac.cr",
+    location: "San José, Costa Rica",
+    password: "",
+    avatar: avatarImg,
+    createdAt: new Date(),
+    rating: 4.5,
+    reviews: 28,
+    sales: 22,
+  },
+  {
+    id: 3,
+    username: "Diego Herrera",
+    email: "diego.herrera@tec.ac.cr",
+    location: "Cartago, Costa Rica",
+    password: "",
+    avatar: avatarImg,
+    createdAt: new Date(),
+    rating: 4.0,
+    reviews: 15,
+    sales: 11,
+  },
+  {
+    id: 4,
+    username: "Valentina Cruz",
+    email: "valentina.cruz@una.ac.cr",
+    location: "Heredia, Costa Rica",
+    password: "",
+    avatar: avatarImg,
+    createdAt: new Date(),
+    rating: 5.0,
+    reviews: 8,
+    sales: 7,
   },
 ];

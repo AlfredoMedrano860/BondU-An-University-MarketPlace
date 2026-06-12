@@ -38,19 +38,20 @@ export function SettingRow({ icon: Icon, label, onClick, border = true, danger =
   const iconClass = danger ? "text-red-400" : "text-black";
 
   return (
-    <button
+    <div
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
-      className={`w-full flex items-center justify-between px-5 py-4 ${border ? "border-b border-beige" : ""}`}
+      onKeyDown={onClick ? (e) => { if (e.key === "Enter" || e.key === " ") onClick(); } : undefined}
+      className={`w-full flex items-center justify-between px-5 py-4 ${border ? "border-b border-beige" : ""} ${onClick ? "cursor-pointer" : ""}`}
     >
-      {/* Ícono y label */}
       <div className="flex items-center gap-3">
         <Icon size={22} className={iconClass} />
         <span className={`text-sm font-medium ${textClass}`}>{label}</span>
       </div>
 
-      {/* Lado derecho ── chevron por defecto o elemento personalizado */}
       {right ?? <ChevronRight size={18} className="text-gray-400" />}
-    </button>
+    </div>
   );
 }
 

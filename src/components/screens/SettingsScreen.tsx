@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Contrast, LogOut, CircleUserRound, Package, Bell, Globe } from "lucide-react";
 import ProfileHeader from "../templates/ProfileHeader";
 import BottomNav from "../templates/BottomNav";
@@ -8,6 +9,7 @@ import TermsAccordion from "../templates/TermsAccordion";
 import { SettingRow, Toggle, SectionTitle } from "../templates/SettingRow";
 import { logout } from "../data/AuthStore";
 import type { UserProfile } from "../data/UserProfile";
+import i18n from "../../i18n";
 
 /**
  * Props de SettingsScreen.
@@ -36,22 +38,24 @@ interface SettingsScreenProps {
  * @param onLogout - Se ejecuta al cerrar sesión exitosamente.
  */
 function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenProps) {
+  const { t } = useTranslation();
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(currentUser.notifications ?? true);
-  const [language, setLanguage] = useState(currentUser.language ?? "es");
 
-  /**
-   * Cierra la sesión del usuario en el AuthStore y redirige al flujo de login.
-   */
   const handleLogout = () => {
     logout();
     onLogout();
   };
 
+  const toggleLanguage = () => {
+    const next = i18n.language === "es" ? "en" : "es";
+    i18n.changeLanguage(next);
+  };
+
   return (
     <div className="h-screen bg-beige flex flex-col">
 
-      {/* ── HEADER ── avatar, nombre y correo del usuario */}
+      {/* ── HEADER ── */}
       <ProfileHeader
         name={currentUser.username}
         email={currentUser.email}
@@ -59,54 +63,46 @@ function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenPro
       />
 
       {/* ── SECCIONES ── */}
-      <div className="flex flex-col gap-3 px-5 pt-4 flex-1 overflow-y-auto no-scrollbar pb-32">
+      <div className="flex flex-col gap-3 px-6 sm:px-10 md:px-16 lg:px-20 pt-4 flex-1 overflow-y-auto no-scrollbar pb-32">
 
-        {/* Mi Perfil */}
-        <SectionTitle title="Mi Perfil" />
+        <SectionTitle title={t("settings.myProfile")} />
         <div className="bg-white-app rounded-3xl">
-          <SettingRow icon={CircleUserRound} label="Perfil" onClick={() => onNavigate("profile")} />
-          <SettingRow icon={Package} label="Mis Productos" onClick={() => onNavigate("myproducts")} border={false} />
+          <SettingRow icon={CircleUserRound} label={t("settings.profile")} onClick={() => onNavigate("profile")} />
+          <SettingRow icon={Package} label={t("settings.myProducts")} onClick={() => onNavigate("myproducts")} border={false} />
         </div>
 
-        {/* Preferencias ── darkMode sin persistencia aún */}
-        <SectionTitle title="Preferencias" />
+        <SectionTitle title={t("settings.preferences")} />
         <div className="bg-white-app rounded-3xl divide-y divide-beige">
-          <SettingRow icon={Contrast} label="Tema oscuro" border={false}
+          <SettingRow icon={Contrast} label={t("settings.darkTheme")} border={false}
             right={<Toggle value={darkMode} onToggle={() => setDarkMode(!darkMode)} />}
           />
-          <SettingRow icon={Bell} label="Notificaciones" border={false}
+          <SettingRow icon={Bell} label={t("settings.notifications")} border={false}
             right={<Toggle value={notifications} onToggle={() => setNotifications(!notifications)} />}
           />
-          <SettingRow icon={Globe} label="Idioma" border={false}
+          <SettingRow icon={Globe} label={t("settings.language")} border={false}
             right={
-              <button
-                onClick={() => setLanguage(language === "es" ? "en" : "es")}
-                className="text-sm font-bold color-primary"
-              >
-                {language === "es" ? "Español" : "English"}
+              <button onClick={toggleLanguage} className="text-sm font-bold color-primary">
+                {t("settings.langLabel")}
               </button>
             }
           />
         </div>
 
-        {/* Información */}
-        <SectionTitle title="Información" />
+        <SectionTitle title={t("settings.information")} />
         <div className="bg-white-app rounded-3xl divide-y divide-beige">
           <FaqAccordion />
           <AboutAccordion />
           <TermsAccordion />
         </div>
 
-        {/* Sesión ── eliminar cuenta pendiente de implementar */}
-        <SectionTitle title="Sesión" />
+        <SectionTitle title={t("settings.session")} />
         <div className="bg-white-app rounded-3xl divide-y divide-beige">
-          <SettingRow icon={LogOut} label="Cerrar Sesión" onClick={handleLogout} danger border={false} />
-          <SettingRow icon={LogOut} label="Eliminar Cuenta" danger border={false} right={null} />
+          <SettingRow icon={LogOut} label={t("settings.logout")} onClick={handleLogout} danger border={false} />
+          <SettingRow icon={LogOut} label={t("settings.deleteAccount")} danger border={false} right={null} />
         </div>
 
       </div>
 
-      {/* ── NAVEGACIÓN ── */}
       <BottomNav onNavigate={onNavigate} currentScreen="settings" />
 
     </div>
