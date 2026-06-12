@@ -21,11 +21,11 @@ interface DotsIndicatorProps {
 function DotsIndicator({ currentIndex, total }: DotsIndicatorProps) {
   return (
     <div className="flex gap-2">
-      {Array.from({ length: total }).map((_, i) => (
+      {Array.from({ length: total }).map((_, dotIndex) => (
         <span
-          key={i}
+          key={dotIndex}
           className={`rounded-full ${
-            i === currentIndex ? "w-6 h-3 bg-primary" : "w-3 h-3 bg-soft"
+            dotIndex === currentIndex ? "w-6 h-3 bg-primary" : "w-3 h-3 bg-soft"
           }`}
         />
       ))}

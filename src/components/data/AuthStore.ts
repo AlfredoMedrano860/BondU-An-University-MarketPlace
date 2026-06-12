@@ -6,7 +6,8 @@ import avatarImg from "../../assets/imgs/IconoPerfil.png";
 
 /** Lista de usuarios registrados en memoria. */
 const users: UserProfile[] = [];
-let nextId = 1;
+// Los IDs 1–9 están reservados para vendedores mock (Seller.ts). Los usuarios reales arrancan en 100.
+let nextId = 100;
 let currentUser: UserProfile | null = null;
 
 /**

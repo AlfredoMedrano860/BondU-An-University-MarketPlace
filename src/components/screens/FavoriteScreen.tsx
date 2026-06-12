@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { Product } from "../data/Product";
 import type { UserProfile } from "../data/UserProfile";
 import AppHeader from "../templates/AppHeader";
@@ -7,37 +8,18 @@ import BottomNav from "../templates/BottomNav";
 import ProductScreen from "./ProductScreen";
 import EmptyState from "../ui/EmptyState";
 import { getFavorites, toggleFavorite } from "../data/ProductStore";
-import ProductUnavailable from "../templates/ProductUnavailable";
 
-/**
- * Props de FavoriteScreen.
- * @see UserProfile
- */
 interface FavoriteScreenProps {
-  /** Navega a otra pantalla por nombre. */
   onNavigate: (screen: string) => void;
-  /** Usuario actualmente autenticado. */
   currentUser: UserProfile;
+  onSearch: (term: string) => void;
 }
 
-/**
- * Pantalla de productos marcados como favoritos.
- *
- * Muestra los productos que el usuario ha guardado con la estrella.
- * Si no hay favoritos, muestra {@link EmptyState}.
- * Al seleccionar un producto navega a {@link ProductScreen}.
- *
- * @param onNavigate - Navega a otra pantalla por nombre.
- * @param currentUser - Usuario actualmente autenticado.
- */
-function FavoriteScreen({ onNavigate, currentUser }: FavoriteScreenProps) {
+function FavoriteScreen({ onNavigate, currentUser, onSearch }: FavoriteScreenProps) {
+  const { t } = useTranslation();
   const [favorites, setFavorites] = useState<Product[]>(getFavorites());
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  /**
-   * Invierte el estado de favorito de un producto y sincroniza el estado local.
-   * @param product - Producto al que se le cambia el estado.
-   */
   const handleToggleFavorite = (product: Product) => {
     toggleFavorite(product.id);
     setFavorites(getFavorites());
@@ -51,18 +33,18 @@ function FavoriteScreen({ onNavigate, currentUser }: FavoriteScreenProps) {
     <div className="h-screen bg-beige overflow-y-auto no-scrollbar pb-55">
 
       {/* ── HEADER ── */}
-      <AppHeader currentUser={currentUser} />
+      <AppHeader currentUser={currentUser} onSearch={onSearch} />
 
-      {/* ── CONTENIDO ── grilla de favoritos o estado vacío */}
+      {/* ── CONTENIDO ── */}
       {favorites.length === 0
-        ? <EmptyState message="No tienes favoritos aún" />
+        ? <EmptyState message={t("favorites.noFavorites")} />
         : <ProductGrid
-        products={favorites}
-        onBuy={setSelectedProduct}
-        onToggleFavorite={handleToggleFavorite}
-        />
+            products={favorites}
+            onBuy={setSelectedProduct}
+            onToggleFavorite={handleToggleFavorite}
+            onViewAll={() => onNavigate("marketplace")}
+          />
       }
-      
 
       {/* ── NAVEGACIÓN ── */}
       <BottomNav onNavigate={onNavigate} currentScreen="favorite" />

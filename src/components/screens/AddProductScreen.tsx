@@ -28,7 +28,7 @@ function AddProductScreen({ onBack, currentUser }: AddProductScreenProps) {
   const { fields, setters, error, handleSave } = useAddProductForm(currentUser, onBack);
 
   return (
-    <div className="h-screen bg-[#eee7dd] overflow-y-auto no-scrollbar">
+    <div className="h-screen bg-beige overflow-y-auto no-scrollbar">
 
       {/* ── SELECTOR DE IMÁGENES ── máximo de imágenes definido en MAX_PRODUCT_IMAGES */}
       <ProductImagePicker

@@ -46,7 +46,7 @@ function ForgotPasswordScreen({ onBack, onSuccess }: ForgotPasswordScreenProps) 
       </div>
 
       {/* ── CONTENIDO ── paso activo según el estado */}
-      <div className="info-card bg-white-app w-full mt-5 px-8 pt-20 pb-20 flex flex-col gap-5 relative z-10 m">
+      <div className="info-card bg-white-app w-full mt-5 px-8 pt-20 pb-20 flex flex-col gap-5 relative z-10">
         {step === 1 && (
           <StepEmail email={fields.email} onEmailChange={setters.setEmail} error={error} onSubmit={handleSendCode} />
         )}

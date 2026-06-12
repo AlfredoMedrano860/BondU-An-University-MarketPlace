@@ -1,8 +1,8 @@
 function ErrorSignUp(){
     return(
-<div className="mx-[30px] flex items-center justify-center min-h-screen">
+<div className="mx-7.5 flex items-center justify-center min-h-screen">
   <div className="w-full bg-white border-[0.5px] border-black rounded-3xl overflow-hidden">
-    <div className="flex flex-col items-center p-[15px] gap-[15px]">
+    <div className="flex flex-col items-center p-3.75 gap-3.75">
       <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white font-bold">
         X
       </div>
@@ -11,11 +11,11 @@ function ErrorSignUp(){
         Usuario o contraseña incorrecto
       </p>
 
-      <button className="w-[calc(100%-60px)] mx-[30px] bg-white text-red-600 border-[0.5px] border-red-600 rounded-xl py-2">
+      <button className="w-[calc(100%-60px)] mx-7.5 bg-white text-red-600 border-[0.5px] border-red-600 rounded-xl py-2">
         Ok
       </button>
       
-      <button className="w-[calc(100%-60px)] mx-[30px] bg-red-600 text-white rounded-xl py-2">
+      <button className="w-[calc(100%-60px)] mx-7.5 bg-red-600 text-white rounded-xl py-2">
         Abandonar sitio
       </button>
     </div>

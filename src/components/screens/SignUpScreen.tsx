@@ -1,40 +1,25 @@
 import { useState } from "react";
-import register from "../../assets/imgs/RegisterCard.png";
+import { useTranslation } from "react-i18next";
+import logoHorizontal from "../../assets/imgs/LogoHorizontal.png";
+import iconoPerfil from "../../assets/imgs/IconoPerfil.png";
 import BackButton from "../ui/BackButton";
 import PrimaryButton from "../ui/PrimaryButton";
 import InputSpace from "../ui/InputSpace";
 import { register as registerUser } from "../data/AuthStore";
+import ErrorMessage from "../ui/ErrorMessage";
 
-/**
- * Props de SignUpScreen.
- */
 interface SignUpScreenProps {
-  /** Navega a la pantalla anterior. */
   onBack: () => void;
-  /** Se ejecuta al registrarse exitosamente. */
   onRegister: () => void;
 }
 
-/**
- * Pantalla de registro de nuevo usuario.
- *
- * Solicita usuario, correo y contraseña, y los valida contra {@link registerUser}.
- * En caso de error muestra un mensaje debajo del formulario.
- *
- * @param onBack - Navega a la pantalla anterior.
- * @param onRegister - Se ejecuta al registrarse exitosamente.
- */
 function SignUpScreen({ onBack, onRegister }: SignUpScreenProps) {
+  const { t } = useTranslation();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  /**
-   * Intenta registrar al usuario con los datos ingresados.
-   * Llama a {@link onRegister} si es exitoso, o muestra el error si falla.
-   * Se puede llamar a ErrorLogin.tsx
-   */
   function handleRegister() {
     const result = registerUser(username, email, password);
     if (result.ok) {
@@ -46,35 +31,84 @@ function SignUpScreen({ onBack, onRegister }: SignUpScreenProps) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-beige">
+    <div className="min-h-screen flex flex-col md:flex-row">
 
-      {/* ── HEADER ── */}
-      <div className="pt-10">
-        <BackButton onClick={onBack} />
+      {/* Branding panel */}
+      <div className="bg-secondary md:w-1/2 md:min-h-screen flex flex-col px-8 py-10 relative overflow-hidden min-h-64">
+        <div className="absolute top-[15%] left-[40%] w-72 h-72 rounded-full bg-white opacity-10" />
+        <div className="absolute top-[35%] left-[10%] w-64 h-64 rounded-full bg-white opacity-10" />
+        <div className="absolute top-[5%] left-[60%] w-40 h-40 rounded-full bg-white opacity-5" />
+
+        <div className="relative z-10">
+          <img src={logoHorizontal} alt="BondU" className="h-9" />
+        </div>
+
+        <div className="flex-1" />
+
+        <div className="relative z-10">
+          <p className="color-primary font-semibold text-sm mb-2 tracking-wide">
+            {t("welcome.title")}
+          </p>
+          <h2 className="text-white text-3xl md:text-4xl font-extrabold leading-tight max-w-xs">
+            {t("welcome.subtitle")}
+          </h2>
+        </div>
       </div>
 
-      {/* ── ILUSTRACIÓN ── */}
-      <div className="relative w-full h-52 mt-10">
-        <img src={register} alt="Cara mascota" className="w-50 absolute bottom-0 left-1/2 -translate-x-1/2 z-0"/>
+      {/* Form panel */}
+      <div className="bg-white-app md:w-1/2 md:min-h-screen flex flex-col px-8 sm:px-12 md:px-16 lg:px-20 py-10 relative">
+
+        <div className="absolute left-0 top-10">
+          <BackButton onClick={onBack} />
+        </div>
+
+        <div className="flex-1 flex flex-col justify-center">
+          <div className="max-w-sm w-full mx-auto flex flex-col gap-5">
+
+            {/* Avatar */}
+            <div className="flex justify-center mb-2">
+              <div className="w-24 h-24 rounded-full bg-soft flex items-center justify-center overflow-hidden">
+                <img src={iconoPerfil} alt="avatar" className="w-full h-full object-cover" />
+              </div>
+            </div>
+
+            {/* Title + description */}
+            <div>
+              <h1 className="color-primary text-2xl font-bold">{t("signup.title")}</h1>
+              <p className="text-gray-400 text-sm mt-2 leading-relaxed">{t("signup.description")}</p>
+            </div>
+
+            {/* Username */}
+            <div className="flex flex-col gap-1.5">
+              <span className="text-sm font-medium color-text px-1">{t("signup.username")}</span>
+              <InputSpace type="text" placeholder={t("signup.username")} value={username} onChange={setUsername} />
+            </div>
+
+            {/* Email */}
+            <div className="flex flex-col gap-1.5">
+              <span className="text-sm font-medium color-text px-1">{t("signup.email")}</span>
+              <InputSpace type="text" placeholder={t("signup.email")} value={email} onChange={setEmail} />
+            </div>
+
+            {/* Password */}
+            <div className="flex flex-col gap-1.5">
+              <span className="text-sm font-medium color-text px-1">{t("signup.password")}</span>
+              <InputSpace type="password" placeholder={t("signup.password")} value={password} onChange={setPassword} />
+            </div>
+
+            <ErrorMessage message={error} />
+
+            <PrimaryButton text={t("signup.submit")} onClick={handleRegister} />
+
+            <p className="text-center text-sm text-gray-400">
+              {t("signup.alreadyHaveAccount")}{" "}
+              <button onClick={onBack} className="color-primary font-bold">{t("signup.loginLink")}</button>
+            </p>
+
+          </div>
+        </div>
       </div>
 
-      {/* ── FORMULARIO ── */}
-      <div className="info-card bg-white-app w-full mt-5 px-8 pt-20 pb-12 flex flex-col gap-5 relative z-10">
-
-        <h1 className="color-primary text-3xl font-bold text-center mb-2">Registrarte</h1>
-
-        <InputSpace type="text" placeholder="Usuario" value={username} onChange={setUsername} />
-        <InputSpace type="text" placeholder="Correo" value={email} onChange={setEmail} />
-        <InputSpace type="password" placeholder="Contraseña" value={password} onChange={setPassword} />
-
-        {/* Mensaje de error ── reemplazar con sistema de notificaciones */}
-        {error && (
-          <p className="text-red-500 text-sm text-center -mt-2">{error}</p>
-        )}
-
-        <PrimaryButton text="REGISTRAR" onClick={handleRegister} />
-
-      </div>
     </div>
   );
 }

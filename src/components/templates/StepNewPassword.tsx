@@ -1,55 +1,35 @@
+import { useTranslation } from "react-i18next";
 import InputSpace from "../ui/InputSpace";
 import PrimaryButton from "../ui/PrimaryButton";
+import ErrorMessage from "../ui/ErrorMessage";
 
-/**
- * Props de StepNewPassword.
- */
 interface StepNewPasswordProps {
-  /** Valor actual del campo nueva contraseña. */
   password: string;
-  /** Actualiza el valor de la nueva contraseña. */
   onPasswordChange: (value: string) => void;
-  /** Valor actual del campo confirmar contraseña. */
   confirm: string;
-  /** Actualiza el valor de confirmar contraseña. */
   onConfirmChange: (value: string) => void;
-  /** Mensaje de error de validación. Vacío si no hay error. */
   error: string;
-  /** Se ejecuta al presionar CAMBIAR CONTRASEÑA. */
   onSubmit: () => void;
 }
 
-/**
- * Paso 3 del flujo de recuperación de contraseña.
- *
- * El usuario ingresa y confirma su nueva contraseña.
- * Usado en {@link ForgotPasswordScreen}.
- *
- * @param password - Valor actual del campo nueva contraseña.
- * @param onPasswordChange - Actualiza el valor de la nueva contraseña.
- * @param confirm - Valor actual del campo confirmar contraseña.
- * @param onConfirmChange - Actualiza el valor de confirmar contraseña.
- * @param error - Mensaje de error de validación.
- * @param onSubmit - Se ejecuta al presionar CAMBIAR CONTRASEÑA.
- */
 function StepNewPassword({ password, onPasswordChange, confirm, onConfirmChange, error, onSubmit }: StepNewPasswordProps) {
+  const { t } = useTranslation();
+
   return (
     <>
-      {/* Título e instrucción */}
       <div className="text-center mb-10">
-        <h1 className="color-primary text-3xl font-bold">Nueva contraseña</h1>
+        <h1 className="color-primary text-3xl font-bold">{t("forgotPassword.newPassword.title")}</h1>
         <p className="text-gray-400 text-sm mt-3 leading-5">
-          Ingresá tu nueva contraseña para recuperar el acceso.
+          {t("forgotPassword.newPassword.description")}
         </p>
       </div>
 
-      <InputSpace type="password" placeholder="Nueva contraseña" value={password} onChange={onPasswordChange} />
-      <InputSpace type="password" placeholder="Confirmar contraseña" value={confirm} onChange={onConfirmChange} />
+      <InputSpace type="password" placeholder={t("forgotPassword.newPassword.newPassword")} value={password} onChange={onPasswordChange} />
+      <InputSpace type="password" placeholder={t("forgotPassword.newPassword.confirm")} value={confirm} onChange={onConfirmChange} />
 
-      {/* Mensaje de error ── reemplazar con sistema de notificaciones */}
-      {error && <p className="text-red-500 text-sm text-center -mt-2">{error}</p>}
+      <ErrorMessage message={error} />
 
-      <PrimaryButton text="CAMBIAR CONTRASEÑA" onClick={onSubmit} />
+      <PrimaryButton text={t("forgotPassword.newPassword.submit")} onClick={onSubmit} />
     </>
   );
 }
