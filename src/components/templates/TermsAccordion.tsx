@@ -1,11 +1,10 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { Accordion } from "radix-ui";
 import { ScrollText, ChevronDown } from "lucide-react";
-import { terminos, privacidad, appVersion } from "../data/Terms"; 
+import { appVersion } from "../data/Terms";
 
-//https://www.radix-ui.com/primitives/docs/components/accordion
-
-const TermsTrigger = React.forwardRef<HTMLButtonElement,{ children: React.ReactNode }>(({ children }, ref) => (
+const TermsTrigger = React.forwardRef<HTMLButtonElement, { children: React.ReactNode }>(({ children }, ref) => (
   <Accordion.Header>
     <Accordion.Trigger ref={ref} className="accordion-trigger w-full flex items-center justify-between px-5 py-4">
       <div className="flex items-center gap-3">
@@ -18,26 +17,28 @@ const TermsTrigger = React.forwardRef<HTMLButtonElement,{ children: React.ReactN
 ));
 
 function TermsAccordion() {
+  const { t } = useTranslation();
+
   return (
     <Accordion.Root type="single" collapsible>
       <Accordion.Item value="terms">
-        <TermsTrigger>Términos y Privacidad</TermsTrigger>
+        <TermsTrigger>{t("terms.title")}</TermsTrigger>
 
         <Accordion.Content className="accordion-content border-t border-beige">
           <div className="px-5 pb-5 flex flex-col gap-5 pt-4">
 
             <div>
-              <h3 className="text-sm font-bold color-primary mb-2">Términos y Condiciones</h3>
-              <p className="text-xs text-gray-500 leading-5"> {terminos} </p>
+              <h3 className="text-sm font-bold color-primary mb-2">{t("terms.termsLabel")}</h3>
+              <p className="text-xs text-gray-500 leading-5">{t("terms.termsText")}</p>
             </div>
 
             <div className="border-t border-beige pt-4">
-              <h3 className="text-sm font-bold color-primary mb-2">Política de Privacidad</h3>
-              <p className="text-xs text-gray-500 leading-5"> {privacidad} </p>
+              <h3 className="text-sm font-bold color-primary mb-2">{t("terms.privacyLabel")}</h3>
+              <p className="text-xs text-gray-500 leading-5">{t("terms.privacyText")}</p>
             </div>
 
             <div className="border-t border-beige pt-4">
-              <p className="text-xs text-gray-400 text-center">Versión {appVersion}</p>
+              <p className="text-xs text-gray-400 text-center">{t("terms.version", { version: appVersion })}</p>
             </div>
 
           </div>

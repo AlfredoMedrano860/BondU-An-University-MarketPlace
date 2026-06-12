@@ -1,8 +1,8 @@
 function ErrorEmptySpace(){
     return(
-<div className="mx-[30px] flex items-center justify-center min-h-screen">
+<div className="mx-7.5 flex items-center justify-center min-h-screen">
   <div className="w-full bg-white border-[0.5px] border-black rounded-3xl overflow-hidden">
-    <div className="flex flex-col items-center p-[15px] gap-[15px]">
+    <div className="flex flex-col items-center p-3.75 gap-3.75">
       <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
         !
       </div>
@@ -17,5 +17,6 @@ function ErrorEmptySpace(){
 </div>
     );
 }
+
 
 export default ErrorEmptySpace;

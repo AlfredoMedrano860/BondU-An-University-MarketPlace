@@ -1,5 +1,5 @@
 import "./assets/styles/App.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import AppLayout from "./components/layout/AppLayout";
 import InfoScreen from "./components/screens/InfoScreen";
 import WelcomeScreen from "./components/screens/WelcomeScreen";
@@ -17,27 +17,9 @@ import type { UserProfile } from "./components/data/UserProfile";
 import ProfileScreen from "./components/screens/ProfileScreen";
 
 function App() {
-  const [screen, setScreen]           = useState("info");
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
-
-  useEffect(() => {
-    function scaleIphone() {
-      const wrapper = document.querySelector<HTMLElement>(".iphone-wrapper");
-      if (!wrapper) return;
-      const scale = Math.min(
-        (window.innerHeight * 0.95) / 844,
-        (window.innerWidth  * 0.95) / 390,
-        1
-      );
-      wrapper.style.width  = `${390 * scale}px`;
-      wrapper.style.height = `${844 * scale}px`;
-      wrapper.style.transform = `scale(${scale})`;
-      wrapper.style.transformOrigin = "top center";
-    }
-    scaleIphone();
-    window.addEventListener("resize", scaleIphone);
-    return () => window.removeEventListener("resize", scaleIphone);
-  }, []);
+  const [screen, setScreen]               = useState("info");
+  const [currentUser, setCurrentUser]     = useState<UserProfile | null>(null);
+  const [marketplaceSearch, setMarketplaceSearch] = useState("");
 
   function handleLogin(user: UserProfile) {
     setCurrentUser(user);
@@ -50,54 +32,61 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center app-background-gradient">
-      <div className="iphone-wrapper">
-        <div className="iphone-frame">
-          <div className="iphone-screen">
-            <AppLayout>
-              {screen === "info" && (
-                <InfoScreen onFinish={() => setScreen("welcome")} />
-              )}
-              {screen === "welcome" && (
-                <WelcomeScreen onLogin={() => setScreen("login")} />
-              )}
-              {screen === "login" && (
-                <LoginScreen onBack={() => setScreen("welcome")} onLogin={handleLogin} onSignUp={() => setScreen("signup")} onForgotPassword={() => setScreen("forgotpassword")}/>
-              )}
-              {screen === "signup" && (
-                <SignUpScreen onBack={() => setScreen("login")} onRegister={() => setScreen("login")} />
-              )}
-              {screen === "forgotpassword" && (
-                <ForgotPasswordScreen onBack={() => setScreen("login")} onSuccess={() => setScreen("login")} />
-              )}
-              {screen === "home" && currentUser && (
-                <HomeScreen onNavigate={setScreen} currentUser={currentUser} />
-              )}
-              {screen === "marketplace" && currentUser && (
-                <MarketPlaceScreen onNavigate={setScreen} currentUser={currentUser} />
-              )}
-              {screen === "settings" && currentUser && (
-                <SettingsScreen onNavigate={setScreen} currentUser={currentUser} onLogout={handleLogout} />
-              )}
-              {screen === "addproduct" && currentUser && (
-                <AddProductScreen onBack={() => setScreen("marketplace")} currentUser={currentUser} />
-              )}
-              {screen === "account" && currentUser && (
-                <AccountScreen currentUser={currentUser} onBack={() => setScreen("settings")} onUpdate={setCurrentUser} />
-              )}
-              {screen === "myproducts" && currentUser && (
-                <MyProductsScreen userId={currentUser.id} onBack={() => setScreen("settings")} />
-              )}
-              {screen === "favorite" && currentUser && (
-                <FavoriteScreen onNavigate={setScreen} currentUser={currentUser} />
-              )}
-              {screen === 'profile' && currentUser && (
-                <ProfileScreen currentUser={currentUser} onBack={() => setScreen("settings")} />
-              )}
-            </AppLayout>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen bg-beige">
+      <AppLayout>
+        {screen === "info" && (
+          <InfoScreen onFinish={() => setScreen("welcome")} />
+        )}
+        {screen === "welcome" && (
+          <WelcomeScreen onLogin={() => setScreen("login")} />
+        )}
+        {screen === "login" && (
+          <LoginScreen onBack={() => setScreen("welcome")} onLogin={handleLogin} onSignUp={() => setScreen("signup")} onForgotPassword={() => setScreen("forgotpassword")}/>
+        )}
+        {screen === "signup" && (
+          <SignUpScreen onBack={() => setScreen("login")} onRegister={() => setScreen("login")} />
+        )}
+        {screen === "forgotpassword" && (
+          <ForgotPasswordScreen onBack={() => setScreen("login")} onSuccess={() => setScreen("login")} />
+        )}
+        {screen === "home" && currentUser && (
+          <HomeScreen
+            onNavigate={setScreen}
+            currentUser={currentUser}
+            onSearch={(term) => { setMarketplaceSearch(term); setScreen("marketplace"); }}
+          />
+        )}
+        {screen === "marketplace" && currentUser && (
+          <MarketPlaceScreen
+            onNavigate={setScreen}
+            currentUser={currentUser}
+            searchTerm={marketplaceSearch}
+            onSearch={(term) => setMarketplaceSearch(term)}
+          />
+        )}
+        {screen === "settings" && currentUser && (
+          <SettingsScreen onNavigate={setScreen} currentUser={currentUser} onLogout={handleLogout} />
+        )}
+        {screen === "addproduct" && currentUser && (
+          <AddProductScreen onBack={() => setScreen("marketplace")} currentUser={currentUser} />
+        )}
+        {screen === "account" && currentUser && (
+          <AccountScreen currentUser={currentUser} onBack={() => setScreen("settings")} onUpdate={setCurrentUser} />
+        )}
+        {screen === "myproducts" && currentUser && (
+          <MyProductsScreen userId={currentUser.id} onBack={() => setScreen("settings")} />
+        )}
+        {screen === "favorite" && currentUser && (
+          <FavoriteScreen
+            onNavigate={setScreen}
+            currentUser={currentUser}
+            onSearch={(term) => { setMarketplaceSearch(term); setScreen("marketplace"); }}
+          />
+        )}
+        {screen === 'profile' && currentUser && (
+          <ProfileScreen currentUser={currentUser} onBack={() => setScreen("settings")} />
+        )}
+      </AppLayout>
     </div>
   );
 }

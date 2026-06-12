@@ -1,0 +1,204 @@
+{
+  "welcome": {
+    "title": "welcome to",
+    "subtitle": "A University Marketplace",
+    "login": "INICIAR SESIÓN",
+    "exit": "SALIR"
+  },
+  "login": {
+    "title": "¡Bienvenido de vuelta!",
+    "description": "Accedé al marketplace universitario de confianza. Comprá, vendé y conectate con estudiantes de tu comunidad.",
+    "email": "Correo",
+    "password": "Contraseña",
+    "forgot": "¿Olvidaste la contraseña?",
+    "submit": "INICIAR SESIÓN",
+    "orContinueWith": "o continuar con",
+    "noAccount": "¿No tienes una cuenta?",
+    "signUp": "Regístrate"
+  },
+  "signup": {
+    "title": "Crear una cuenta",
+    "description": "Únete al marketplace universitario de confianza. Comprá, vendé y conectate con estudiantes de tu comunidad.",
+    "username": "Usuario",
+    "email": "Correo",
+    "password": "Contraseña",
+    "submit": "REGISTRARSE",
+    "alreadyHaveAccount": "¿Ya tenés una cuenta?",
+    "loginLink": "Iniciar sesión"
+  },
+  "forgotPassword": {
+    "email": {
+      "title": "¿Olvidaste tu contraseña?",
+      "description": "Ingresá tu correo y te enviaremos un código para recuperar tu cuenta.",
+      "email": "Correo",
+      "submit": "ENVIAR CÓDIGO"
+    },
+    "code": {
+      "title": "Verificar código",
+      "description": "Ingresá el código enviado a",
+      "submit": "VERIFICAR",
+      "noCode": "¿No recibiste el código?",
+      "resend": "Reenviar"
+    },
+    "newPassword": {
+      "title": "Nueva contraseña",
+      "description": "Ingresá tu nueva contraseña para recuperar el acceso.",
+      "newPassword": "Nueva contraseña",
+      "confirm": "Confirmar contraseña",
+      "submit": "CAMBIAR CONTRASEÑA"
+    }
+  },
+  "home": {
+    "welcomeBack": "¡Bienvenido de vuelta!",
+    "noProducts": "No hay productos disponibles",
+    "recentlyAdded": "Añadidos Reciente",
+    "viewAll": "Ver Todos",
+    "specialForYou": "#EspecialParaTi"
+  },
+  "marketplace": {
+    "resultsFor": "Resultados para:",
+    "clear": "Limpiar",
+    "noResultsFor": "Sin resultados para \"{{term}}\"",
+    "noProducts": "No hay productos disponibles"
+  },
+  "favorites": {
+    "noFavorites": "No tienes favoritos aún"
+  },
+  "product": {
+    "buy": "COMPRAR",
+    "tabs": {
+      "info": "Información",
+      "seller": "Vendedor",
+      "share": "Compartir"
+    },
+    "verifiedSeller": "Vendedor verificado.",
+    "noDescription": "Sin descripción",
+    "shareInstruction": "Puedes compartir este artículo con este url:",
+    "unavailable": "No existe este producto"
+  },
+  "addProduct": {
+    "title": "Nuevo Producto",
+    "namePlaceholder": "Nombre del producto...",
+    "pricePlaceholder": "Precio del producto...",
+    "statePlaceholder": "Estado (Nuevo / Usado)...",
+    "descriptionPlaceholder": "Descripción del producto...",
+    "save": "GUARDAR"
+  },
+  "myProducts": {
+    "title": "Mis Productos",
+    "empty": "No tenés productos publicados",
+    "delete": "ELIMINAR"
+  },
+  "account": {
+    "title": "Mi Cuenta",
+    "personalInfo": "Información Personal",
+    "username": "Usuario",
+    "email": "Correo",
+    "phone": "Teléfono",
+    "university": "Universidad",
+    "career": "Carrera",
+    "changePassword": "Cambiar Contraseña",
+    "newPassword": "Nueva contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "saved": "¡Cambios guardados!",
+    "save": "GUARDAR CAMBIOS"
+  },
+  "settings": {
+    "myProfile": "Mi Perfil",
+    "profile": "Perfil",
+    "myProducts": "Mis Productos",
+    "preferences": "Preferencias",
+    "darkTheme": "Tema oscuro",
+    "notifications": "Notificaciones",
+    "language": "Idioma",
+    "information": "Información",
+    "session": "Sesión",
+    "logout": "Cerrar Sesión",
+    "deleteAccount": "Eliminar Cuenta",
+    "langLabel": "Español"
+  },
+  "profile": {
+    "contact": "Contacto",
+    "products": "Productos",
+    "reviews": "Reseñas",
+    "sales": "Ventas",
+    "contactMessage": "Contactame! Soy confiable",
+    "noProducts": "No tenés productos publicados"
+  },
+  "search": {
+    "placeholder": "Buscar...",
+    "noResults": "Sin resultados"
+  },
+  "dialogs": {
+    "logout": {
+      "message": "¿Seguro que quieres cerrar sesión?",
+      "no": "No",
+      "confirm": "Cerrar sesión"
+    },
+    "deleteAccount": {
+      "message": "¿Seguro que quieres eliminar tu cuenta?",
+      "no": "No",
+      "confirm": "Eliminar definitivamente"
+    }
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "next": "SIGUIENTE",
+    "slides": [
+      {
+        "title": "Intercambia",
+        "description": "Compra, vende e intercambia productos fácilmente con otros estudiantes de tu universidad."
+      },
+      {
+        "title": "Conecta",
+        "description": "Encuentra estudiantes cerca de ti y descubre productos útiles dentro de tu comunidad."
+      },
+      {
+        "title": "Ahorra",
+        "description": "Encuentra lo que necesitas al mejor precio dentro de tu comunidad universitaria de confianza.",
+        "buttonText": "EMPEZAR"
+      }
+    ]
+  },
+  "about": {
+    "title": "Sobre Nosotros",
+    "missionLabel": "Misión",
+    "missionText": "Conectar a estudiantes universitarios para que puedan comprar, vender e intercambiar productos de forma fácil, segura y dentro de su propia comunidad.",
+    "visionLabel": "Visión",
+    "visionText": "Ser el marketplace universitario de referencia en Latinoamérica, fomentando la economía circular y el sentido de comunidad entre estudiantes.",
+    "teamLabel": "El Equipo"
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "items": [
+      {
+        "question": "¿Cómo contacto a un vendedor?",
+        "answer": "Entrá al producto y tocá la pestaña Vendedor. Ahí encontrás el perfil del vendedor para coordinar la entrega."
+      },
+      {
+        "question": "¿Cómo publico un producto?",
+        "answer": "Tocá el botón + en la barra de navegación, completá el formulario con fotos, nombre, precio y estado del producto."
+      },
+      {
+        "question": "¿Es seguro comprar aquí?",
+        "answer": "Todos los usuarios son estudiantes verificados de la universidad. Recomendamos hacer los intercambios en lugares públicos del campus."
+      },
+      {
+        "question": "¿Puedo eliminar mi producto?",
+        "answer": "Sí. Andá a Ajustes → Mis Productos y tocá ELIMINAR en el producto que querés quitar."
+      },
+      {
+        "question": "¿Cómo funciona el intercambio?",
+        "answer": "Podés publicar tu producto indicando que aceptás intercambios en la descripción y coordinar directamente con el vendedor."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Términos y Privacidad",
+    "termsLabel": "Términos y Condiciones",
+    "termsText": "Al usar Bondu aceptás que sos estudiante universitario activo. Queda prohibido publicar productos ilegales, falsificados o que violen derechos de terceros. Bondu no se hace responsable por transacciones realizadas fuera de la plataforma. El usuario es responsable de la veracidad de la información publicada.",
+    "privacyLabel": "Política de Privacidad",
+    "privacyText": "La información personal que proporcionás (nombre, correo, universidad) se usa únicamente para el funcionamiento de la app. No compartimos tus datos con terceros. Podés solicitar la eliminación de tu cuenta y datos en cualquier momento desde Ajustes.",
+    "version": "Versión {{version}}"
+  }
+}

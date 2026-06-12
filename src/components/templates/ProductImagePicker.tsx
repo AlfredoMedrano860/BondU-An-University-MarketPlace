@@ -60,14 +60,14 @@ function ProductImagePicker({ gallery, onGalleryChange, onBack }: ProductImagePi
 
       {/* ── MINIATURAS ── un slot por cada imagen permitida */}
       <div className="flex gap-3 px-4 py-3 bg-[#d9cfc4]">
-        {Array.from({ length: MAX_PRODUCT_IMAGES }).map((_, i) => (
+        {Array.from({ length: MAX_PRODUCT_IMAGES }).map((_, slotIndex) => (
           <button
-            key={i}
-            onClick={() => openPicker(i)}
+            key={slotIndex}
+            onClick={() => openPicker(slotIndex)}
             className="w-20 h-20 rounded-xl overflow-hidden border-2 border-dashed border-white flex items-center justify-center"
           >
-            {gallery[i]
-              ? <img src={gallery[i]} alt={`imagen ${i + 1}`} className="w-full h-full object-cover" />
+            {gallery[slotIndex]
+              ? <img src={gallery[slotIndex]} alt={`imagen ${slotIndex + 1}`} className="w-full h-full object-cover" />
               : <CirclePlus size={28} color="white" strokeWidth={1.5} />
             }
           </button>

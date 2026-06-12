@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import AppHeader from "../templates/AppHeader";
 import ProductGrid from "../templates/ProductGrid";
 import BottomNav from "../templates/BottomNav";
@@ -6,57 +7,66 @@ import ProductScreen from "./ProductScreen";
 import EmptyState from "../ui/EmptyState";
 import type { Product } from "../data/Product";
 import type { UserProfile } from "../data/UserProfile";
-import { getProducts, toggleFavorite } from "../data/ProductStore";
+import { getProducts, toggleFavorite, subscribeProducts } from "../data/ProductStore";
+import { normalize } from "../../utils/string";
 
-/**
- * Props de MarketPlaceScreen.
- * @see UserProfile
- */
 interface MarketPlaceScreenProps {
-  /** Navega a otra pantalla por nombre. */
   onNavigate: (screen: string) => void;
-  /** Usuario actualmente autenticado. */
   currentUser: UserProfile;
+  searchTerm?: string;
+  onSearch?: (term: string) => void;
 }
 
-/**
- * Pantalla del marketplace con todos los productos disponibles.
- *
- * Muestra la grilla completa de productos publicados en la plataforma.
- * Si no hay productos muestra {@link EmptyState}.
- * Al seleccionar un producto navega a {@link ProductScreen}.
- *
- * @param onNavigate - Navega a otra pantalla por nombre.
- * @param currentUser - Usuario actualmente autenticado.
- */
-function MarketPlaceScreen({ onNavigate, currentUser }: MarketPlaceScreenProps) {
+function MarketPlaceScreen({ onNavigate, currentUser, searchTerm = "", onSearch }: MarketPlaceScreenProps) {
+  const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>(getProducts());
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  /**
-   * Invierte el estado de favorito de un producto y sincroniza el estado local.
-   * @param product - Producto al que se le cambia el estado.
-   */
+  useEffect(() => {
+    const unsub = subscribeProducts(() => setProducts(getProducts()));
+    return unsub;
+  }, []);
+
   const handleToggleFavorite = (product: Product) => {
     toggleFavorite(product.id);
-    setProducts(getProducts());
   };
 
   if (selectedProduct) {
     return <ProductScreen product={selectedProduct} onBack={() => setSelectedProduct(null)} />;
   }
 
+  const otherUsersProducts = products.filter(p => p.seller.id !== currentUser.id);
+
+  const displayProducts = searchTerm.trim()
+    ? otherUsersProducts.filter((p) => normalize(p.name).includes(normalize(searchTerm)))
+    : otherUsersProducts;
+
   return (
     <div className="h-screen bg-beige overflow-y-auto no-scrollbar pb-55">
 
       {/* ── HEADER ── */}
-      <AppHeader currentUser={currentUser} />
+      <AppHeader currentUser={currentUser} onSearch={onSearch} />
 
-      {/* ── CONTENIDO ── grilla de productos o estado vacío */}
-      {products.length === 0
-        ? <EmptyState message="No hay productos disponibles" />
+      {/* ── FILTRO ACTIVO ── */}
+      {searchTerm && (
+        <div className="px-6 sm:px-10 md:px-16 lg:px-20 pt-4 flex items-center gap-2">
+          <span className="text-sm text-gray-500">
+            {t("marketplace.resultsFor")} <strong className="color-secondary">"{searchTerm}"</strong>
+          </span>
+          <button
+            onClick={() => onSearch?.("")}
+            className="text-xs color-primary font-semibold underline"
+          >
+            {t("marketplace.clear")}
+          </button>
+        </div>
+      )}
+
+      {/* ── CONTENIDO ── */}
+      {displayProducts.length === 0
+        ? <EmptyState message={searchTerm ? t("marketplace.noResultsFor", { term: searchTerm }) : t("marketplace.noProducts")} />
         : <ProductGrid
-            products={products}
+            products={displayProducts}
             onBuy={setSelectedProduct}
             onToggleFavorite={handleToggleFavorite}
           />

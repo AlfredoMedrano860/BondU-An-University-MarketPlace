@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import AppHeader from "../templates/AppHeader";
 import FeaturedBanner from "../templates/FeaturedBanner";
 import ProductGrid from "../templates/ProductGrid";
@@ -9,35 +10,17 @@ import type { Product } from "../data/Product";
 import type { UserProfile } from "../data/UserProfile";
 import { getProducts, toggleFavorite } from "../data/ProductStore";
 
-/**
- * Props de HomeScreen.
- * @see UserProfile
- */
 interface HomeScreenProps {
-  /** Navega a otra pantalla por nombre. */
   onNavigate: (screen: string) => void;
-  /** Usuario actualmente autenticado. */
   currentUser: UserProfile;
+  onSearch: (term: string) => void;
 }
 
-/**
- * Pantalla principal de la aplicación.
- *
- * Muestra el banner destacado y la grilla de productos disponibles.
- * Si no hay productos muestra {@link EmptyState}.
- * Al seleccionar un producto navega a {@link ProductScreen}.
- *
- * @param onNavigate - Navega a otra pantalla por nombre.
- * @param currentUser - Usuario actualmente autenticado.
- */
-function HomeScreen({ onNavigate, currentUser }: HomeScreenProps) {
+function HomeScreen({ onNavigate, currentUser, onSearch }: HomeScreenProps) {
+  const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>(getProducts());
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  /**
-   * Invierte el estado de favorito de un producto y sincroniza el estado local.
-   * @param product - Producto al que se le cambia el estado.
-   */
   const handleToggleFavorite = (product: Product) => {
     toggleFavorite(product.id);
     setProducts(getProducts());
@@ -51,18 +34,19 @@ function HomeScreen({ onNavigate, currentUser }: HomeScreenProps) {
     <div className="h-screen bg-beige overflow-y-auto no-scrollbar pb-55">
 
       {/* ── HEADER ── */}
-      <AppHeader currentUser={currentUser} />
+      <AppHeader currentUser={currentUser} onSearch={onSearch} />
 
       {/* ── BANNER DESTACADO ── */}
       <FeaturedBanner />
 
-      {/* ── CONTENIDO ── grilla de productos o estado vacío */}
+      {/* ── CONTENIDO ── */}
       {products.length === 0
-        ? <EmptyState message="No hay productos disponibles" />
+        ? <EmptyState message={t("home.noProducts")} />
         : <ProductGrid
             products={products}
             onBuy={setSelectedProduct}
             onToggleFavorite={handleToggleFavorite}
+            onViewAll={() => onNavigate("marketplace")}
           />
       }
 
