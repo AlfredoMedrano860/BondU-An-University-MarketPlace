@@ -11,21 +11,15 @@ interface InfoScreenProps {
 }
 
 /**
- * Pantalla de onboarding que presenta las funcionalidades principales de la app.
+ * Pantalla de onboarding que presenta los slides de introducción a la app.
  *
- * Recorre los {@link infoItems} uno a uno mostrando imagen, título y descripción.
- * Al llegar al último item o al presionar "Saltar" llama a {@link onFinish}.
+ * Gestiona el índice activo y delega el renderizado de cada slide a {@link InfoContent}.
  *
- * @param onFinish - Se ejecuta al completar o saltar el onboarding.
+ * @param onFinish - Navega fuera del onboarding al completar o saltar.
  */
 function InfoScreen({ onFinish }: InfoScreenProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const currentItem = infoItems[currentIndex];
 
-  /**
-   * Avanza al siguiente item del onboarding.
-   * Si es el último, llama a {@link onFinish}.
-   */
   function handleNext() {
     if (currentIndex < infoItems.length - 1) {
       setCurrentIndex(currentIndex + 1);
@@ -35,18 +29,13 @@ function InfoScreen({ onFinish }: InfoScreenProps) {
   }
 
   return (
-    <div className="min-h-screen grid grid-rows-[90px_300px_auto] info-grid">
-
-      {/* ── CONTENIDO ── imagen, título, descripción, botón siguiente y botón saltar */}
-      <InfoContent
-        item={currentItem}
-        currentIndex={currentIndex}
-        total={infoItems.length}
-        onNext={handleNext}
-        onSkip={onFinish}
-      />
-
-    </div>
+    <InfoContent
+      item={infoItems[currentIndex]}
+      currentIndex={currentIndex}
+      total={infoItems.length}
+      onNext={handleNext}
+      onSkip={onFinish}
+    />
   );
 }
 

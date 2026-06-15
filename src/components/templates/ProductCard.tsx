@@ -1,36 +1,52 @@
+import { Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import AuxiliaryButton from "../ui/AuxiliaryButton";
 import FavoriteButton from "../ui/FavoriteButton";
+import CardLayout from "../layout/CardLayout";
 import type { Product } from "../data/Product";
 
 interface ProductCardProps {
   product: Product;
   onBuy: (product: Product) => void;
   onToggleFavorite: (product: Product) => void;
+  buttonLabel?: string;
+  isOwner?: boolean;
 }
 
-function ProductCard({ product, onBuy, onToggleFavorite }: ProductCardProps) {
+function ProductCard({ product, onBuy, onToggleFavorite, buttonLabel, isOwner = false }: ProductCardProps) {
   const { t } = useTranslation();
 
   return (
-    <div className="group bg-white rounded-3xl p-4 flex flex-col items-center border border-transparent hover:border-[hsl(54,80%,63%)] transition relative shadow-sm">
+    <CardLayout>
 
-      <div className="absolute top-2 right-2">
-        <FavoriteButton isFavorite={product.isFavorite} onClick={() => onToggleFavorite(product)} />
+      {/* Área imagen */}
+      <div className="relative w-full aspect-square bg-neutral-100 rounded-2xl flex items-center justify-center overflow-hidden">
+        <div className="absolute top-2 right-2">
+          {isOwner ? (
+            <button
+              onClick={() => onToggleFavorite(product)}
+              className="w-7 h-7 rounded-full flex items-center justify-center bg-red-500 active:opacity-70 transition-opacity"
+            >
+              <Trash2 size={13} stroke="white" strokeWidth={2.2} />
+            </button>
+          ) : (
+            <FavoriteButton isFavorite={product.isFavorite} onClick={() => onToggleFavorite(product)} />
+          )}
+        </div>
+        <img src={product.image} alt={product.name} className="w-4/5 h-4/5 object-contain" />
       </div>
 
-      <div className="w-full h-full flex items-center justify-center rounded-xl overflow-hidden">
-        <img src={product.image} alt={product.name} className="h-full object-cover"/>
+      {/* Info */}
+      <div className="flex flex-col gap-2 px-1 pb-1">
+        <h3 className="text-base font-bold text-black leading-tight line-clamp-2 min-h-10">{product.name}</h3>
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-bold color-primary">${product.price}</span>
+          <span className="text-xs text-gray-500 bg-neutral-200 px-2.5 py-0.5 rounded-full">{product.state}</span>
+        </div>
+        <AuxiliaryButton text={buttonLabel ?? t("product.buy")} onClick={() => onBuy(product)} />
       </div>
 
-      <div className="w-full flex justify-between items-center mt-0.5">
-        <h3 className="text-lg font-semibold text-black">{product.name}</h3>
-        <span className="text-[hsl(54,80%,63%)] font-bold">${product.price}</span>
-      </div>
-
-      <AuxiliaryButton text={t("product.buy")} onClick={() => onBuy(product)} />
-
-    </div>
+    </CardLayout>
   );
 }
 

@@ -1,0 +1,7 @@
+@layer components {
+  .nav-pill {
+    @apply absolute rounded-full pointer-events-none w-13.5 h-10.5 top-2.5 left-3 transition-transform duration-350 ease-in-out;
+    background-color: var(--color-secondary);
+    transform: translateX(calc(var(--i) * 58px));
+  }
+}

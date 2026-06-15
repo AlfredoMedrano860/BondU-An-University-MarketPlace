@@ -7,7 +7,6 @@ interface ProductFormProps {
   price: string;
   state: string;
   description: string;
-  error: string;
   onNameChange: (value: string) => void;
   onPriceChange: (value: string) => void;
   onStateChange: (value: string) => void;
@@ -15,28 +14,26 @@ interface ProductFormProps {
   onSave: () => void;
 }
 
-function ProductForm({ name, price, state, description, error, onNameChange, onPriceChange, onStateChange, onDescriptionChange, onSave }: ProductFormProps) {
+function ProductForm({ name, price, state, description, onNameChange, onPriceChange, onStateChange, onDescriptionChange, onSave }: ProductFormProps) {
   const { t } = useTranslation();
 
   return (
-    <div className="bg-beige px-6 sm:px-10 md:px-16 lg:px-20 pt-6 pb-10">
+    <div className="px-6 sm:px-10 md:px-12 lg:px-16 pt-6 pb-10">
 
-      <h1 className="color-primary text-[32px] font-bold text-center mb-6">{t("addProduct.title")}</h1>
+      <p className="text-sm font-semibold color-text mb-3">{t("addProduct.details")}</p>
 
-      <div className="flex flex-col gap-4">
-        <InputSpace placeholder={t("addProduct.namePlaceholder")} value={name} onChange={onNameChange} />
-        <InputSpace placeholder={t("addProduct.pricePlaceholder")} value={price} onChange={onPriceChange} />
-        <InputSpace placeholder={t("addProduct.statePlaceholder")} value={state} onChange={onStateChange} />
-        <InputSpace placeholder={t("addProduct.descriptionPlaceholder")} value={description} onChange={onDescriptionChange} multiline />
+      <div className="bg-white-app rounded-3xl p-6 flex flex-col gap-4">
+        <InputSpace placeholder={t("addProduct.namePlaceholder")}        hint="Ej: Calculadora científica"            value={name}        onChange={onNameChange} />
+        <InputSpace placeholder={t("addProduct.pricePlaceholder")}       hint="Ej: ₡5.000"                           value={price}       onChange={onPriceChange} />
+        <InputSpace placeholder={t("addProduct.statePlaceholder")}       hint="Ej: Usado, buen estado"               value={state}       onChange={onStateChange} />
+        <InputSpace placeholder={t("addProduct.descriptionPlaceholder")} hint="Ej: Incluye accesorios y garantía..." value={description} onChange={onDescriptionChange} multiline />
       </div>
 
-      {error && <p className="text-red-500 text-sm text-left mt-3">{error}</p>}
-
-      <div className="mt-8">
+      <div className="mt-6">
         <PrimaryButton text={t("addProduct.save")} onClick={onSave} />
       </div>
-
     </div>
+  
   );
 }
 

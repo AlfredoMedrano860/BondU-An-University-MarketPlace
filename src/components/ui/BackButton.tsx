@@ -19,7 +19,7 @@ interface BackButtonProps {
  */
 function BackButton({ onClick }: BackButtonProps) {
   return (
-    <button onClick={onClick} className="w-10 h-10 bg-aux rounded-r-xl flex items-center justify-center">
+    <button onClick={onClick} className="w-10 h-10 bg-aux rounded-r-xl flex items-center justify-center hover:opacity-80 active:scale-95 transition-all duration-150">
       <ChevronLeft size={20} strokeWidth={2.5} />
     </button>
   );

@@ -1,7 +1,7 @@
 {
   "welcome": {
-    "title": "welcome to",
-    "subtitle": "A University Marketplace",
+    "title": "bienvenido a",
+    "subtitle": "Un Marketplace Universitario",
     "login": "INICIAR SESIÓN",
     "exit": "SALIR"
   },
@@ -78,16 +78,21 @@
   },
   "addProduct": {
     "title": "Nuevo Producto",
-    "namePlaceholder": "Nombre del producto...",
-    "pricePlaceholder": "Precio del producto...",
-    "statePlaceholder": "Estado (Nuevo / Usado)...",
-    "descriptionPlaceholder": "Descripción del producto...",
+    "editTitle": "Editar Producto",
+    "photos": "Fotos del producto",
+    "mainPhoto": "Añadir foto principal",
+    "details": "Datos del producto",
+    "namePlaceholder": "Nombre del producto",
+    "pricePlaceholder": "Precio del producto",
+    "statePlaceholder": "Estado",
+    "descriptionPlaceholder": "Descripción del producto",
     "save": "GUARDAR"
   },
   "myProducts": {
     "title": "Mis Productos",
     "empty": "No tenés productos publicados",
-    "delete": "ELIMINAR"
+    "delete": "ELIMINAR",
+    "edit": "EDITAR"
   },
   "account": {
     "title": "Mi Cuenta",
@@ -101,7 +106,8 @@
     "newPassword": "Nueva contraseña",
     "confirmPassword": "Confirmar contraseña",
     "saved": "¡Cambios guardados!",
-    "save": "GUARDAR CAMBIOS"
+    "save": "GUARDAR CAMBIOS",
+    "passwordMismatch": "Las contraseñas no coinciden."
   },
   "settings": {
     "myProfile": "Mi Perfil",
@@ -123,7 +129,12 @@
     "reviews": "Reseñas",
     "sales": "Ventas",
     "contactMessage": "Contactame! Soy confiable",
-    "noProducts": "No tenés productos publicados"
+    "noProducts": "No tenés productos publicados",
+    "noReviews": "Aún no hay reseñas"
+  },
+  "review": {
+    "placeholder": "Escribe tu reseña...",
+    "send": "ENVIAR"
   },
   "search": {
     "placeholder": "Buscar...",
@@ -192,6 +203,108 @@
         "answer": "Podés publicar tu producto indicando que aceptás intercambios en la descripción y coordinar directamente con el vendedor."
       }
     ]
+  },
+  "notifications": {
+    "productPublished": {
+      "title": "¡Producto publicado!",
+      "message": "Tu producto ya está disponible en el marketplace."
+    },
+    "productUpdated": {
+      "title": "¡Producto actualizado!",
+      "message": "Los cambios se guardaron correctamente."
+    },
+    "productDeleted": {
+      "title": "Producto eliminado",
+      "message": "El producto fue eliminado de tu perfil."
+    },
+    "productError": {
+      "title": "No se pudo guardar",
+      "message": "Revisá los campos e intentá de nuevo."
+    },
+    "passwordChanged": {
+      "title": "¡Contraseña actualizada!",
+      "message": "Ya podés iniciar sesión con tu nueva contraseña."
+    },
+    "loginError": {
+      "title": "Error al iniciar sesión",
+      "message": "Verificá tu correo y contraseña."
+    },
+    "signupSuccess": {
+      "title": "¡Cuenta creada!",
+      "message": "Ya podés iniciar sesión con tu cuenta."
+    },
+    "signupError": {
+      "title": "Error al registrarse",
+      "message": "Revisá los datos e intentá de nuevo."
+    },
+    "accountSaved": {
+      "title": "¡Perfil actualizado!",
+      "message": "Tus datos fueron guardados correctamente."
+    },
+    "accountRequired": {
+      "title": "Campos requeridos",
+      "message": "El usuario y el correo no pueden estar vacíos."
+    },
+    "codeSent": {
+      "title": "Código enviado",
+      "message": "Revisá tu correo electrónico."
+    },
+    "favoriteAdded": {
+      "title": "Agregado a favoritos",
+      "message": "El producto fue guardado en tu lista."
+    },
+    "favoriteRemoved": {
+      "title": "Eliminado de favoritos",
+      "message": "El producto fue quitado de tu lista."
+    },
+    "linkCopied": {
+      "title": "¡Link copiado!",
+      "message": "El enlace fue copiado al portapapeles."
+    },
+    "languageChanged": {
+      "title": "Idioma actualizado",
+      "message": "El idioma de la app fue cambiado."
+    },
+    "notificationsEnabled": {
+      "title": "Notificaciones activadas",
+      "message": "Recibirás alertas de la app."
+    },
+    "notificationsDisabled": {
+      "title": "Notificaciones desactivadas",
+      "message": "No recibirás alertas de la app."
+    },
+    "darkModeComingSoon": {
+      "title": "Próximamente",
+      "message": "El tema oscuro estará disponible en futuras versiones."
+    },
+    "passwordMismatch": {
+      "title": "Contraseñas no coinciden",
+      "message": "Asegurate de que ambas contraseñas sean iguales."
+    },
+    "emailRequired": {
+      "title": "Correo requerido",
+      "message": "Ingresá tu correo para continuar."
+    },
+    "codeIncomplete": {
+      "title": "Código incompleto",
+      "message": "Ingresá los 4 dígitos del código."
+    },
+    "passwordRequired": {
+      "title": "Contraseña requerida",
+      "message": "Ingresá una nueva contraseña."
+    },
+    "loggedOut": {
+      "title": "Sesión cerrada",
+      "message": "¡Hasta pronto!"
+    },
+    "reviewSent": {
+      "title": "¡Reseña enviada!",
+      "message": "Gracias por tu opinión."
+    },
+    "reviewError": {
+      "title": "Seleccioná una calificación",
+      "message": "Elegí cuántas estrellas querés dar antes de enviar."
+    }
   },
   "terms": {
     "title": "Términos y Privacidad",

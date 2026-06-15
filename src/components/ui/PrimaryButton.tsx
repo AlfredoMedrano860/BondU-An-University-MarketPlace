@@ -19,7 +19,7 @@ interface PrimaryButtonProps {
  */
 function PrimaryButton({ text, onClick }: PrimaryButtonProps) {
   return (
-    <button onClick={onClick} className="w-full h-12 bg-primary text-white font-bold text-sm rounded-full cursor-pointer">
+    <button onClick={onClick} className="w-full h-12 bg-primary text-white font-bold text-sm rounded-full cursor-pointer hover:opacity-90 active:scale-[0.98] transition-all duration-150">
       {text}
     </button>
   );

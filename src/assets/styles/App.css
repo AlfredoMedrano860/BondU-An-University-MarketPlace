@@ -5,3 +5,6 @@
 @import "./utilities/_colors.css";
 
 @import "./screens/_info.css";
+
+@import "./components/_nav.css";
+@import "./components/_accordion.css";

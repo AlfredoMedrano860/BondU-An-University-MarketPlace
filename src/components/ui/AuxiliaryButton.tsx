@@ -19,7 +19,7 @@ interface AuxiliaryButtonProps {
  */
 function AuxiliaryButton({ text = "COMPRAR", onClick }: AuxiliaryButtonProps) {
   return (
-    <button onClick={onClick} className="btn-aux w-full h-10 rounded-full text-white text-sm">
+    <button onClick={onClick} className="btn-aux w-full h-10 rounded-full text-white text-sm hover:opacity-90 active:scale-[0.98] transition-all duration-150">
       {text}
     </button>
   );
