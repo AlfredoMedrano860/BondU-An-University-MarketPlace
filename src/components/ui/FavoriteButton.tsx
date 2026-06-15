@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Heart } from "lucide-react";
 
 /**
  * Props de FavoriteButton.
@@ -21,8 +21,8 @@ interface FavoriteButtonProps {
  */
 function FavoriteButton({ isFavorite, onClick }: FavoriteButtonProps) {
   return (
-    <button onClick={onClick} className="w-7 h-7 rounded-full flex items-center justify-center transition-all bg-aux">
-      <Star size={14} stroke="white" strokeWidth={2.5} fill={isFavorite ? "white" : "none"} />
+    <button onClick={onClick} className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-150 bg-aux hover:scale-110 active:scale-95">
+      <Heart size={14} stroke="white" strokeWidth={2.5} fill={isFavorite ? "white" : "none"} />
     </button>
   );
 }

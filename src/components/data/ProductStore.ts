@@ -4,7 +4,7 @@ import { products as initialProducts } from "./Product";
 import { validateProduct } from "./ProductValidations";
 
 /** Número máximo de imágenes permitidas por producto. */
-export const MAX_PRODUCT_IMAGES = 3;
+export const maxProductImages = 3;
 
 let products: Product[] = initialProducts.slice();
 let nextId = initialProducts.length + 1;
@@ -95,6 +95,35 @@ export function addProduct(input: NewProductInput): ProductResult {
 export function removeProduct(productId: number): void {
   products = products.filter(p => p.id !== productId);
   notifySubscribers();
+}
+
+/**
+ * Actualiza los datos de un producto existente.
+ * @param productId - ID del producto a actualizar.
+ * @param input - Campos a modificar (parcial).
+ * @returns {@link ProductResult} con el producto actualizado o un mensaje de error.
+ */
+export function updateProduct(productId: number, input: Omit<NewProductInput, "seller">): ProductResult {
+  const existing = products.find(p => p.id === productId);
+  if (!existing) return { ok: false, error: "Producto no encontrado." };
+
+  const merged: NewProductInput = { ...input, seller: existing.seller };
+  const error = validateProduct(merged);
+  if (error) return { ok: false, error };
+
+  const updated: Product = {
+    ...existing,
+    name: input.name,
+    price: input.price,
+    state: input.state,
+    image: input.gallery[0],
+    gallery: input.gallery,
+    description: input.description,
+  };
+
+  products = products.map(p => p.id === productId ? updated : p);
+  notifySubscribers();
+  return { ok: true, product: updated };
 }
 
 /**

@@ -4,34 +4,57 @@ import cara from "../../assets/imgs/CaraMascota.png";
 import brazos from "../../assets/imgs/BrazosMascota.png";
 import PrimaryButton from "../ui/PrimaryButton";
 import SecondaryButton from "../ui/SecondaryButton";
+import AuthLayout from "../layout/AuthLayout";
 
+/**
+ * Props de WelcomeScreen.
+ */
 interface WelcomeScreenProps {
+  /** Navega a la pantalla de inicio de sesión. */
   onLogin: () => void;
 }
 
+/**
+ * Pantalla de bienvenida con logo, mascota animada y botones de acceso.
+ *
+ * Es la primera pantalla que ve el usuario al abrir la app (tras el onboarding).
+ * Usa {@link AuthLayout} para el panel bicolor.
+ *
+ * @param onLogin - Navega a {@link LoginScreen}.
+ */
 function WelcomeScreen({ onLogin }: WelcomeScreenProps) {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen flex flex-col items-center">
-
-      <div className="flex flex-col items-center pt-12 gap-4">
-        <h1 className="color-primary text-2xl font-bold">{t("welcome.title")}</h1>
-        <img src={logo} alt="logo" className="w-52 mt-3.5" />
-        <p className="text-black text-sm tracking-[0.2em]">{t("welcome.subtitle")}</p>
+    <AuthLayout>
+      {/* Logo */}
+      <div className="flex flex-col items-center pt-10 gap-3 px-6">
+        <img src={logo} alt="logo" className="w-44 md:w-52" />
       </div>
 
-      <div className="relative w-full h-72 mt-8">
-        <img src={cara} alt="Cara mascota" className="w-72 absolute bottom-0 left-1/2 -translate-x-1/2 z-0" />
-        <img src={brazos} alt="Brazos mascota" className="w-90 absolute bottom-0 left-1/2 -translate-x-[51%] z-20" />
+      {/* Mascota */}
+      <div className="flex-1 relative min-h-64">
+        <img
+          src={cara}
+          alt="Cara mascota"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 z-0 w-64 md:w-80"
+        />
+        <img
+          src={brazos}
+          alt="Brazos mascota"
+          className="absolute bottom-0 left-1/2 -translate-x-[51%] z-20 w-80 md:w-96"
+        />
       </div>
 
-      <div className="info-card bg-white-app w-full -mt-10 px-6 sm:px-10 md:px-16 lg:px-20 pt-20 pb-12 flex flex-col gap-4 relative z-10">
-        <PrimaryButton text={t("welcome.login")} onClick={onLogin} />
-        <SecondaryButton text={t("welcome.exit")} onClick={() => {}} />
+      {/* Botones */}
+      <div className="px-8 pb-10 pt-6">
+        <div className="max-w-sm w-full mx-auto flex flex-col gap-4">
+          <PrimaryButton text={t("welcome.login")} onClick={onLogin} />
+          <SecondaryButton text={t("welcome.exit")} onClick={() => {}} />
+        </div>
       </div>
-
-    </div>
+      
+    </AuthLayout>
   );
 }
 

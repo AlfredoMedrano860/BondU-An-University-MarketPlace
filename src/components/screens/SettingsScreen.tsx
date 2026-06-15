@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Contrast, LogOut, CircleUserRound, Package, Bell, Globe } from "lucide-react";
-import ProfileHeader from "../templates/ProfileHeader";
-import BottomNav from "../templates/BottomNav";
 import AboutAccordion from "../templates/AboutAccordion";
 import FaqAccordion from "../templates/FaqAccordion";
 import TermsAccordion from "../templates/TermsAccordion";
@@ -10,6 +8,7 @@ import { SettingRow, Toggle, SectionTitle } from "../templates/SettingRow";
 import { logout } from "../data/AuthStore";
 import type { UserProfile } from "../data/UserProfile";
 import i18n from "../../i18n";
+import { notify } from "../data/NotificationStore";
 
 /**
  * Props de SettingsScreen.
@@ -43,27 +42,37 @@ function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenPro
   const [notifications, setNotifications] = useState(currentUser.notifications ?? true);
 
   const handleLogout = () => {
+    notify.info(t("notifications.loggedOut.title"), t("notifications.loggedOut.message"));
     logout();
     onLogout();
   };
 
   const toggleLanguage = () => {
     const next = i18n.language === "es" ? "en" : "es";
-    i18n.changeLanguage(next);
+    i18n.changeLanguage(next).then(() => {
+      notify.info(t("notifications.languageChanged.title"), t("notifications.languageChanged.message"));
+    });
+  };
+
+  const handleDarkMode = () => {
+    notify.info(t("notifications.darkModeComingSoon.title"), t("notifications.darkModeComingSoon.message"));
+  };
+
+  const handleNotificationsToggle = () => {
+    const next = !notifications;
+    setNotifications(next);
+    if (next) {
+      notify.success(t("notifications.notificationsEnabled.title"), t("notifications.notificationsEnabled.message"));
+    } else {
+      notify.warning(t("notifications.notificationsDisabled.title"), t("notifications.notificationsDisabled.message"));
+    }
   };
 
   return (
-    <div className="h-screen bg-beige flex flex-col">
-
-      {/* ── HEADER ── */}
-      <ProfileHeader
-        name={currentUser.username}
-        email={currentUser.email}
-        avatar={currentUser.avatar}
-      />
+    <div className="h-full bg-beige overflow-y-auto no-scrollbar pb-28">
 
       {/* ── SECCIONES ── */}
-      <div className="flex flex-col gap-3 px-6 sm:px-10 md:px-16 lg:px-20 pt-4 flex-1 overflow-y-auto no-scrollbar pb-32">
+      <div className="flex flex-col gap-3 px-6 sm:px-10 md:px-16 lg:px-20 pt-4">
 
         <SectionTitle title={t("settings.myProfile")} />
         <div className="bg-white-app rounded-3xl">
@@ -72,12 +81,12 @@ function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenPro
         </div>
 
         <SectionTitle title={t("settings.preferences")} />
-        <div className="bg-white-app rounded-3xl divide-y divide-beige">
+        <div className="bg-white-app rounded-3xl divide-y divide-gray-200">
           <SettingRow icon={Contrast} label={t("settings.darkTheme")} border={false}
-            right={<Toggle value={darkMode} onToggle={() => setDarkMode(!darkMode)} />}
+            right={<Toggle value={darkMode} onToggle={handleDarkMode} />}
           />
           <SettingRow icon={Bell} label={t("settings.notifications")} border={false}
-            right={<Toggle value={notifications} onToggle={() => setNotifications(!notifications)} />}
+            right={<Toggle value={notifications} onToggle={handleNotificationsToggle} />}
           />
           <SettingRow icon={Globe} label={t("settings.language")} border={false}
             right={
@@ -89,21 +98,20 @@ function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenPro
         </div>
 
         <SectionTitle title={t("settings.information")} />
-        <div className="bg-white-app rounded-3xl divide-y divide-beige">
+        <div className="bg-white-app rounded-3xl divide-y divide-gray-200">
           <FaqAccordion />
           <AboutAccordion />
           <TermsAccordion />
         </div>
 
         <SectionTitle title={t("settings.session")} />
-        <div className="bg-white-app rounded-3xl divide-y divide-beige">
+        <div className="bg-white-app rounded-3xl divide-y divide-gray-200">
           <SettingRow icon={LogOut} label={t("settings.logout")} onClick={handleLogout} danger border={false} />
           <SettingRow icon={LogOut} label={t("settings.deleteAccount")} danger border={false} right={null} />
         </div>
 
       </div>
 
-      <BottomNav onNavigate={onNavigate} currentScreen="settings" />
 
     </div>
   );

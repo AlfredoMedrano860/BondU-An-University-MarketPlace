@@ -1,17 +1,33 @@
 import { useTranslation } from "react-i18next";
 import { CopySimpleIcon } from "@phosphor-icons/react";
 import { appBaseUrl } from "../data/Terms";
+import { notify } from "../data/NotificationStore";
 
+/**
+ * Props de ShareTab.
+ */
 interface ShareTabProps {
+  /** ID del producto cuya URL se va a compartir. */
   productId: number;
 }
 
+/**
+ * Pestaña de compartir en el detalle de un producto.
+ *
+ * Muestra la URL pública del producto y permite copiarla al portapapeles.
+ * Emite una notificación de éxito tras copiar.
+ * Usado en {@link ProductTabs}.
+ *
+ * @param productId - ID del producto para construir la URL.
+ */
 function ShareTab({ productId }: ShareTabProps) {
   const { t } = useTranslation();
   const url = `${appBaseUrl}/product/${productId}`;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(url);
+    navigator.clipboard.writeText(url).then(() => {
+      notify.success(t("notifications.linkCopied.title"), t("notifications.linkCopied.message"));
+    });
   };
 
   return (

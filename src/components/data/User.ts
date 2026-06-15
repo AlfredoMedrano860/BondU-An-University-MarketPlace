@@ -16,6 +16,6 @@ export interface User {
   /** Fecha de creación de la cuenta. */
   createdAt: Date;
 
-  //ubicacion
+  /** Ubicación del usuario (ciudad o campus). */
   location: string
 }

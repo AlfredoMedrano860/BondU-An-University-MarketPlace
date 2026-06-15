@@ -1,11 +1,12 @@
 import type { UserProfile } from "./UserProfile";
 import { validateRegister, validateLogin } from "./AuthValidations";
 import avatarImg from "../../assets/imgs/IconoPerfil.png";
+import { sellers } from "./Seller";
 
 // Reemplazable con backend
 
-/** Lista de usuarios registrados en memoria. */
-const users: UserProfile[] = [];
+/** Lista de usuarios registrados en memoria. Incluye sellers mock con password "123456". */
+const users: UserProfile[] = sellers.map(s => ({ ...s, password: "123456" }));
 // Los IDs 1–9 están reservados para vendedores mock (Seller.ts). Los usuarios reales arrancan en 100.
 let nextId = 100;
 let currentUser: UserProfile | null = null;

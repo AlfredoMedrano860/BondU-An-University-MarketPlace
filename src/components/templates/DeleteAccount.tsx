@@ -1,5 +1,10 @@
 import { useTranslation } from "react-i18next";
 
+/**
+ * Diálogo de confirmación para eliminar la cuenta.
+ *
+ * > **Pendiente:** los botones aún no tienen handlers conectados; integrar con AuthStore.
+ */
 function DeleteAccount() {
   const { t } = useTranslation();
 

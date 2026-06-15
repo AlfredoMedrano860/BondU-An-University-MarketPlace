@@ -1,5 +1,10 @@
 import { useTranslation } from "react-i18next";
 
+/**
+ * Diálogo de confirmación para cerrar sesión.
+ *
+ * > **Pendiente:** los botones aún no tienen handlers conectados; integrar con AuthStore.
+ */
 function CloseSession() {
   const { t } = useTranslation();
 

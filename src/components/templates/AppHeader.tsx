@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import SearchBar from "./SearchBar";
+import SearchBar from "../ui/SearchBar";
 import type { UserProfile } from "../data/UserProfile";
 
 interface AppHeaderProps {

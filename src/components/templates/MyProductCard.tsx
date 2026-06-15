@@ -1,11 +1,22 @@
 import { useTranslation } from "react-i18next";
 import type { Product } from "../data/Product";
 
+/**
+ * Props de MyProductCard.
+ */
 interface MyProductCardProps {
+  /** Producto a mostrar. */
   product: Product;
+  /** Se ejecuta al hacer clic en el botón de eliminar con el ID del producto. */
   onRemove: (id: number) => void;
 }
 
+/**
+ * Tarjeta compacta de producto propio con botón de eliminación.
+ *
+ * @param product - Producto a mostrar.
+ * @param onRemove - Handler de eliminación por ID.
+ */
 function MyProductCard({ product, onRemove }: MyProductCardProps) {
   const { t } = useTranslation();
 

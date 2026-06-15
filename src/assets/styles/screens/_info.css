@@ -20,17 +20,11 @@
 
   .info-card {
     border-top-left-radius: 70% 40%;
-  }
-
-  .info-card {
     border-top-right-radius: 70% 40%;
   }
 
   .no-scrollbar {
     scrollbar-width: none;
-  }
-
-  .no-scrollbar {
     -ms-overflow-style: none;
   }
 
