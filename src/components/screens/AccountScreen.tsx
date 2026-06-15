@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { Camera } from "lucide-react";
-import BackButton from "../ui/BackButton";
 import InputSpace from "../ui/InputSpace";
 import PrimaryButton from "../ui/PrimaryButton";
+import ScreenLayout from "../layout/ScreenLayout";
+import SectionCard from "../layout/SectionCard";
 import { useAccountForm } from "../../hooks/useAccountForm";
 import type { UserProfile } from "../data/UserProfile";
 
@@ -14,16 +15,10 @@ interface AccountScreenProps {
 
 function AccountScreen({ currentUser, onBack, onUpdate }: AccountScreenProps) {
   const { t } = useTranslation();
-  const { fields, setters, status, handleSave } = useAccountForm(currentUser, onUpdate);
+  const { fields, setters, handleSave } = useAccountForm(currentUser, onUpdate);
 
   return (
-    <div className="h-screen bg-beige overflow-y-auto no-scrollbar">
-      <div className="absolute top-10 left-3">
-        <BackButton onClick={onBack} />
-      </div>
-      <div className="bg-primary px-6 pt-15 pb-16 text-center shadow-md">
-        <h1 className="text-white text-xl font-bold">{t("account.title")}</h1>
-      </div>
+    <ScreenLayout title={t("account.title")} onBack={onBack}>
 
       <div className="flex justify-center -mt-10 mb-6 relative z-10">
         <div className="relative">
@@ -37,31 +32,29 @@ function AccountScreen({ currentUser, onBack, onUpdate }: AccountScreenProps) {
       </div>
 
       <div className="px-5 flex flex-col gap-6 pb-10">
-        <div className="bg-white-app rounded-3xl p-5 flex flex-col gap-4">
+        <SectionCard className="bg-white-app rounded-3xl p-5 flex flex-col gap-4">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
             {t("account.personalInfo")}
           </p>
-          <InputSpace placeholder={t("account.username")} value={fields.username} onChange={setters.setUsername} />
-          <InputSpace placeholder={t("account.email")} value={fields.email} onChange={setters.setEmail} />
-          <InputSpace placeholder={t("account.phone")} value={fields.phone} onChange={setters.setPhone} />
-          <InputSpace placeholder={t("account.university")} value={fields.university} onChange={setters.setUniversity} />
-          <InputSpace placeholder={t("account.career")} value={fields.career} onChange={setters.setCareer} />
-        </div>
+          <InputSpace placeholder={t("account.username")} hint="Tu nombre completo" value={fields.username} onChange={setters.setUsername} />
+          <InputSpace placeholder={t("account.email")} hint="ejemplo@gmail.com" value={fields.email} onChange={setters.setEmail} />
+          <InputSpace placeholder={t("account.phone")} hint="+506 8888-8888" value={fields.phone} onChange={setters.setPhone} />
+          <InputSpace placeholder={t("account.university")} hint="Universidad de Costa Rica" value={fields.university} onChange={setters.setUniversity} />
+          <InputSpace placeholder={t("account.career")} hint="Ingeniería en Sistemas" value={fields.career} onChange={setters.setCareer} />
+        </SectionCard>
 
-        <div className="bg-white-app rounded-3xl p-5 flex flex-col gap-4">
+        <SectionCard className="bg-white-app rounded-3xl p-5 flex flex-col gap-4">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
             {t("account.changePassword")}
           </p>
-          <InputSpace type="password" placeholder={t("account.newPassword")} value={fields.password} onChange={setters.setPassword} />
-          <InputSpace type="password" placeholder={t("account.confirmPassword")} value={fields.confirm} onChange={setters.setConfirm} />
-        </div>
-
-        {status.error && <p className="text-red-500 text-sm text-center">{status.error}</p>}
-        {status.saved && <p className="text-green-500 text-sm text-center">{t("account.saved")}</p>}
+          <InputSpace type="password" placeholder={t("account.newPassword")} hint="Mínimo 8 caracteres" value={fields.password} onChange={setters.setPassword} />
+          <InputSpace type="password" placeholder={t("account.confirmPassword")} hint="Repetí tu contraseña" value={fields.confirm} onChange={setters.setConfirm} />
+        </SectionCard>
 
         <PrimaryButton text={t("account.save")} onClick={handleSave} />
       </div>
-    </div>
+
+    </ScreenLayout>
   );
 }
 

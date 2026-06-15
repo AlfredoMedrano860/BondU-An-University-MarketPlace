@@ -43,7 +43,7 @@ export function SettingRow({ icon: Icon, label, onClick, border = true, danger =
       tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
       onKeyDown={onClick ? (e) => { if (e.key === "Enter" || e.key === " ") onClick(); } : undefined}
-      className={`w-full flex items-center justify-between px-5 py-4 ${border ? "border-b border-beige" : ""} ${onClick ? "cursor-pointer" : ""}`}
+      className={`w-full flex items-center justify-between px-5 py-4 transition-colors duration-150 ${border ? "border-b border-gray-200" : ""} ${onClick ? "cursor-pointer hover:bg-gray-50" : ""}`}
     >
       <div className="flex items-center gap-3">
         <Icon size={22} className={iconClass} />

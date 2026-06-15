@@ -1,3 +1,8 @@
+/**
+ * Diálogo de error que indica que hay campos vacíos en un formulario.
+ *
+ * > **Pendiente:** texto hardcodeado en español; migrar a i18n y conectar handlers.
+ */
 function ErrorEmptySpace(){
     return(
 <div className="mx-7.5 flex items-center justify-center min-h-screen">

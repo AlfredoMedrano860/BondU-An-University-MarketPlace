@@ -1,67 +1,73 @@
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import type { Product } from "../data/Product";
 import type { UserProfile } from "../data/UserProfile";
+import type { Product } from "../data/Product";
+import type { ProfileChoice } from "../data/Navigation";
+import { useProfileData } from "../../hooks/useProfileData";
+import ProfileContact from "./ProfileContact";
+import ProfileProducts from "./ProfileProducts";
+import ProfileReviews from "./ProfileReviews";
 
-import CommentHeader from "./CommentHeader";
-import EmptyState from "../ui/EmptyState";
-import MyProductCard from "./MyProductCard";
-import ReviewCard from "./ReviewCard";
-import { getProductsByUser, removeProduct, subscribeProducts } from "../data/ProductStore";
-import { sellerReviews } from "../data/Review";
-import type { Review } from "../data/Review";
+export type { ProfileChoice as Choice };
 
-export type Choice = "contacto" | "productos" | "reseñas";
-
+/**
+ * Props de ProfileInfo.
+ */
 interface ProfileInfoProps {
-  choice: Choice;
+  /** Pestaña activa: `"contacto"`, `"productos"` o `"reseñas"`. */
+  choice: ProfileChoice;
+  /** Usuario cuyo perfil se está mostrando. */
   currentUser: UserProfile;
+  /** Indica si el perfil es del usuario autenticado. Por defecto `true`. */
+  isOwnProfile?: boolean;
+  /** Usuario que puede escribir una reseña. Solo aplica en perfiles ajenos. */
+  reviewer?: UserProfile;
+  /** Se ejecuta al editar un producto (perfil propio). */
+  onEdit: (product: Product) => void;
+  /** Se ejecuta al comprar un producto (perfil ajeno). */
+  onBuyProduct?: (product: Product) => void;
+  /** Se ejecuta al hacer clic en el avatar de un reseñador. */
+  onViewReviewer?: (reviewerId: number) => void;
 }
 
-export function ProfileInfo({ currentUser, choice }: ProfileInfoProps) {
-  const { t } = useTranslation();
-  const [userProducts, setUserProducts] = useState<Product[]>(getProductsByUser(currentUser.id));
-
-  useEffect(() => {
-    const unsub = subscribeProducts(() => setUserProducts(getProductsByUser(currentUser.id)));
-    return unsub;
-  }, [currentUser.id]);
-
-  const handleRemove = (productId: number) => {
-    removeProduct(productId);
-  };
+/**
+ * Coordinador de las pestañas del perfil de usuario.
+ *
+ * Delega la carga de datos a {@link useProfileData} y renderiza
+ * el sub-componente correspondiente a la pestaña activa.
+ * Usado en {@link ProfileScreen}.
+ *
+ * @param currentUser - Usuario cuyo perfil se muestra.
+ * @param choice - Pestaña activa.
+ * @param isOwnProfile - Si `true`, habilita acciones de edición y eliminación.
+ * @param reviewer - Usuario autenticado para el formulario de reseña.
+ * @param onEdit - Handler de edición de producto.
+ * @param onBuyProduct - Handler de compra de producto.
+ * @param onViewReviewer - Navega al perfil de un reseñador.
+ */
+export function ProfileInfo({ currentUser, choice, isOwnProfile = true, reviewer, onEdit, onBuyProduct, onViewReviewer }: ProfileInfoProps) {
+  const { userProducts, reviews, handleDelete } = useProfileData(currentUser.id);
 
   return (
     <div>
       {choice === "contacto" && (
-        <div className="bg-white px-6 pt-4 pb-4 rounded-2xl m-4 flex items-center justify-center">
-          <p className="m-1 text-[20px] text-gray-600">
-            {t("profile.contactMessage")}
-          </p>
-        </div>
+        <ProfileContact currentUser={currentUser} />
       )}
-
       {choice === "productos" && (
-        <div className="px-5 pb-6">
-          {userProducts.length === 0 ? (
-            <EmptyState message={t("profile.noProducts")} />
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
-              {userProducts.map((product) => (
-                <MyProductCard key={product.id} product={product} onRemove={handleRemove} />
-              ))}
-            </div>
-          )}
-        </div>
+        <ProfileProducts
+          userProducts={userProducts}
+          isOwnProfile={isOwnProfile}
+          onEdit={onEdit}
+          onBuyProduct={onBuyProduct ?? (() => {})}
+          onDelete={handleDelete}
+        />
       )}
-
       {choice === "reseñas" && (
-        <div className="w-full px-4">
-          <CommentHeader name={currentUser.username} avatar={currentUser.avatar} />
-          {sellerReviews.map((r: Review) => (
-            <ReviewCard key={r.id} review={r} />
-          ))}
-        </div>
+        <ProfileReviews
+          reviews={reviews}
+          isOwnProfile={isOwnProfile}
+          reviewer={reviewer}
+          sellerId={currentUser.id}
+          onViewReviewer={onViewReviewer}
+        />
       )}
     </div>
   );

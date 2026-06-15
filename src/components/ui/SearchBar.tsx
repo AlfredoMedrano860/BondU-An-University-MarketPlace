@@ -1,42 +1,29 @@
-import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Combobox } from "@ark-ui/react/combobox";
-import { createListCollection } from "@ark-ui/react";
 import { MagnifyingGlassIcon, SlidersIcon } from "@phosphor-icons/react";
-import { getProducts, subscribeProducts } from "../data/ProductStore";
+import { useSearchBar } from "../../hooks/useSearchBar";
 import type { Product } from "../data/Product";
-import { normalize } from "../../utils/string";
 
+/**
+ * Props de SearchBar.
+ */
 interface SearchBarProps {
+  /** Callback que recibe el término confirmado al buscar. */
   onSearch?: (term: string) => void;
 }
 
+/**
+ * Barra de búsqueda con autocompletado de productos.
+ *
+ * Usa el Combobox de Ark UI para mostrar sugerencias mientras el usuario escribe.
+ * La lógica de estado y filtrado está en {@link useSearchBar}.
+ * Usado en {@link AppHeader}.
+ *
+ * @param onSearch - Callback con el término de búsqueda confirmado.
+ */
 export default function SearchBar({ onSearch }: SearchBarProps) {
   const { t } = useTranslation();
-  const [allProducts, setAllProducts] = useState<Product[]>(getProducts());
-  const [inputValue, setInputValue] = useState("");
-
-  useEffect(() => {
-    const unsub = subscribeProducts(() => setAllProducts(getProducts()));
-    return unsub;
-  }, []);
-
-  const collection = useMemo(() => {
-    const term = normalize(inputValue.trim());
-    const items: Product[] = term
-      ? allProducts.filter((p) => normalize(p.name).includes(term))
-      : [];
-    return createListCollection<Product>({
-      items,
-      itemToString: (item) => item.name,
-      itemToValue: (item) => String(item.id),
-    });
-  }, [inputValue, allProducts]);
-
-  function triggerSearch() {
-    const term = inputValue.trim();
-    if (term) onSearch?.(term);
-  }
+  const { inputValue, setInputValue, collection, triggerSearch } = useSearchBar(onSearch);
 
   return (
     <div className="flex items-center gap-3 mt-4 md:mt-0 md:flex-1">
@@ -89,7 +76,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                       {t("search.noResults")}
                     </Combobox.Empty>
                     <Combobox.ItemGroup>
-                      {api.collection.items.map((item) => (
+                      {collection.items.map((item) => (
                         <Combobox.Item
                           key={item.id}
                           item={item}

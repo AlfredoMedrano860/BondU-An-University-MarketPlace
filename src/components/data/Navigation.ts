@@ -1,4 +1,4 @@
-import { HouseHeart, Store, CirclePlus, Star, Bolt } from "lucide-react";
+import { Home, ShoppingBag, CirclePlus, Heart, Cog } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 /**
@@ -17,30 +17,34 @@ export interface NavItem {
 export const navItems: NavItem[] = [
   { 
     id: 0, 
-    icon: HouseHeart, 
-    screen: "home" 
+    icon: Home,        
+    screen: "home"        
   },
   { 
     id: 1, 
-    icon: Store, 
+    icon: ShoppingBag, 
     screen: "marketplace" 
   },
   { 
     id: 2, 
-    icon: CirclePlus, 
-    screen: "addproduct" 
+    icon: CirclePlus,
+    screen: "addproduct"
   },
-  { 
-    id: 3, 
-    icon: Star, 
-    screen: "favorite" 
+  {
+    id: 3,
+    icon: Heart,
+    screen: "favorite"    
   },
   { 
     id: 4, 
-    icon: Bolt, 
-    screen: "settings" 
+    icon: Cog,         
+    screen: "settings"    
   },
 ];
 
 /** Tabs del detalle de producto usados en {@link ProductTabs}. */
 export const productTabs: string[] = ["Información", "Vendedor", "Compartir"];
+
+/** Tabs del perfil de usuario usados en {@link ProfileScreen}. */
+export type ProfileChoice = "contacto" | "productos" | "reseñas";
+

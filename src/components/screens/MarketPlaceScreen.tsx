@@ -1,80 +1,58 @@
-import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import AppHeader from "../templates/AppHeader";
 import ProductGrid from "../templates/ProductGrid";
-import BottomNav from "../templates/BottomNav";
-import ProductScreen from "./ProductScreen";
 import EmptyState from "../ui/EmptyState";
 import type { Product } from "../data/Product";
 import type { UserProfile } from "../data/UserProfile";
-import { getProducts, toggleFavorite, subscribeProducts } from "../data/ProductStore";
-import { normalize } from "../../utils/string";
+import { useMarketplaceProducts } from "../../hooks/useMarketplaceProducts";
 
+/**
+ * Props de MarketPlaceScreen.
+ */
 interface MarketPlaceScreenProps {
-  onNavigate: (screen: string) => void;
+  /** Usuario autenticado; sus productos se excluyen del listado. */
   currentUser: UserProfile;
+  /** Término de búsqueda activo. Por defecto `""`. */
   searchTerm?: string;
+  /** Actualiza el término de búsqueda en el padre (pasar `""` lo limpia). */
   onSearch?: (term: string) => void;
+  /** Abre el detalle de un producto. */
+  onViewProduct: (product: Product) => void;
 }
 
-function MarketPlaceScreen({ onNavigate, currentUser, searchTerm = "", onSearch }: MarketPlaceScreenProps) {
+/**
+ * Pantalla del marketplace con listado filtrable de productos de otros usuarios.
+ *
+ * Delega suscripción, filtrado y manejo de favoritos a {@link useMarketplaceProducts}.
+ *
+ * @param currentUser - Usuario autenticado cuyos productos se excluyen.
+ * @param searchTerm - Término activo para filtrar por nombre.
+ * @param onSearch - Actualiza el término en el padre.
+ * @param onViewProduct - Abre el detalle de un producto.
+ */
+function MarketPlaceScreen({ currentUser, searchTerm = "", onSearch, onViewProduct }: MarketPlaceScreenProps) {
   const { t } = useTranslation();
-  const [products, setProducts] = useState<Product[]>(getProducts());
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-  useEffect(() => {
-    const unsub = subscribeProducts(() => setProducts(getProducts()));
-    return unsub;
-  }, []);
-
-  const handleToggleFavorite = (product: Product) => {
-    toggleFavorite(product.id);
-  };
-
-  if (selectedProduct) {
-    return <ProductScreen product={selectedProduct} onBack={() => setSelectedProduct(null)} />;
-  }
-
-  const otherUsersProducts = products.filter(p => p.seller.id !== currentUser.id);
-
-  const displayProducts = searchTerm.trim()
-    ? otherUsersProducts.filter((p) => normalize(p.name).includes(normalize(searchTerm)))
-    : otherUsersProducts;
+  const { displayProducts, handleToggleFavorite } = useMarketplaceProducts(currentUser.id, searchTerm);
 
   return (
-    <div className="h-screen bg-beige overflow-y-auto no-scrollbar pb-55">
-
-      {/* ── HEADER ── */}
-      <AppHeader currentUser={currentUser} onSearch={onSearch} />
-
-      {/* ── FILTRO ACTIVO ── */}
+    <div className="h-full bg-beige overflow-y-auto no-scrollbar pb-28">
       {searchTerm && (
         <div className="px-6 sm:px-10 md:px-16 lg:px-20 pt-4 flex items-center gap-2">
           <span className="text-sm text-gray-500">
             {t("marketplace.resultsFor")} <strong className="color-secondary">"{searchTerm}"</strong>
           </span>
-          <button
-            onClick={() => onSearch?.("")}
-            className="text-xs color-primary font-semibold underline"
-          >
+          <button onClick={() => onSearch?.("")} className="text-xs color-primary font-semibold underline">
             {t("marketplace.clear")}
           </button>
         </div>
       )}
-
-      {/* ── CONTENIDO ── */}
       {displayProducts.length === 0
         ? <EmptyState message={searchTerm ? t("marketplace.noResultsFor", { term: searchTerm }) : t("marketplace.noProducts")} />
         : <ProductGrid
             products={displayProducts}
-            onBuy={setSelectedProduct}
+            onBuy={onViewProduct}
             onToggleFavorite={handleToggleFavorite}
           />
       }
-
-      {/* ── NAVEGACIÓN ── */}
-      <BottomNav onNavigate={onNavigate} currentScreen="marketplace" />
-
     </div>
   );
 }

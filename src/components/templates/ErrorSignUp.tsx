@@ -1,3 +1,8 @@
+/**
+ * Diálogo de error de credenciales inválidas en el registro o inicio de sesión.
+ *
+ * > **Pendiente:** texto hardcodeado en español; migrar a i18n y conectar handlers.
+ */
 function ErrorSignUp(){
     return(
 <div className="mx-7.5 flex items-center justify-center min-h-screen">

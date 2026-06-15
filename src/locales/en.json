@@ -78,16 +78,21 @@
   },
   "addProduct": {
     "title": "New Product",
-    "namePlaceholder": "Product name...",
-    "pricePlaceholder": "Product price...",
-    "statePlaceholder": "Condition (New / Used)...",
-    "descriptionPlaceholder": "Product description...",
+    "editTitle": "Edit Product",
+    "photos": "Product photos",
+    "mainPhoto": "Add main photo",
+    "details": "Product details",
+    "namePlaceholder": "Product name",
+    "pricePlaceholder": "Product price",
+    "statePlaceholder": "Condition",
+    "descriptionPlaceholder": "Product description",
     "save": "SAVE"
   },
   "myProducts": {
     "title": "My Products",
     "empty": "You have no published products",
-    "delete": "DELETE"
+    "delete": "DELETE",
+    "edit": "EDIT"
   },
   "account": {
     "title": "My Account",
@@ -101,7 +106,8 @@
     "newPassword": "New password",
     "confirmPassword": "Confirm password",
     "saved": "Changes saved!",
-    "save": "SAVE CHANGES"
+    "save": "SAVE CHANGES",
+    "passwordMismatch": "Passwords do not match."
   },
   "settings": {
     "myProfile": "My Profile",
@@ -123,7 +129,12 @@
     "reviews": "Reviews",
     "sales": "Sales",
     "contactMessage": "Contact me! I'm reliable",
-    "noProducts": "You have no published products"
+    "noProducts": "You have no published products",
+    "noReviews": "No reviews yet"
+  },
+  "review": {
+    "placeholder": "Write your review...",
+    "send": "SEND"
   },
   "search": {
     "placeholder": "Search...",
@@ -192,6 +203,108 @@
         "answer": "You can publish your product indicating that you accept exchanges in the description and coordinate directly with the seller."
       }
     ]
+  },
+  "notifications": {
+    "productPublished": {
+      "title": "Product published!",
+      "message": "Your product is now available in the marketplace."
+    },
+    "productUpdated": {
+      "title": "Product updated!",
+      "message": "Changes were saved successfully."
+    },
+    "productDeleted": {
+      "title": "Product deleted",
+      "message": "The product was removed from your profile."
+    },
+    "productError": {
+      "title": "Could not save",
+      "message": "Check the fields and try again."
+    },
+    "passwordChanged": {
+      "title": "Password updated!",
+      "message": "You can now log in with your new password."
+    },
+    "loginError": {
+      "title": "Login failed",
+      "message": "Check your email and password."
+    },
+    "signupSuccess": {
+      "title": "Account created!",
+      "message": "You can now log in with your account."
+    },
+    "signupError": {
+      "title": "Registration failed",
+      "message": "Check your details and try again."
+    },
+    "accountSaved": {
+      "title": "Profile updated!",
+      "message": "Your information was saved successfully."
+    },
+    "accountRequired": {
+      "title": "Required fields",
+      "message": "Username and email cannot be empty."
+    },
+    "codeSent": {
+      "title": "Code sent",
+      "message": "Check your email inbox."
+    },
+    "favoriteAdded": {
+      "title": "Added to favorites",
+      "message": "The product was saved to your list."
+    },
+    "favoriteRemoved": {
+      "title": "Removed from favorites",
+      "message": "The product was removed from your list."
+    },
+    "linkCopied": {
+      "title": "Link copied!",
+      "message": "The link was copied to the clipboard."
+    },
+    "languageChanged": {
+      "title": "Language updated",
+      "message": "The app language has been changed."
+    },
+    "notificationsEnabled": {
+      "title": "Notifications enabled",
+      "message": "You'll receive app alerts."
+    },
+    "notificationsDisabled": {
+      "title": "Notifications disabled",
+      "message": "You won't receive app alerts."
+    },
+    "darkModeComingSoon": {
+      "title": "Coming soon",
+      "message": "Dark mode will be available in future versions."
+    },
+    "passwordMismatch": {
+      "title": "Passwords don't match",
+      "message": "Make sure both passwords are the same."
+    },
+    "emailRequired": {
+      "title": "Email required",
+      "message": "Enter your email to continue."
+    },
+    "codeIncomplete": {
+      "title": "Incomplete code",
+      "message": "Enter all 4 digits of the code."
+    },
+    "passwordRequired": {
+      "title": "Password required",
+      "message": "Enter a new password."
+    },
+    "loggedOut": {
+      "title": "Logged out",
+      "message": "See you soon!"
+    },
+    "reviewSent": {
+      "title": "Review sent!",
+      "message": "Thanks for your feedback."
+    },
+    "reviewError": {
+      "title": "Select a rating",
+      "message": "Choose how many stars to give before sending."
+    }
   },
   "terms": {
     "title": "Terms & Privacy",

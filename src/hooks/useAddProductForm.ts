@@ -1,65 +1,85 @@
 import { useState } from "react";
-import { addProduct } from "../components/data/ProductStore";
+import { useTranslation } from "react-i18next";
+import { addProduct, updateProduct } from "../components/data/ProductStore";
+import { notify } from "../components/data/NotificationStore";
 import type { UserProfile } from "../components/data/UserProfile";
+import type { Product } from "../components/data/Product";
 
 /**
- * Hook para manejar el estado y lógica del formulario de publicación de producto.
+ * Hook para gestionar el estado y lógica del formulario de producto.
  *
- * Construye el objeto {@link Seller} a partir del {@link UserProfile} del usuario
- * autenticado antes de llamar a {@link addProduct}.
- * Al guardar exitosamente llama a {@link onBack} para volver a la pantalla anterior.
+ * Si se pasa `initialProduct`, inicializa los campos con sus valores (modo edición);
+ * de lo contrario opera en modo creación. La validación ocurre dentro del store.
  * Usado en {@link AddProductScreen}.
  *
- * @param currentUser - Usuario autenticado que publica el producto.
- * @param onBack - Se ejecuta al guardar exitosamente para volver a la pantalla anterior.
+ * @param currentUser - Usuario autenticado que será el vendedor del producto.
+ * @param onBack - Navega hacia atrás tras guardar exitosamente.
+ * @param initialProduct - Producto existente a editar. Si se omite, se crea uno nuevo.
  * @returns `fields` — valores actuales de los campos,
  * `setters` — funciones para actualizar cada campo,
- * `error` — mensaje de error de validación o vacío si no hay error,
- * `handleSave` — función que valida y publica el producto.
+ * `handleSave` — valida y persiste el producto.
  */
-export function useAddProductForm(currentUser: UserProfile, onBack: () => void) {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [state, setState] = useState("");
-  const [description, setDescription] = useState("");
-  const [gallery, setGallery] = useState<string[]>([]);
-  const [error, setError] = useState("");
+export function useAddProductForm(currentUser: UserProfile, onBack: () => void, initialProduct?: Product) {
+  const { t } = useTranslation();
+  const [name, setName] = useState(initialProduct?.name        ?? "");
+  const [price, setPrice] = useState(initialProduct?.price?.toString() ?? "");
+  const [state, setState] = useState(initialProduct?.state       ?? "");
+  const [description, setDescription] = useState(initialProduct?.description ?? "");
+  const [gallery, setGallery] = useState<string[]>(initialProduct?.gallery ?? []);
 
   /**
-   * Valida y publica el producto en el store.
-   * Llama a {@link onBack} si es exitoso, o actualiza el error si falla.
+   * Valida y persiste el producto. En modo edición llama a `updateProduct`;
+   * en modo creación llama a `addProduct`. Navega atrás si es exitoso.
    */
   const handleSave = () => {
-    const result = addProduct({
-      name,
-      price: parseFloat(price),
-      state,
-      image: gallery[0] ?? "",
-      gallery,
-      description,
-      seller: {
-        id: currentUser.id,
-        username: currentUser.username,
-        email: currentUser.email,
-        password: "",
-        avatar: currentUser.avatar,
-        createdAt: currentUser.createdAt,
-        rating: 0,
-        reviews: 0,
-      },
-    });
-
-    if (result.ok) {
-      onBack();
+    if (initialProduct) {
+      const result = updateProduct(initialProduct.id, {
+        name,
+        price: parseFloat(price),
+        state,
+        image: gallery[0] ?? "",
+        gallery,
+        description,
+      });
+      if (result.ok) {
+        notify.success(t("notifications.productUpdated.title"), t("notifications.productUpdated.message"));
+        onBack();
+      } else {
+        notify.error(t("notifications.productError.title"), t("notifications.productError.message"));
+      }
     } else {
-      setError(result.error);
+      const result = addProduct({
+        name,
+        price: parseFloat(price),
+        state,
+        image: gallery[0] ?? "",
+        gallery,
+        description,
+        seller: {
+          id: currentUser.id,
+          username: currentUser.username,
+          email: currentUser.email,
+          password: "",
+          avatar: currentUser.avatar,
+          createdAt: currentUser.createdAt,
+          location: currentUser.location ?? "",
+          rating: currentUser.rating ?? 0,
+          reviews: currentUser.reviews ?? 0,
+          sales: currentUser.sales ?? 0,
+        },
+      });
+      if (result.ok) {
+        notify.success(t("notifications.productPublished.title"), t("notifications.productPublished.message"));
+        onBack();
+      } else {
+        notify.error(t("notifications.productError.title"), t("notifications.productError.message"));
+      }
     }
   };
 
   return {
-    fields: { name, price, state, description, gallery },
+    fields:  { name, price, state, description, gallery },
     setters: { setName, setPrice, setState, setDescription, setGallery },
-    error,
     handleSave,
   };
 }
