@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import CodeInput from "../ui/CodeInput";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
 
 /**
  * Props de StepCode.
@@ -45,11 +45,11 @@ function StepCode({ email, code, onCodeChange, onSubmit, onResend }: StepCodePro
         <CodeInput value={code} onChange={onCodeChange} />
       </div>
 
-      <PrimaryButton text={t("forgotPassword.code.submit")} onClick={onSubmit} />
+      <AppButton text={t("forgotPassword.code.submit")} onClick={onSubmit} />
 
       <p className="text-center text-sm text-gray-500">
         {t("forgotPassword.code.noCode")}{" "}
-        <button onClick={onResend} className="color-primary font-bold">
+        <button onClick={onResend} className="color-primary font-bold hover:underline">
           {t("forgotPassword.code.resend")}
         </button>
       </p>

@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Combobox } from "@ark-ui/react/combobox";
 import { MagnifyingGlassIcon, SlidersIcon } from "@phosphor-icons/react";
 import { useSearchBar } from "../../hooks/useSearchBar";
+import CircleButton from "./CircleButton";
 import type { Product } from "../data/Product";
 
 /**
@@ -10,6 +11,8 @@ import type { Product } from "../data/Product";
 interface SearchBarProps {
   /** Callback que recibe el término confirmado al buscar. */
   onSearch?: (term: string) => void;
+  /** Abre el panel de filtros. */
+  onFilterOpen?: () => void;
 }
 
 /**
@@ -21,7 +24,7 @@ interface SearchBarProps {
  *
  * @param onSearch - Callback con el término de búsqueda confirmado.
  */
-export default function SearchBar({ onSearch }: SearchBarProps) {
+export default function SearchBar({ onSearch, onFilterOpen }: SearchBarProps) {
   const { t } = useTranslation();
   const { inputValue, setInputValue, collection, triggerSearch } = useSearchBar(onSearch);
 
@@ -57,17 +60,17 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                       }
                     }}
                   />
-                  <button
-                    type="button"
+                  <CircleButton
+                    variant="secondary"
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={() => {
                       api.setOpen(false);
                       triggerSearch();
                     }}
-                    className="absolute right-0 top-0 h-12 w-12 bg-secondary rounded-full flex items-center justify-center"
+                    className="absolute right-0 top-0"
                   >
                     <MagnifyingGlassIcon size={20} color="white" weight="bold" />
-                  </button>
+                  </CircleButton>
                 </Combobox.Control>
 
                 <Combobox.Positioner style={{ zIndex: 50, width: "var(--reference-width)" }}>
@@ -104,9 +107,9 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
         </Combobox.Root>
       </div>
 
-      <div className="w-12 h-12 bg-aux rounded-full flex items-center justify-center cursor-pointer shrink-0">
+      <CircleButton variant="aux" onClick={onFilterOpen} shrink>
         <SlidersIcon size={25} color="white" weight="bold" />
-      </div>
+      </CircleButton>
 
     </div>
   );

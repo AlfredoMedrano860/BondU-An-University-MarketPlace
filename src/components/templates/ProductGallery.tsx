@@ -27,19 +27,16 @@ function ProductGallery({ gallery, selectedImage, onSelect, className = "flex ju
   return (
     <div className={className}>
       {gallery.map((imageUrl, imageIndex) => {
-
         const borderClass = selectedImage === imageIndex ? "border-primary" : "border-transparent";
-
         return (
           <button
             key={imageUrl}
             onClick={() => onSelect(imageIndex)}
-            className={`w-23 h-23 rounded-xl overflow-hidden transition-all border-[5px] ${borderClass}`}
+            className={`w-23 h-23 rounded-xl overflow-hidden transition-all border-[5px] hover:scale-[1.04] active:scale-[0.97] ${borderClass}`}
           >
             <img src={imageUrl} alt="" className="w-full h-full object-cover" />
           </button>
         );
-
       })}
     </div>
   );

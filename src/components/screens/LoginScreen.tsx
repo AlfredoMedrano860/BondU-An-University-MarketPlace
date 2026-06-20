@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import iconoPerfil from "../../assets/imgs/IconoPerfil.png";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
 import InputSpace from "../ui/InputSpace";
 import { login } from "../data/AuthStore";
 import type { UserProfile } from "../data/UserProfile";
@@ -75,12 +75,12 @@ function LoginScreen({ onBack, onLogin, onSignUp, onForgotPassword }: LoginScree
       <InputSpace type="password" placeholder={t("login.password")} hint="Mínimo 8 caracteres" value={password} onChange={setPassword} />
 
       <div className="flex justify-end -mt-2">
-        <button onClick={onForgotPassword} className="text-sm text-gray-400">
+        <button onClick={onForgotPassword} className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
           {t("login.forgot")}
         </button>
       </div>
 
-      <PrimaryButton text={t("login.submit")} onClick={handleLogin} />
+      <AppButton text={t("login.submit")} onClick={handleLogin} />
 
       <div className="flex items-center gap-3">
         <div className="flex-1 h-px bg-gray-200" />
@@ -89,20 +89,20 @@ function LoginScreen({ onBack, onLogin, onSignUp, onForgotPassword }: LoginScree
       </div>
 
       <div className="flex justify-center gap-4">
-        <button className="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center">
+        <button className="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all duration-150">
           <img src={googleImg} alt="Google" className="w-6 h-6 object-contain" />
         </button>
-        <button className="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center">
+        <button className="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all duration-150">
           <img src={appleImg} alt="Apple" className="w-6 h-6 object-contain" />
         </button>
-        <button className="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center">
+        <button className="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all duration-150">
           <img src={facebookImg} alt="Facebook" className="w-6 h-6 object-contain" />
         </button>
       </div>
 
       <p className="text-center text-sm text-gray-400">
         {t("login.noAccount")}{" "}
-        <button onClick={onSignUp} className="color-primary font-bold">{t("login.signUp")}</button>
+        <button onClick={onSignUp} className="color-primary font-bold hover:underline">{t("login.signUp")}</button>
       </p>
 
       </div>

@@ -35,8 +35,9 @@ function MyProductCard({ product, onRemove }: MyProductCardProps) {
       <p className="text-xs text-gray-400 w-full px-1">{product.state}</p>
 
       <button
+        type="button"
         onClick={() => onRemove(product.id)}
-        className="w-full h-8 rounded-full bg-aux text-white text-xs font-bold"
+        className="w-full h-8 rounded-full bg-aux text-white text-xs font-bold hover:opacity-90 active:scale-[0.98] transition-all duration-150"
       >
         {t("myProducts.delete")}
       </button>

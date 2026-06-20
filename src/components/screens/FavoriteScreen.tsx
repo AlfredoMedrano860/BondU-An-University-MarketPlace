@@ -27,7 +27,7 @@ function FavoriteScreen({ onViewProduct }: FavoriteScreenProps) {
 
   return (
     <div className="h-full bg-beige overflow-y-auto no-scrollbar pb-28">
-      {favorites.length ==
+      {favorites.length === 0
         ? <EmptyState message={t("favorites.noFavorites")} />
         : <ProductGrid
             products={favorites}

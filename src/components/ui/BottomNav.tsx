@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { navItems } from "../data/Navigation";
 
 /**
@@ -28,7 +29,7 @@ function BottomNav({ onNavigate, currentScreen }: BottomNavProps) {
 
       {/* Píldora deslizante */}
       <div
-        style={{ '--i': activeIndex } as React.CSSProperties}
+        style={{ '--i': activeIndex } as CSSProperties}
         className="nav-pill"
       />
 

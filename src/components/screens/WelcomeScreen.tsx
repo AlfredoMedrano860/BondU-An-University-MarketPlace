@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import logo from "../../assets/imgs/logo.png";
+
+const noop = () => {};
 import cara from "../../assets/imgs/CaraMascota.png";
 import brazos from "../../assets/imgs/BrazosMascota.png";
-import PrimaryButton from "../ui/PrimaryButton";
-import SecondaryButton from "../ui/SecondaryButton";
+import AppButton from "../ui/AppButton";
 import AuthLayout from "../layout/AuthLayout";
 
 /**
@@ -49,8 +50,8 @@ function WelcomeScreen({ onLogin }: WelcomeScreenProps) {
       {/* Botones */}
       <div className="px-8 pb-10 pt-6">
         <div className="max-w-sm w-full mx-auto flex flex-col gap-4">
-          <PrimaryButton text={t("welcome.login")} onClick={onLogin} />
-          <SecondaryButton text={t("welcome.exit")} onClick={() => {}} />
+          <AppButton text={t("welcome.login")} onClick={onLogin} />
+          <AppButton variant="secondary" text={t("welcome.exit")} onClick={noop} />
         </div>
       </div>
       

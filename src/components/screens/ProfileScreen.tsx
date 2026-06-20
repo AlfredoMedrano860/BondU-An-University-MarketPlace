@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { Settings } from "lucide-react";
 import BackButton from "../ui/BackButton";
+import CircleButton from "../ui/CircleButton";
 import StarRating from "../ui/StarRating";
 import { ProfileInfo } from "../templates/ProfileInfo";
 import type { ProfileChoice } from "../data/Navigation";
@@ -9,17 +11,35 @@ import type { UserProfile } from "../data/UserProfile";
 import type { Product } from "../data/Product";
 import { getVisibleReviews, computeRating, subscribeReviews } from "../data/Review";
 
+/** Props del componente {@link ProfileScreen}. */
 interface ProfileScreenProps {
+  /** Usuario cuyo perfil se muestra. */
   currentUser: UserProfile;
+  /** Navega hacia atrás desde el perfil. */
   onBack: () => void;
+  /** Inicia la edición de un producto del perfil. */
   onEdit: (product: Product) => void;
+  /** Abre la pantalla de edición del perfil propio. Solo se pasa cuando `isOwnProfile` es `true`. */
+  onEditProfile?: () => void;
+  /** Indica si el perfil mostrado pertenece al usuario autenticado. Por defecto `true`. */
   isOwnProfile?: boolean;
+  /** Usuario autenticado que puede dejar reseñas. Solo se pasa en perfiles ajenos. */
   reviewer?: UserProfile;
+  /** Navega al detalle de un producto. Si no se pasa, el producto se abre en pantalla completa inline. */
   onBuyProduct?: (product: Product) => void;
+  /** Abre el perfil del autor de una reseña. */
   onViewReviewer?: (reviewerId: number) => void;
 }
 
-export default function ProfileScreen({ currentUser, onBack, onEdit, isOwnProfile = true, reviewer, onBuyProduct, onViewReviewer }: ProfileScreenProps) {
+/**
+ * Pantalla de perfil de usuario.
+ *
+ * Muestra un banner, avatar, estadísticas (ventas / reseñas) y tres pestañas:
+ * Contacto, Productos y Reseñas. Cuando `isOwnProfile` es `true` muestra el
+ * botón de configuración en el banner. Suscribe al store de reseñas para
+ * reflejar cambios en tiempo real.
+ */
+export default function ProfileScreen({ currentUser, onBack, onEdit, onEditProfile, isOwnProfile = true, reviewer, onBuyProduct, onViewReviewer }: ProfileScreenProps) {
   const { t } = useTranslation();
   const [choice, setChoice] = useState<ProfileChoice>("contacto");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -30,12 +50,12 @@ export default function ProfileScreen({ currentUser, onBack, onEdit, isOwnProfil
     return unsub;
   }, [currentUser.id]);
 
-  const seller = {
+  const seller = useMemo(() => ({
     ...currentUser,
     rating:  computeRating(userReviews),
     reviews: userReviews.length,
     sales:   currentUser.sales ?? 0,
-  };
+  }), [currentUser, userReviews]);
 
   const tabs: { key: ProfileChoice; label: string }[] = [
     { key: "contacto",  label: t("profile.contact")  },
@@ -59,6 +79,13 @@ export default function ProfileScreen({ currentUser, onBack, onEdit, isOwnProfil
         <div className="absolute top-6 left-0 z-10">
           <BackButton onClick={onBack} />
         </div>
+        {isOwnProfile && onEditProfile && (
+          <div className="absolute top-6 right-4 z-10">
+            <CircleButton variant="ghost" onClick={onEditProfile}>
+              <Settings size={22} color="white" strokeWidth={1.8} />
+            </CircleButton>
+          </div>
+        )}
       </div>
 
       <div className="bg-white">

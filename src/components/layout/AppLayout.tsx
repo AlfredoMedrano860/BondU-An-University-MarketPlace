@@ -1,9 +1,11 @@
+import type { ReactNode } from "react";
+
 /**
  * Props de AppLayout.
  */
 interface AppLayoutProps {
   /** Contenido de la pantalla principal. */
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 /**

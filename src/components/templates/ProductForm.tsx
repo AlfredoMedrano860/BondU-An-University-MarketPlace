@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import InputSpace from "../ui/InputSpace";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
 
 interface ProductFormProps {
   name: string;
@@ -30,7 +30,7 @@ function ProductForm({ name, price, state, description, onNameChange, onPriceCha
       </div>
 
       <div className="mt-6">
-        <PrimaryButton text={t("addProduct.save")} onClick={onSave} />
+        <AppButton text={t("addProduct.save")} onClick={onSave} />
       </div>
     </div>
   

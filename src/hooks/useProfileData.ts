@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { Product } from "../components/data/Product";
 import type { Review } from "../components/data/Review";
 import { getProductsByUser, removeProduct, subscribeProducts } from "../components/data/ProductStore";
+import { getCurrentUser, updateUser } from "../components/data/AuthStore";
 import { getVisibleReviews, subscribeReviews } from "../components/data/Review";
 import { notify } from "../components/data/NotificationStore";
 
@@ -44,5 +45,19 @@ export function useProfileData(userId: number) {
     );
   }
 
-  return { userProducts, reviews, handleDelete };
+  /**
+   * Marca el producto como vendido: lo elimina del store e incrementa el contador de ventas del usuario.
+   * @param product - Producto vendido.
+   */
+  function handleSell(product: Product) {
+    removeProduct(product.id);
+    const user = getCurrentUser();
+    if (user) updateUser({ sales: (user.sales ?? 0) + 1 });
+    notify.success(
+      t("notifications.productSold.title"),
+      t("notifications.productSold.message"),
+    );
+  }
+
+  return { userProducts, reviews, handleDelete, handleSell };
 }

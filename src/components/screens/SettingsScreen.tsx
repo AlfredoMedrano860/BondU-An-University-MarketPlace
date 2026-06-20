@@ -5,7 +5,8 @@ import AboutAccordion from "../templates/AboutAccordion";
 import FaqAccordion from "../templates/FaqAccordion";
 import TermsAccordion from "../templates/TermsAccordion";
 import { SettingRow, Toggle, SectionTitle } from "../templates/SettingRow";
-import { logout } from "../data/AuthStore";
+import { logout, deleteUser } from "../data/AuthStore";
+import CloseOrDelete from "../templates/CloseOrDelete";
 import type { UserProfile } from "../data/UserProfile";
 import i18n from "../../i18n";
 import { notify } from "../data/NotificationStore";
@@ -38,12 +39,19 @@ interface SettingsScreenProps {
  */
 function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenProps) {
   const { t } = useTranslation();
-  const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(currentUser.notifications ?? true);
+  const [dialog, setDialog] = useState<"logout" | "deleteAccount" | null>(null);
 
-  const handleLogout = () => {
+  const handleConfirmLogout = () => {
+    setDialog(null);
     notify.info(t("notifications.loggedOut.title"), t("notifications.loggedOut.message"));
     logout();
+    onLogout();
+  };
+
+  const handleConfirmDelete = () => {
+    setDialog(null);
+    deleteUser();
     onLogout();
   };
 
@@ -69,6 +77,7 @@ function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenPro
   };
 
   return (
+    <>
     <div className="h-full bg-beige overflow-y-auto no-scrollbar pb-28">
 
       {/* ── SECCIONES ── */}
@@ -83,14 +92,14 @@ function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenPro
         <SectionTitle title={t("settings.preferences")} />
         <div className="bg-white-app rounded-3xl divide-y divide-gray-200">
           <SettingRow icon={Contrast} label={t("settings.darkTheme")} border={false}
-            right={<Toggle value={darkMode} onToggle={handleDarkMode} />}
+            right={<Toggle value={false} onToggle={handleDarkMode} />}
           />
           <SettingRow icon={Bell} label={t("settings.notifications")} border={false}
             right={<Toggle value={notifications} onToggle={handleNotificationsToggle} />}
           />
           <SettingRow icon={Globe} label={t("settings.language")} border={false}
             right={
-              <button onClick={toggleLanguage} className="text-sm font-bold color-primary">
+              <button onClick={toggleLanguage} className="text-sm font-bold color-primary hover:opacity-75 transition-opacity">
                 {t("settings.langLabel")}
               </button>
             }
@@ -106,14 +115,40 @@ function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenPro
 
         <SectionTitle title={t("settings.session")} />
         <div className="bg-white-app rounded-3xl divide-y divide-gray-200">
-          <SettingRow icon={LogOut} label={t("settings.logout")} onClick={handleLogout} danger border={false} />
-          <SettingRow icon={LogOut} label={t("settings.deleteAccount")} danger border={false} right={null} />
+          <SettingRow icon={LogOut} label={t("settings.logout")} onClick={() => setDialog("logout")} danger border={false} />
+          <SettingRow icon={LogOut} label={t("settings.deleteAccount")} onClick={() => setDialog("deleteAccount")} danger border={false} />
         </div>
 
       </div>
 
-
     </div>
+
+    {dialog === "logout" && (
+      <CloseOrDelete
+        title={t("dialogs.logout.title")}
+        message={t("dialogs.logout.message")}
+        cancelText={t("dialogs.logout.no")}
+        confirmText={t("dialogs.logout.confirm")}
+        color={t("dialogs.logout.color")}
+        icon={t("dialogs.logout.icon")}
+        onCancel={() => setDialog(null)}
+        onConfirm={handleConfirmLogout}
+      />
+    )}
+
+    {dialog === "deleteAccount" && (
+      <CloseOrDelete
+        title={t("dialogs.deleteAccount.title")}
+        message={t("dialogs.deleteAccount.message")}
+        cancelText={t("dialogs.deleteAccount.no")}
+        confirmText={t("dialogs.deleteAccount.confirm")}
+        color={t("dialogs.deleteAccount.color")}
+        icon={t("dialogs.deleteAccount.icon")}
+        onCancel={() => setDialog(null)}
+        onConfirm={handleConfirmDelete}
+      />
+    )}
+    </>
   );
 }
 
