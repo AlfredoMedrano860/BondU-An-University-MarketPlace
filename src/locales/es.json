@@ -142,14 +142,30 @@
   },
   "dialogs": {
     "logout": {
+      "title":"Cerrar sesión",
       "message": "¿Seguro que quieres cerrar sesión?",
       "no": "No",
-      "confirm": "Cerrar sesión"
+      "confirm": "Cerrar sesión",
+      "color":"blue",
+      "icon": "!"
     },
     "deleteAccount": {
+      "title":"Delete Account",
       "message": "¿Seguro que quieres eliminar tu cuenta?",
       "no": "No",
-      "confirm": "Eliminar definitivamente"
+      "confirm": "Eliminar definitivamente",
+      "color":"Red",
+      "icon":"!"
+    },
+    "EmptySpace":{
+      "message": "Llena el espacio vacio",
+      "color": "Red",
+      "icon": "X"
+    },
+    "successfull":{
+      "message": "Accion hecha correctamente",
+      "color": "green",
+      "icon": "✔"
     }
   },
   "onboarding": {
