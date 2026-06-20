@@ -23,7 +23,7 @@ function ProductForm({ name, price, state, description, onNameChange, onPriceCha
       <p className="text-sm font-semibold color-text mb-3">{t("addProduct.details")}</p>
 
       <div className="bg-white-app rounded-3xl p-6 flex flex-col gap-4">
-        <InputSpace placeholder={t("addProduct.namePlaceholder")}        hint="Ej: Calculadora científica"            value={name}        onChange={onNameChange} />
+        <InputSpace placeholder={t("addProduct.namePlaceholder")}        hint="Ej: Calculadora científica"           value={name}        onChange={onNameChange} />
         <InputSpace placeholder={t("addProduct.pricePlaceholder")}       hint="Ej: ₡5.000"                           value={price}       onChange={onPriceChange} />
         <InputSpace placeholder={t("addProduct.statePlaceholder")}       hint="Ej: Usado, buen estado"               value={state}       onChange={onStateChange} />
         <InputSpace placeholder={t("addProduct.descriptionPlaceholder")} hint="Ej: Incluye accesorios y garantía..." value={description} onChange={onDescriptionChange} multiline />
