@@ -6,9 +6,8 @@ import EmptyState from "../ui/EmptyState";
 import { getFavorites } from "../data/ProductStore";
 import { useFavoriteToggle } from "../../hooks/useFavoriteToggle";
 
-/**
- * Props de FavoriteScreen.
- */
+import CloseOrDelete from "../templates/CloseOrDelete";
+
 interface FavoriteScreenProps {
   /** Abre el detalle de un producto. */
   onViewProduct: (product: Product) => void;
@@ -28,7 +27,7 @@ function FavoriteScreen({ onViewProduct }: FavoriteScreenProps) {
 
   return (
     <div className="h-full bg-beige overflow-y-auto no-scrollbar pb-28">
-      {favorites.length === 0
+      {favorites.length ==
         ? <EmptyState message={t("favorites.noFavorites")} />
         : <ProductGrid
             products={favorites}
@@ -36,6 +35,7 @@ function FavoriteScreen({ onViewProduct }: FavoriteScreenProps) {
             onToggleFavorite={handleToggleFavorite}
           />
       }
+      
     </div>
   );
 }
