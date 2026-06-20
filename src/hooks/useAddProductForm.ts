@@ -33,6 +33,18 @@ export function useAddProductForm(currentUser: UserProfile, onBack: () => void, 
    */
   const handleSave = () => {
     if (initialProduct) {
+      const hasChanged =
+        name !== initialProduct.name ||
+        parseFloat(price) !== initialProduct.price ||
+        state !== initialProduct.state ||
+        description !== initialProduct.description ||
+        JSON.stringify(gallery) !== JSON.stringify(initialProduct.gallery);
+
+      if (!hasChanged) {
+        onBack();
+        return;
+      }
+
       const result = updateProduct(initialProduct.id, {
         name,
         price: parseFloat(price),

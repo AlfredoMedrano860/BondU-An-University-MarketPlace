@@ -6,6 +6,8 @@ import ProfileContact from "./ProfileContact";
 import ProfileProducts from "./ProfileProducts";
 import ProfileReviews from "./ProfileReviews";
 
+const noop = () => {};
+
 export type { ProfileChoice as Choice };
 
 /**
@@ -44,7 +46,7 @@ interface ProfileInfoProps {
  * @param onViewReviewer - Navega al perfil de un reseñador.
  */
 export function ProfileInfo({ currentUser, choice, isOwnProfile = true, reviewer, onEdit, onBuyProduct, onViewReviewer }: ProfileInfoProps) {
-  const { userProducts, reviews, handleDelete } = useProfileData(currentUser.id);
+  const { userProducts, reviews, handleDelete, handleSell } = useProfileData(currentUser.id);
 
   return (
     <div>
@@ -56,8 +58,9 @@ export function ProfileInfo({ currentUser, choice, isOwnProfile = true, reviewer
           userProducts={userProducts}
           isOwnProfile={isOwnProfile}
           onEdit={onEdit}
-          onBuyProduct={onBuyProduct ?? (() => {})}
+          onBuyProduct={onBuyProduct ?? noop}
           onDelete={handleDelete}
+          onSell={isOwnProfile ? handleSell : undefined}
         />
       )}
       {choice === "reseñas" && (

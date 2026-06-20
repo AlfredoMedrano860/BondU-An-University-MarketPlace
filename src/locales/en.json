@@ -61,6 +61,19 @@
     "noResultsFor": "No results for \"{{term}}\"",
     "noProducts": "No products available"
   },
+  "filters": {
+    "title": "Filters",
+    "state": "Condition",
+    "maxPrice": "Max price",
+    "noLimit": "No limit",
+    "upTo": "Up to",
+    "apply": "APPLY",
+    "states": {
+      "Nuevo": "New",
+      "Usado": "Used",
+      "Detalle": "Like New"
+    }
+  },
   "favorites": {
     "noFavorites": "You have no favorites yet"
   },
@@ -92,19 +105,26 @@
     "title": "My Products",
     "empty": "You have no published products",
     "delete": "DELETE",
-    "edit": "EDIT"
+    "edit": "EDIT",
+    "markSold": "SOLD"
   },
   "account": {
-    "title": "My Account",
+    "title": "Edit Profile",
     "personalInfo": "Personal Information",
     "username": "Username",
     "email": "Email",
     "phone": "Phone",
     "university": "University",
     "career": "Major",
+    "contactInfo": "Contact Information",
+    "bio": "Bio",
+    "instagram": "Instagram",
+    "telegram": "Telegram",
+    "security": "Security",
     "changePassword": "Change Password",
+    "currentPassword": "Current password",
     "newPassword": "New password",
-    "confirmPassword": "Confirm password",
+    "confirmPassword": "Confirm new password",
     "saved": "Changes saved!",
     "save": "SAVE CHANGES",
     "passwordMismatch": "Passwords do not match."
@@ -233,6 +253,10 @@
       "title": "Product deleted",
       "message": "The product was removed from your profile."
     },
+    "productSold": {
+      "title": "Product sold!",
+      "message": "Your sale was registered. Congratulations!"
+    },
     "productError": {
       "title": "Could not save",
       "message": "Check the fields and try again."
@@ -296,6 +320,10 @@
     "passwordMismatch": {
       "title": "Passwords don't match",
       "message": "Make sure both passwords are the same."
+    },
+    "wrongPassword": {
+      "title": "Wrong password",
+      "message": "The current password you entered is incorrect."
     },
     "emailRequired": {
       "title": "Email required",

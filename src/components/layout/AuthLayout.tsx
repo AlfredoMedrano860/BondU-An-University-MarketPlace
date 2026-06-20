@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import logoHorizontal from "../../assets/imgs/LogoHorizontal.png";
 import BackButton from "../ui/BackButton";
@@ -7,7 +8,7 @@ import BackButton from "../ui/BackButton";
  */
 interface AuthLayoutProps {
   /** Formulario de autenticación que ocupa el panel derecho. */
-  children: React.ReactNode;
+  children: ReactNode;
   /** Si se pasa, muestra un {@link BackButton} sobre el panel derecho. */
   onBack?: () => void;
 }

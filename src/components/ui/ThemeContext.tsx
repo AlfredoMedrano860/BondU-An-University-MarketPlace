@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 /**
  * Forma del contexto de tema.
@@ -41,7 +41,7 @@ export function useTheme(): ThemeContextType {
  *
  * @see {@link https://react.dev/learn/passing-data-deeply-with-context Passing data deeply with context}
  */
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [darkMode, setDarkMode] = useState(false);
   const toggleDarkMode = () => setDarkMode(prev => !prev);
 

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { forwardRef, type ReactNode } from "react";
 import { Accordion } from "radix-ui";
 import { ChevronDown, type LucideIcon } from "lucide-react";
 
@@ -9,7 +9,7 @@ interface AccordionTriggerProps {
   /** Ícono de Lucide que aparece a la izquierda del texto. */
   icon: LucideIcon;
   /** Texto o nodo del encabezado del acordeón. */
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 /**
@@ -22,7 +22,7 @@ interface AccordionTriggerProps {
  * @param icon - Ícono de Lucide a mostrar.
  * @param children - Contenido del encabezado.
  */
-const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerProps>(
+const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   ({ icon: Icon, children }, ref) => (
     <Accordion.Header>
       <Accordion.Trigger ref={ref} className="accordion-trigger w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors duration-150">
@@ -35,5 +35,6 @@ const AccordionTrigger = React.forwardRef<HTMLButtonElement, AccordionTriggerPro
     </Accordion.Header>
   )
 );
+AccordionTrigger.displayName = "AccordionTrigger";
 
 export default AccordionTrigger;

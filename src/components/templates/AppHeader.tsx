@@ -5,9 +5,10 @@ import type { UserProfile } from "../data/UserProfile";
 interface AppHeaderProps {
   currentUser: UserProfile;
   onSearch?: (term: string) => void;
+  onFilterOpen?: () => void;
 }
 
-function AppHeader({ currentUser, onSearch }: AppHeaderProps) {
+function AppHeader({ currentUser, onSearch, onFilterOpen }: AppHeaderProps) {
   const { t } = useTranslation();
 
   return (
@@ -25,7 +26,7 @@ function AppHeader({ currentUser, onSearch }: AppHeaderProps) {
           </div>
         </div>
 
-        <SearchBar onSearch={onSearch} />
+        <SearchBar onSearch={onSearch} onFilterOpen={onFilterOpen} />
 
       </div>
 

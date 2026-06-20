@@ -1,4 +1,5 @@
 import { Heart } from "lucide-react";
+import CircleButton from "./CircleButton";
 
 /**
  * Props de FavoriteButton.
@@ -21,9 +22,9 @@ interface FavoriteButtonProps {
  */
 function FavoriteButton({ isFavorite, onClick }: FavoriteButtonProps) {
   return (
-    <button onClick={onClick} className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-150 bg-aux hover:scale-110 active:scale-95">
+    <CircleButton size="sm" variant="aux" onClick={onClick} className="hover:scale-110">
       <Heart size={14} stroke="white" strokeWidth={2.5} fill={isFavorite ? "white" : "none"} />
-    </button>
+    </CircleButton>
   );
 }
 

@@ -18,7 +18,7 @@ import { normalize } from "../utils/string";
  * @returns `displayProducts` — productos filtrados listos para mostrar,
  * `handleToggleFavorite` — alterna favorito y emite notificación.
  */
-export function useMarketplaceProducts(currentUserId: number, searchTerm: string) {
+export function useMarketplaceProducts(currentUserId: number, searchTerm: string, estadoFilter = "", precioFilter = 500) {
   const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>(getProducts);
 
@@ -43,9 +43,15 @@ export function useMarketplaceProducts(currentUserId: number, searchTerm: string
   }
 
   const otherUsersProducts = products.filter(p => p.seller.id !== currentUserId);
-  const displayProducts = searchTerm.trim()
+  const bySearch = searchTerm.trim()
     ? otherUsersProducts.filter(p => normalize(p.name).includes(normalize(searchTerm)))
     : otherUsersProducts;
+  const byEstado = estadoFilter
+    ? bySearch.filter(p => p.state === estadoFilter)
+    : bySearch;
+  const displayProducts = precioFilter < 500
+    ? byEstado.filter(p => p.price <= precioFilter)
+    : byEstado;
 
   return { displayProducts, handleToggleFavorite };
 }

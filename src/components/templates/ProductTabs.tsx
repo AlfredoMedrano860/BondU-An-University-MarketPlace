@@ -4,13 +4,32 @@ import type { Seller } from "../data/Seller";
 import SellerTab from "./SellerTab";
 import ShareTab from "./ShareTab";
 
+/**
+ * Props de ProductTabs.
+ */
 interface ProductTabsProps {
+  /** Producto cuyo detalle se muestra. */
   product: Product;
+  /** Índice de la pestaña activa (0 = Información, 1 = Vendedor, 2 = Compartir). */
   selectedTab: number;
+  /** Se ejecuta al cambiar de pestaña. */
   onSelectTab: (index: number) => void;
+  /** Se ejecuta al hacer clic en el perfil del vendedor dentro de la pestaña Vendedor. */
   onViewSellerProfile?: (seller: Seller) => void;
 }
 
+/**
+ * Sistema de pestañas para el detalle de un producto.
+ *
+ * Renderiza tres pestañas: Información, Vendedor y Compartir.
+ * Cada pestaña delega el contenido a su componente correspondiente.
+ * Usado en {@link ProductScreen}.
+ *
+ * @param product - Producto cuyos datos se muestran.
+ * @param selectedTab - Índice de la pestaña activa.
+ * @param onSelectTab - Cambia la pestaña activa.
+ * @param onViewSellerProfile - Navega al perfil del vendedor.
+ */
 function ProductTabs({ product, selectedTab, onSelectTab, onViewSellerProfile }: ProductTabsProps) {
   const { t } = useTranslation();
   const tabLabels = [t("product.tabs.info"), t("product.tabs.seller"), t("product.tabs.share")];

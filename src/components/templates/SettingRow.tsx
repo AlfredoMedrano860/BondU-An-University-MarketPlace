@@ -1,12 +1,12 @@
+import type { ElementType, ReactNode } from "react";
 import { ChevronRight } from "lucide-react";
-// En proceso, hay que descomponer
 
 /**
  * Props de SettingRow.
  */
 interface SettingRowProps {
   /** Ícono de lucide-react a mostrar en el lado izquierdo. */
-  icon: React.ElementType;
+  icon: ElementType;
   /** Texto descriptivo de la fila. */
   label: string;
   /** Se ejecuta al presionar la fila. Opcional si se usa solo como contenedor. */
@@ -16,7 +16,7 @@ interface SettingRowProps {
   /** Aplica color rojo al ícono y texto para acciones destructivas. Por defecto `false`. */
   danger?: boolean;
   /** Elemento a mostrar en el lado derecho. Por defecto muestra un ChevronRight. */
-  right?: React.ReactNode;
+  right?: ReactNode;
 }
 
 /**

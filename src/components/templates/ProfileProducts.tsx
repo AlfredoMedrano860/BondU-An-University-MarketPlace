@@ -4,6 +4,8 @@ import { toggleFavorite } from "../data/ProductStore";
 import EmptyState from "../ui/EmptyState";
 import ProductCard from "./ProductCard";
 
+const toggleFavoriteById = (p: Product) => toggleFavorite(p.id);
+
 /**
  * Props de ProfileProducts.
  */
@@ -18,6 +20,8 @@ interface ProfileProductsProps {
   onBuyProduct: (product: Product) => void;
   /** Se ejecuta al eliminar un producto (perfil propio). */
   onDelete: (product: Product) => void;
+  /** Se ejecuta al marcar un producto como vendido (perfil propio). */
+  onSell?: (product: Product) => void;
 }
 
 /**
@@ -33,7 +37,7 @@ interface ProfileProductsProps {
  * @param onBuyProduct - Handler de compra del producto.
  * @param onDelete - Handler de eliminación del producto.
  */
-export default function ProfileProducts({ userProducts, isOwnProfile, onEdit, onBuyProduct, onDelete }: ProfileProductsProps) {
+export default function ProfileProducts({ userProducts, isOwnProfile, onEdit, onBuyProduct, onDelete, onSell }: ProfileProductsProps) {
   const { t } = useTranslation();
 
   if (userProducts.length === 0) {
@@ -48,7 +52,8 @@ export default function ProfileProducts({ userProducts, isOwnProfile, onEdit, on
           product={product}
           isOwner={isOwnProfile}
           onBuy={isOwnProfile ? onEdit : onBuyProduct}
-          onToggleFavorite={isOwnProfile ? onDelete : (p) => toggleFavorite(p.id)}
+          onToggleFavorite={isOwnProfile ? onDelete : toggleFavoriteById}
+          onSell={isOwnProfile ? onSell : undefined}
           buttonLabel={isOwnProfile ? t("myProducts.edit") : t("product.buy")}
         />
       ))}
