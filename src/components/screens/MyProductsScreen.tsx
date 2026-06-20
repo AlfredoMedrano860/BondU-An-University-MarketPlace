@@ -28,7 +28,7 @@ interface MyProductsScreenProps {
  */
 function MyProductsScreen({ userId, onBack, onEdit }: MyProductsScreenProps) {
   const { t } = useTranslation();
-  const { userProducts, handleDelete } = useMyProducts(userId);
+  const { userProducts, handleDelete, handleSell } = useMyProducts(userId);
 
   return (
     <ScreenLayout title={t("myProducts.title")} onBack={onBack}>
@@ -43,6 +43,7 @@ function MyProductsScreen({ userId, onBack, onEdit }: MyProductsScreenProps) {
                   isOwner
                   onBuy={onEdit}
                   onToggleFavorite={handleDelete}
+                  onSell={handleSell}
                   buttonLabel={t("myProducts.edit")}
                 />
               ))}

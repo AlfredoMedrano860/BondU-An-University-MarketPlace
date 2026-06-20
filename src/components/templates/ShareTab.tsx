@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { CopySimpleIcon } from "@phosphor-icons/react";
 import { appBaseUrl } from "../data/Terms";
 import { notify } from "../data/NotificationStore";
+import CircleButton from "../ui/CircleButton";
 
 /**
  * Props de ShareTab.
@@ -25,9 +26,10 @@ function ShareTab({ productId }: ShareTabProps) {
   const url = `${appBaseUrl}/product/${productId}`;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(url).then(() => {
-      notify.success(t("notifications.linkCopied.title"), t("notifications.linkCopied.message"));
-    });
+    navigator.clipboard
+      .writeText(url)
+      .then(() => notify.success(t("notifications.linkCopied.title"), t("notifications.linkCopied.message")))
+      .catch(() => notify.error(t("notifications.productError.title"), t("notifications.productError.message")));
   };
 
   return (
@@ -43,12 +45,9 @@ function ShareTab({ productId }: ShareTabProps) {
             value={url}
             className="w-full h-12 rounded-full pl-5 pr-5 bg-search text-black text-[13px]"
           />
-          <button
-            onClick={handleCopy}
-            className="cursor-pointer absolute right-0 top-0 h-12 w-12 bg-secondary rounded-full flex items-center justify-center"
-          >
+          <CircleButton variant="secondary" onClick={handleCopy} className="absolute right-0 top-0">
             <CopySimpleIcon size={20} color="white" weight="bold" />
-          </button>
+          </CircleButton>
         </div>
       </div>
 

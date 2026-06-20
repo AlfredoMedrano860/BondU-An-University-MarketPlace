@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { InfoItem } from "../data/InfoItem";
 import DotsIndicator from "../ui/DotsIndicator";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
 
 /**
  * Props de InfoContent.
@@ -46,7 +46,7 @@ function InfoContent({ item, currentIndex, total, onNext, onSkip }: InfoContentP
 
       {/* Skip */}
       <div className="md:hidden flex justify-end px-6 pt-8">
-        <button onClick={onSkip} className="color-primary font-bold text-sm">
+        <button onClick={onSkip} className="color-primary font-bold text-sm hover:opacity-75 transition-opacity">
           {t("onboarding.skip")}
         </button>
       </div>
@@ -65,7 +65,7 @@ function InfoContent({ item, currentIndex, total, onNext, onSkip }: InfoContentP
             <p className="color-text text-sm leading-5 mt-4 max-w-xs mx-auto">{slide.description}</p>
           </div>
           <DotsIndicator currentIndex={currentIndex} total={total} />
-          <PrimaryButton text={buttonText} onClick={onNext} />
+          <AppButton text={buttonText} onClick={onNext} />
         </div>
       </div>
 
@@ -75,7 +75,7 @@ function InfoContent({ item, currentIndex, total, onNext, onSkip }: InfoContentP
 
           {/* Skip */}
           <div className="w-full flex justify-end">
-            <button onClick={onSkip} className="color-primary font-bold text-sm">
+            <button onClick={onSkip} className="color-primary font-bold text-sm hover:opacity-75 transition-opacity">
               {t("onboarding.skip")}
             </button>
           </div>
@@ -94,7 +94,7 @@ function InfoContent({ item, currentIndex, total, onNext, onSkip }: InfoContentP
           <DotsIndicator currentIndex={currentIndex} total={total} />
 
           <div className="w-full">
-            <PrimaryButton text={buttonText} onClick={onNext} />
+            <AppButton text={buttonText} onClick={onNext} />
           </div>
 
         </div>

@@ -1,5 +1,5 @@
 import "./assets/styles/App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InfoScreen from "./components/screens/InfoScreen";
 import WelcomeScreen from "./components/screens/WelcomeScreen";
 import LoginScreen from "./components/screens/LoginScreen";
@@ -16,7 +16,9 @@ import ProductScreen from "./components/screens/ProductScreen";
 import type { UserProfile } from "./components/data/UserProfile";
 import type { Product } from "./components/data/Product";
 import type { Seller } from "./components/data/Seller";
+import type { FilterValues } from "./components/templates/Filters";
 import { getSellerById } from "./components/data/Seller";
+import { subscribeUser } from "./components/data/AuthStore";
 import ProfileScreen from "./components/screens/ProfileScreen";
 import MainLayout from "./components/layout/MainLayout";
 
@@ -36,7 +38,11 @@ const fullbleedScreens = ["profile", "account", "myproducts", "sellerprofile"];
 function App() {
   const [screen, setScreen]             = useState("info");
   const [currentUser, setCurrentUser]   = useState<UserProfile | null>(null);
+
+  useEffect(() => subscribeUser(setCurrentUser), []);
   const [marketplaceSearch, setMarketplaceSearch] = useState("");
+  const [appliedEstado, setAppliedEstado] = useState("");
+  const [appliedPrecio, setAppliedPrecio] = useState(500);
   const [editProduct, setEditProduct]   = useState<Product | null>(null);
   const [editReturnScreen, setEditReturnScreen] = useState("marketplace");
   const [viewedSeller, setViewedSeller] = useState<UserProfile | null>(null);
@@ -144,6 +150,7 @@ function App() {
             currentUser={currentUser}
             onBack={() => navigate("settings")}
             onEdit={(p) => startEdit(p, "profile")}
+            onEditProfile={() => navigate("account")}
             onViewReviewer={(id) => { const s = getSellerById(id); if (s) openSellerProfile(s); }}
           />
         )}
@@ -162,7 +169,7 @@ function App() {
         {screen === "account" && (
           <AccountScreen
             currentUser={currentUser}
-            onBack={() => navigate("settings")}
+            onBack={() => navigate("profile")}
             onUpdate={setCurrentUser}
           />
         )}
@@ -183,8 +190,14 @@ function App() {
     if (screen !== "marketplace") navigate("marketplace");
   };
 
+  const handleFilterApply = ({ estado, precio }: FilterValues) => {
+    setAppliedEstado(estado);
+    setAppliedPrecio(precio);
+    navigate("marketplace");
+  };
+
   return (
-    <MainLayout screen={screen} currentUser={currentUser!} onNavigate={navigate} onSearch={handleSearch}>
+    <MainLayout screen={screen} currentUser={currentUser!} onNavigate={navigate} onSearch={handleSearch} appliedEstado={appliedEstado} appliedPrecio={appliedPrecio} onFilterApply={handleFilterApply}>
       {screen === "home" && currentUser && (
         <HomeScreen onNavigate={navigate} onViewProduct={openProductDetail} currentUser={currentUser} />
       )}
@@ -193,6 +206,10 @@ function App() {
           currentUser={currentUser}
           searchTerm={marketplaceSearch}
           onSearch={(term) => setMarketplaceSearch(term)}
+          estadoFilter={appliedEstado}
+          onClearEstado={() => setAppliedEstado("")}
+          precioFilter={appliedPrecio}
+          onClearPrecio={() => setAppliedPrecio(500)}
           onViewProduct={openProductDetail}
         />
       )}
@@ -201,7 +218,7 @@ function App() {
       )}
       {screen === "addproduct" && currentUser && (
         <AddProductScreen
-          onBack={() => { setEditProduct(null); setScreen(editReturnScreen); }}
+          onBack={() => { setEditProduct(null); setScreen(editProduct ? editReturnScreen : "myproducts"); }}
           currentUser={currentUser}
           initialProduct={editProduct ?? undefined}
         />

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import type { Product } from "../components/data/Product";
 import { getProductsByUser, removeProduct, subscribeProducts } from "../components/data/ProductStore";
+import { getCurrentUser, updateUser } from "../components/data/AuthStore";
 import { notify } from "../components/data/NotificationStore";
 
 /**
@@ -32,5 +33,16 @@ export function useMyProducts(userId: number) {
     notify.warning(t("notifications.productDeleted.title"), t("notifications.productDeleted.message"));
   }
 
-  return { userProducts, handleDelete };
+  /**
+   * Marca el producto como vendido: lo elimina del store e incrementa el contador de ventas del usuario.
+   * @param product - Producto vendido.
+   */
+  function handleSell(product: Product) {
+    removeProduct(product.id);
+    const user = getCurrentUser();
+    if (user) updateUser({ sales: (user.sales ?? 0) + 1 });
+    notify.success(t("notifications.productSold.title"), t("notifications.productSold.message"));
+  }
+
+  return { userProducts, handleDelete, handleSell };
 }

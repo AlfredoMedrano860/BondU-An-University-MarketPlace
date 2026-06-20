@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import InputSpace from "../ui/InputSpace";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
 
 /**
  * Props de StepEmail.
@@ -36,7 +36,7 @@ function StepEmail({ email, onEmailChange, onSubmit }: StepEmailProps) {
 
       <InputSpace type="text" placeholder={t("forgotPassword.email.email")} hint="ejemplo@gmail.com" value={email} onChange={onEmailChange} />
 
-      <PrimaryButton text={t("forgotPassword.email.submit")} onClick={onSubmit} />
+      <AppButton text={t("forgotPassword.email.submit")} onClick={onSubmit} />
     </div>
   );
 }

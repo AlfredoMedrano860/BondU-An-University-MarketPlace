@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import InputSpace from "../ui/InputSpace";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
 
 /**
  * Props de StepNewPassword.
@@ -43,7 +43,7 @@ function StepNewPassword({ password, onPasswordChange, confirm, onConfirmChange,
       <InputSpace type="password" placeholder={t("forgotPassword.newPassword.newPassword")} hint="Mínimo 8 caracteres" value={password} onChange={onPasswordChange} />
       <InputSpace type="password" placeholder={t("forgotPassword.newPassword.confirm")} hint="Repetí tu contraseña" value={confirm} onChange={onConfirmChange} />
 
-      <PrimaryButton text={t("forgotPassword.newPassword.submit")} onClick={onSubmit} />
+      <AppButton text={t("forgotPassword.newPassword.submit")} onClick={onSubmit} />
     </div>
   );
 }

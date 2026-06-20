@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import iconoPerfil from "../../assets/imgs/IconoPerfil.png";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
 import InputSpace from "../ui/InputSpace";
 import { register as registerUser } from "../data/AuthStore";
 import { notify } from "../data/NotificationStore";
@@ -68,11 +68,11 @@ function SignUpScreen({ onBack, onRegister }: SignUpScreenProps) {
       {/* Password */}
       <InputSpace type="password" placeholder={t("signup.password")} hint="Mínimo 8 caracteres" value={password} onChange={setPassword} />
 
-      <PrimaryButton text={t("signup.submit")} onClick={handleRegister} />
+      <AppButton text={t("signup.submit")} onClick={handleRegister} />
 
       <p className="text-center text-sm text-gray-400">
         {t("signup.alreadyHaveAccount")}{" "}
-        <button onClick={onBack} className="color-primary font-bold">{t("signup.loginLink")}</button>
+        <button onClick={onBack} className="color-primary font-bold hover:underline">{t("signup.loginLink")}</button>
       </p>
 
       </div>

@@ -7,6 +7,11 @@ import { sellers } from "./Seller";
 
 /** Lista de usuarios registrados en memoria. Incluye sellers mock con password "123456". */
 const users: UserProfile[] = sellers.map(s => ({ ...s, password: "123456" }));
+const userSubscribers: Array<(user: UserProfile | null) => void> = [];
+
+function notifyUserSubscribers() {
+  userSubscribers.forEach(cb => cb(currentUser));
+}
 // Los IDs 1–9 están reservados para vendedores mock (Seller.ts). Los usuarios reales arrancan en 100.
 let nextId = 100;
 let currentUser: UserProfile | null = null;
@@ -81,6 +86,7 @@ export function updateUser(fields: Partial<UserProfile>): UserProfile | null {
   const index = users.findIndex(u => u.id === currentUser!.id);
   if (index !== -1) users[index] = updated;
   currentUser = updated;
+  notifyUserSubscribers();
   return updated;
 }
 
@@ -98,4 +104,18 @@ export function deleteUser(): void {
 export const getCurrentUser = (): UserProfile | null => currentUser;
 
 /** Cierra la sesión del usuario actual. */
-export const logout = (): void => { currentUser = null; };
+export const logout = (): void => { currentUser = null; notifyUserSubscribers(); };
+
+/**
+ * Se suscribe a cambios del usuario autenticado.
+ * Retorna una función para cancelar la suscripción.
+ *
+ * @param cb - Callback que recibe el usuario actual o `null` al cerrar sesión.
+ */
+export function subscribeUser(cb: (user: UserProfile | null) => void): () => void {
+  userSubscribers.push(cb);
+  return () => {
+    const idx = userSubscribers.indexOf(cb);
+    if (idx >= 0) userSubscribers.splice(idx, 1);
+  };
+}

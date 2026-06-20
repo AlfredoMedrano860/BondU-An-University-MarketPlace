@@ -5,32 +5,38 @@ import { notify } from "../components/data/NotificationStore";
 import type { UserProfile } from "../components/data/UserProfile";
 
 /**
- * Hook para manejar el estado y lógica del formulario de edición de cuenta.
+ * Hook para gestionar el estado y lógica del formulario de edición de perfil.
  *
- * Inicializa los campos con los datos del usuario actual y valida
- * que las contraseñas coincidan antes de guardar.
- * Usado en {@link AccountScreen}.
+ * Inicializa los campos con los datos del usuario actual. Si el usuario
+ * intenta cambiar la contraseña, primero valida la contraseña actual antes
+ * de permitir el guardado. Usado en {@link AccountScreen}.
  *
- * @param currentUser - Usuario actualmente autenticado cuyos datos se precargan.
- * @param onUpdate - Se ejecuta al guardar exitosamente con el perfil actualizado.
- * @returns `fields` — valores actuales de los campos,
+ * @param currentUser - Perfil del usuario autenticado a editar.
+ * @param onUpdate - Se ejecuta con el perfil actualizado tras guardar exitosamente.
+ * @returns `fields` — valores actuales de cada campo del formulario,
  * `setters` — funciones para actualizar cada campo,
- * `status` — estado de error,
- * `handleSave` — función que valida y guarda los cambios.
+ * `handleSave` — valida y persiste los cambios del perfil.
  */
 export function useAccountForm(currentUser: UserProfile, onUpdate: (user: UserProfile) => void) {
   const { t } = useTranslation();
-  const [username, setUsername] = useState(currentUser.username);
-  const [email, setEmail] = useState(currentUser.email);
-  const [phone, setPhone] = useState(currentUser.phone ?? "");
-  const [university, setUniversity] = useState(currentUser.university ?? "");
-  const [career, setCareer] = useState(currentUser.career ?? "");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const [avatar,          setAvatar]          = useState(currentUser.avatar);
+  const [username,        setUsername]        = useState(currentUser.username);
+  const [email,           setEmail]           = useState(currentUser.email);
+  const [university,      setUniversity]      = useState(currentUser.university ?? "");
+  const [career,          setCareer]          = useState(currentUser.career ?? "");
+  const [bio,             setBio]             = useState(currentUser.contact?.bio ?? "");
+  const [phone,           setPhone]           = useState(currentUser.contact?.phone ?? currentUser.phone ?? "");
+  const [instagram,       setInstagram]       = useState(currentUser.contact?.instagram ?? "");
+  const [telegram,        setTelegram]        = useState(currentUser.contact?.telegram ?? "");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [password,        setPassword]        = useState("");
+  const [confirm,         setConfirm]         = useState("");
 
   /**
-   * Valida y guarda los cambios del perfil en el AuthStore.
-   * Llama a {@link onUpdate} con el perfil actualizado si es exitoso.
+   * Valida y persiste los cambios del perfil.
+   *
+   * Si se ingresó una nueva contraseña, verifica que la contraseña actual
+   * coincida y que la confirmación sea idéntica antes de guardar.
    */
   const handleSave = () => {
     if (!username.trim() || !email.trim()) {
@@ -38,15 +44,28 @@ export function useAccountForm(currentUser: UserProfile, onUpdate: (user: UserPr
       return;
     }
 
-    if (password && password !== confirm) {
-      notify.warning(t("notifications.passwordMismatch.title"), t("notifications.passwordMismatch.message"));
-      return;
+    if (password) {
+      if (currentPassword !== currentUser.password) {
+        notify.error(t("notifications.wrongPassword.title"), t("notifications.wrongPassword.message"));
+        return;
+      }
+      if (password !== confirm) {
+        notify.warning(t("notifications.passwordMismatch.title"), t("notifications.passwordMismatch.message"));
+        return;
+      }
     }
 
-    const fields: Partial<UserProfile> = { username, email, phone, university, career };
-    if (password) fields.password = password;
+    const contact = {
+      bio,
+      phone:     phone     || undefined,
+      instagram: instagram || undefined,
+      telegram:  telegram  || undefined,
+    };
 
-    const updated = updateUser(fields);
+    const patch: Partial<UserProfile> = { avatar, username, email, phone, university, career, contact };
+    if (password) patch.password = password;
+
+    const updated = updateUser(patch);
     if (updated) {
       notify.success(t("notifications.accountSaved.title"), t("notifications.accountSaved.message"));
       onUpdate(updated);
@@ -54,8 +73,8 @@ export function useAccountForm(currentUser: UserProfile, onUpdate: (user: UserPr
   };
 
   return {
-    fields: { username, email, phone, university, career, password, confirm },
-    setters: { setUsername, setEmail, setPhone, setUniversity, setCareer, setPassword, setConfirm },
+    fields:  { avatar, username, email, phone, university, career, bio, instagram, telegram, currentPassword, password, confirm },
+    setters: { setAvatar, setUsername, setEmail, setPhone, setUniversity, setCareer, setBio, setInstagram, setTelegram, setCurrentPassword, setPassword, setConfirm },
     handleSave,
   };
 }

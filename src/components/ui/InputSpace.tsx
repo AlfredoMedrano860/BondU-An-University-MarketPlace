@@ -72,7 +72,7 @@ function InputSpace({ type = "text", placeholder, hint, value, onChange, multili
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
           >
             {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
           </button>

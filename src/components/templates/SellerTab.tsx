@@ -3,11 +3,27 @@ import StarRating from "../ui/StarRating";
 import type { Seller } from "../data/Seller";
 import { getVisibleReviews, computeRating, subscribeReviews } from "../data/Review";
 
+/**
+ * Props de SellerTab.
+ */
 interface SellerTabProps {
+  /** Vendedor cuya información se muestra. */
   seller: Seller;
+  /** Se ejecuta al hacer clic para navegar al perfil del vendedor. */
   onViewProfile?: () => void;
 }
 
+/**
+ * Pestaña del vendedor en el detalle de un producto.
+ *
+ * Muestra avatar, nombre y calificación del vendedor. El clic navega al perfil
+ * si se provee `onViewProfile`. Escucha cambios en el store de reseñas para
+ * recalcular la puntuación en tiempo real.
+ * Usado en {@link ProductTabs}.
+ *
+ * @param seller - Vendedor a mostrar.
+ * @param onViewProfile - Navega al perfil del vendedor al hacer clic.
+ */
 function SellerTab({ seller, onViewProfile }: SellerTabProps) {
   const [reviews, setReviews] = useState(() => getVisibleReviews(seller.id));
 

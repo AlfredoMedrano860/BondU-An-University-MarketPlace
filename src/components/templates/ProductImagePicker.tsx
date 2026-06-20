@@ -23,7 +23,7 @@ function ProductImagePicker({ gallery, onGalleryChange }: ProductImagePickerProp
       {/* ── SLOT PRINCIPAL ── */}
       <button
         onClick={() => openPicker(0)}
-        className="w-full h-52 rounded-2xl overflow-hidden bg-white-app border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-2 active:opacity-80 transition-opacity"
+        className="w-full h-52 rounded-2xl overflow-hidden bg-white-app border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-2 hover:opacity-80 active:opacity-70 transition-opacity"
       >
         {mainImage ? (
           <img src={mainImage} alt="preview" className="w-full h-full object-cover" />
@@ -40,11 +40,11 @@ function ProductImagePicker({ gallery, onGalleryChange }: ProductImagePickerProp
         {Array.from({ length: maxProductImages }).map((_, i) => (
           <button
             key={i}
-            onClick={() => openPicker(i)}
-            className="flex-1 aspect-square rounded-xl overflow-hidden bg-white-app border border-dashed border-gray-200 flex items-center justify-center active:opacity-80 transition-opacity"
+            onClick={() => openPicker(i + 1)}
+            className="flex-1 aspect-square rounded-xl overflow-hidden bg-white-app border border-dashed border-gray-200 flex items-center justify-center hover:opacity-80 active:opacity-70 transition-opacity"
           >
-            {gallery[i] ? (
-              <img src={gallery[i]} alt={`imagen ${i + 1}`} className="w-full h-full object-cover" />
+            {gallery[i + 1] ? (
+              <img src={gallery[i + 1]} alt={`imagen ${i + 2}`} className="w-full h-full object-cover" />
             ) : (
               <Plus size={20} color="#9ca3af" strokeWidth={1.5} />
             )}
