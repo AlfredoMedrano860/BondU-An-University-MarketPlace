@@ -1,4 +1,4 @@
-import { Trash2, BadgeCheck, Heart } from "lucide-react";
+import { Trash2, Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import AppButton from "../ui/AppButton";
 import CircleButton from "../ui/CircleButton";
@@ -63,19 +63,12 @@ function ProductCard({ product, onBuy, onToggleFavorite, buttonLabel, isOwner = 
         <h3 className="text-base font-bold text-black leading-tight line-clamp-2 min-h-10">{product.name}</h3>
         <div className="flex items-center justify-between">
           <span className="text-lg font-bold color-primary">${product.price}</span>
-          <span className="text-xs text-gray-500 bg-neutral-200 px-2.5 py-0.5 rounded-full">{product.state}</span>
+          <span className="text-xs text-gray-500 bg-neutral-200 px-2.5 py-0.5 rounded-full">{t(`filters.states.${product.state}`)}</span>
         </div>
         {isOwner && onSell ? (
           <div className="flex gap-2">
             <AppButton variant="aux" text={buttonLabel ?? t("product.buy")} onClick={() => onBuy(product)} className="flex-1" />
-            <button
-              type="button"
-              onClick={() => onSell(product)}
-              className="flex-1 h-10 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center gap-1 hover:opacity-90 active:scale-[0.98] transition-all duration-150 shadow-sm"
-            >
-              <BadgeCheck size={14} strokeWidth={2.2} />
-              {t("myProducts.markSold")}
-            </button>
+            <AppButton variant="aux" text={t("myProducts.markSold")} onClick={() => onSell(product)} className="flex-1" />
           </div>
         ) : (
           <AppButton variant="aux" text={buttonLabel ?? t("product.buy")} onClick={() => onBuy(product)} />

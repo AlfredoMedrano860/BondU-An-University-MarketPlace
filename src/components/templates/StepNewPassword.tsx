@@ -40,8 +40,8 @@ function StepNewPassword({ password, onPasswordChange, confirm, onConfirmChange,
         </p>
       </div>
 
-      <InputSpace type="password" placeholder={t("forgotPassword.newPassword.newPassword")} hint="Mínimo 8 caracteres" value={password} onChange={onPasswordChange} />
-      <InputSpace type="password" placeholder={t("forgotPassword.newPassword.confirm")} hint="Repetí tu contraseña" value={confirm} onChange={onConfirmChange} />
+      <InputSpace type="password" placeholder={t("forgotPassword.newPassword.newPassword")} hint={t("forgotPassword.newPassword.passwordHint")} value={password} onChange={onPasswordChange} />
+      <InputSpace type="password" placeholder={t("forgotPassword.newPassword.confirm")} hint={t("forgotPassword.newPassword.confirmHint")} value={confirm} onChange={onConfirmChange} />
 
       <AppButton text={t("forgotPassword.newPassword.submit")} onClick={onSubmit} />
     </div>

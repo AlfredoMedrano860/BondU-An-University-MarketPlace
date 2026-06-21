@@ -4,6 +4,13 @@ import { ScrollText } from "lucide-react";
 import { appVersion } from "../data/Terms";
 import AccordionTrigger from "../ui/AccordionTrigger";
 
+/**
+ * Acordeón de términos y privacidad anidado dentro de un acordeón exterior.
+ *
+ * Muestra Términos y Condiciones, Política de Privacidad y la versión de la app.
+ * Los textos se leen de i18n bajo la clave `terms`.
+ * Usado en {@link InfoScreen}.
+ */
 function TermsAccordion() {
   const { t } = useTranslation();
 

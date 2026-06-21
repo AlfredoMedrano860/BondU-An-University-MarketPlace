@@ -20,8 +20,11 @@
     "title": "Create an account",
     "description": "Join the trusted university marketplace. Buy, sell and connect with students in your community.",
     "username": "Username",
+    "usernameHint": "Your full name",
     "email": "Email",
+    "emailHint": "example@gmail.com",
     "password": "Password",
+    "passwordHint": "At least 8 characters",
     "submit": "SIGN UP",
     "alreadyHaveAccount": "Already have an account?",
     "loginLink": "Login"
@@ -31,6 +34,7 @@
       "title": "Forgot your password?",
       "description": "Enter your email and we'll send you a code to recover your account.",
       "email": "Email",
+      "emailHint": "example@gmail.com",
       "submit": "SEND CODE"
     },
     "code": {
@@ -44,7 +48,9 @@
       "title": "New password",
       "description": "Enter your new password to recover access.",
       "newPassword": "New password",
+      "passwordHint": "At least 8 characters",
       "confirm": "Confirm password",
+      "confirmHint": "Repeat your password",
       "submit": "CHANGE PASSWORD"
     }
   },
@@ -53,7 +59,12 @@
     "noProducts": "No products available",
     "recentlyAdded": "Recently Added",
     "viewAll": "View All",
-    "specialForYou": "#SpecialForYou"
+    "specialForYou": "#SpecialForYou",
+    "featured": [
+      { "alt": "Special for you 1", "title": "Buy and sell on your campus",        "description": "Find what you need among students at your university."         },
+      { "alt": "Special for you 2", "title": "Connect with your community",        "description": "Thousands of students near you buying and selling."           },
+      { "alt": "Special for you 3", "title": "Save by buying from peers",          "description": "The best prices within your university community."            }
+    ]
   },
   "marketplace": {
     "resultsFor": "Results for:",
@@ -99,6 +110,7 @@
     "pricePlaceholder": "Product price",
     "statePlaceholder": "Condition",
     "descriptionPlaceholder": "Product description",
+    "photo": "Photo {{n}}",
     "save": "SAVE"
   },
   "myProducts": {
@@ -176,13 +188,11 @@
       "icon":"!"
     },
     "EmptySpace":{
-      "message": "Fill the blanck space",
-      "color": "Red",
+      "message": "Fill the blank space",
       "icon": "X"
     },
     "successfull":{
       "message": "Action made correctly",
-      "color": "green",
       "icon": "✔"
     }
   },
@@ -211,7 +221,12 @@
     "missionText": "Connect university students so they can buy, sell, and exchange products easily, safely, and within their own community.",
     "visionLabel": "Vision",
     "visionText": "To be the reference university marketplace in Latin America, fostering the circular economy and sense of community among students.",
-    "teamLabel": "The Team"
+    "teamLabel": "The Team",
+    "team": [
+      { "role": "Developer", "description": "Description of their experience in the project." },
+      { "role": "Developer", "description": "Description of their experience in the project." },
+      { "role": "Developer", "description": "Description of their experience in the project." }
+    ]
   },
   "faq": {
     "title": "Frequently Asked Questions",

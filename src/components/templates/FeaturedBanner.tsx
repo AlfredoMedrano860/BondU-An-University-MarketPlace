@@ -35,16 +35,16 @@ function FeaturedBanner() {
         <div className="relative w-full h-44 sm:h-56 md:h-72 lg:h-80">
           <img
             src={currentItem.image}
-            alt={currentItem.alt}
+            alt={t(`home.featured.${currentIndex}.alt`)}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent" />
           <div className="absolute bottom-0 left-0 px-4 pb-4">
             <h3 className="text-white font-bold text-lg leading-snug drop-shadow">
-              {currentItem.title}
+              {t(`home.featured.${currentIndex}.title`)}
             </h3>
             <p className="text-white/80 text-sm mt-0.5 drop-shadow">
-              {currentItem.description}
+              {t(`home.featured.${currentIndex}.description`)}
             </p>
           </div>
         </div>

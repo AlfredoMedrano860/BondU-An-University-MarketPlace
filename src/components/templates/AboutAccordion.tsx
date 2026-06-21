@@ -28,8 +28,8 @@ function AboutAccordion() {
             <div className="border-t border-gray-200 pt-4">
               <h3 className="text-sm font-bold color-primary mb-3">{t("about.teamLabel")}</h3>
               <div className="flex flex-col gap-4">
-                {developers.map((developer) => (
-                  <div key={developer.name} className="flex items-center gap-3">
+                {developers.map((developer, i) => (
+                  <div key={developer.id} className="flex items-center gap-3">
                     <div className="w-14 h-14 rounded-full bg-beige overflow-hidden shrink-0">
                       {developer.avatar
                         ? <img src={developer.avatar} alt={developer.name} className="w-full h-full object-cover" />
@@ -38,8 +38,8 @@ function AboutAccordion() {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-black">{developer.name}</p>
-                      <p className="text-xs color-primary">{developer.role}</p>
-                      <p className="text-xs text-gray-400 mt-0.5 leading-4">{developer.description}</p>
+                      <p className="text-xs color-primary">{t(`about.team.${i}.role`)}</p>
+                      <p className="text-xs text-gray-400 mt-0.5 leading-4">{t(`about.team.${i}.description`)}</p>
                     </div>
                   </div>
                 ))}

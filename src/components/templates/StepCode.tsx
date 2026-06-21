@@ -49,7 +49,7 @@ function StepCode({ email, code, onCodeChange, onSubmit, onResend }: StepCodePro
 
       <p className="text-center text-sm text-gray-500">
         {t("forgotPassword.code.noCode")}{" "}
-        <button onClick={onResend} className="color-primary font-bold hover:underline">
+        <button type="button" onClick={onResend} className="color-primary font-bold hover:underline">
           {t("forgotPassword.code.resend")}
         </button>
       </p>

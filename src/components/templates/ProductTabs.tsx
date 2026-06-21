@@ -47,7 +47,7 @@ function ProductTabs({ product, selectedTab, onSelectTab, onViewSellerProfile }:
         {selectedTab === 1 && (
           <div>
             <p>{t("product.verifiedSeller")}</p>
-            <SellerTab seller={product.seller} onViewProfile={() => onViewSellerProfile?.(product.seller)} />
+            <SellerTab seller={product.seller} onViewProfile={onViewSellerProfile ? () => onViewSellerProfile(product.seller) : undefined} />
           </div>
         )}
 

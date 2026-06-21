@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 /**
  * Props de ProductInfo.
  */
@@ -6,7 +8,7 @@ interface ProductInfoProps {
   name: string;
   /** Precio del producto. */
   price: number;
-  /** Estado del producto (Nuevo / Usado). */
+  /** Estado del producto (Nuevo / Usado / Detalle). */
   state: string;
 }
 
@@ -18,16 +20,18 @@ interface ProductInfoProps {
  *
  * @param name - Nombre del producto.
  * @param price - Precio del producto.
- * @param state - Estado del producto (Nuevo / Usado).
+ * @param state - Estado del producto (Nuevo / Usado / Detalle).
  */
 function ProductInfo({ name, price, state }: ProductInfoProps) {
+  const { t } = useTranslation();
+
   return (
     <div>
 
       {/* Badge de estado */}
       <div className="flex justify-center mb-4">
-        <span className="bg-primary text-white text-[11px] px-5 py-1 rounded-md font-medium">
-          {state.toUpperCase()}
+        <span className="bg-primary text-white text-[11px] px-5 py-1 rounded-md font-medium uppercase">
+          {t(`filters.states.${state}`)}
         </span>
       </div>
 

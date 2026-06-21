@@ -37,9 +37,11 @@ function SellerTab({ seller, onViewProfile }: SellerTabProps) {
 
   return (
     <div
-      className="flex items-center gap-4 mt-2 cursor-pointer hover:opacity-80 transition-opacity"
+      className={`flex items-center gap-4 mt-2 transition-opacity ${onViewProfile ? "cursor-pointer hover:opacity-80" : ""}`}
       onClick={onViewProfile}
       role={onViewProfile ? "button" : undefined}
+      tabIndex={onViewProfile ? 0 : undefined}
+      onKeyDown={onViewProfile ? (e) => { if (e.key === "Enter" || e.key === " ") onViewProfile(); } : undefined}
     >
       <div className="w-20 h-20 rounded-full overflow-hidden bg-[hsl(35,33%,90%)] shrink-0 border-[3px] border-primary">
         <img src={seller.avatar} alt={seller.username} className="w-full h-full object-cover" />

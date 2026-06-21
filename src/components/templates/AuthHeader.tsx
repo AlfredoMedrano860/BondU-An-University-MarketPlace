@@ -18,6 +18,10 @@ interface AuthHeaderProps {
  *
  * Incluye el botón de retroceso, el avatar de perfil, el título y la descripción.
  * Usado en {@link LoginScreen} y {@link SignUpScreen}.
+ *
+ * @param onBack - Navega a la pantalla anterior.
+ * @param title - Título principal de la pantalla.
+ * @param description - Subtítulo o instrucción debajo del título.
  */
 function AuthHeader({ onBack, title, description }: AuthHeaderProps) {
   return (
