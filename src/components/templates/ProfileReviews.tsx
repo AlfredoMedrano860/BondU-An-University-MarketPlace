@@ -39,7 +39,7 @@ export default function ProfileReviews({ reviews, isOwnProfile, reviewer, seller
 
   return (
     <div className="w-full px-4">
-      {reviews.length === 0 && isOwnProfile && (
+      {reviews.length === 0 && (
         <EmptyState message={t("profile.noReviews")} />
       )}
       {reviews.map((r) => (

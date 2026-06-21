@@ -43,7 +43,7 @@ function SettingsGroup({ items, darkMode, onToggle }: SettingsGroupProps) {
               <span className="text-sm font-medium text-black">{item.label}</span>
             </div>
 
-            {/* Toggle / chevron */}
+            {/* Toggle  */}
             {item.toggle ? (
               <button
                 onClick={onToggle}

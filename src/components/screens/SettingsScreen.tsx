@@ -83,11 +83,11 @@ function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenPro
 
     {dialog === "logout" && (
       <CloseOrDelete
+        variant="logout"
         title={t("dialogs.logout.title")}
         message={t("dialogs.logout.message")}
         cancelText={t("dialogs.logout.no")}
         confirmText={t("dialogs.logout.confirm")}
-        color={t("dialogs.logout.color")}
         icon={t("dialogs.logout.icon")}
         onCancel={() => setDialog(null)}
         onConfirm={handleConfirmLogout}
@@ -96,11 +96,11 @@ function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenPro
 
     {dialog === "deleteAccount" && (
       <CloseOrDelete
+        variant="delete"
         title={t("dialogs.deleteAccount.title")}
         message={t("dialogs.deleteAccount.message")}
         cancelText={t("dialogs.deleteAccount.no")}
         confirmText={t("dialogs.deleteAccount.confirm")}
-        color={t("dialogs.deleteAccount.color")}
         icon={t("dialogs.deleteAccount.icon")}
         onCancel={() => setDialog(null)}
         onConfirm={handleConfirmDelete}
