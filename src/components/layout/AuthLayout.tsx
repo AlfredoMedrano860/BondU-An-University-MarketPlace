@@ -30,7 +30,7 @@ function AuthLayout({ children, onBack }: AuthLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
 
-      {/* Panel izquierdo — branding verde */}
+      {/* Panel izquierdo */}
       <div className="bg-secondary md:w-1/2 md:min-h-screen flex flex-col px-8 py-10 relative overflow-hidden min-h-64">
         <div className="absolute top-[15%] left-[40%] w-72 h-72 rounded-full bg-white opacity-10" />
         <div className="absolute top-[35%] left-[10%] w-64 h-64 rounded-full bg-white opacity-10" />
@@ -52,16 +52,19 @@ function AuthLayout({ children, onBack }: AuthLayoutProps) {
         </div>
       </div>
 
-      {/* Panel derecho — blanco */}
+      {/* Panel derecho */}
       <div className="bg-white-app md:w-1/2 md:min-h-screen flex flex-col relative">
         {onBack && (
           <div className="absolute left-0 top-10 z-10">
             <BackButton onClick={onBack} />
           </div>
         )}
-        {children}
+        <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-20 py-10">
+          <div className="max-w-sm w-full mx-auto flex flex-col gap-5">
+            {children}
+          </div>
+        </div>
       </div>
-
     </div>
   );
 }

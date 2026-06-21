@@ -48,7 +48,7 @@ function MarketPlaceScreen({ currentUser, searchTerm = "", onSearch, estadoFilte
           {searchTerm && (
             <>
               <span className="text-sm text-gray-500">
-                {t("marketplace.resultsFor")} <strong className="color-secondary">"{searchTerm}"</strong>
+                {t("marketplace.resultsFor")} <span className="font-bold color-secondary">"{searchTerm}"</span>
               </span>
               <button onClick={() => onSearch?.("")} className="text-xs color-primary font-semibold underline">
                 {t("marketplace.clear")}
@@ -58,7 +58,7 @@ function MarketPlaceScreen({ currentUser, searchTerm = "", onSearch, estadoFilte
           {estadoFilter && (
             <>
               <span className="text-sm text-gray-500">
-                {t("filters.state")}: <strong className="color-secondary">{t(`filters.states.${estadoFilter}`)}</strong>
+                {t("filters.state")}: <span className="font-bold color-secondary">{t(`filters.states.${estadoFilter}`)}</span>
               </span>
               <button onClick={onClearEstado} className="text-xs color-primary font-semibold underline">
                 {t("marketplace.clear")}
@@ -68,7 +68,7 @@ function MarketPlaceScreen({ currentUser, searchTerm = "", onSearch, estadoFilte
           {precioFilter < 500 && (
             <>
               <span className="text-sm text-gray-500">
-                {t("filters.upTo")}: <strong className="color-secondary">${precioFilter}</strong>
+                {t("filters.upTo")}: <span className="font-bold color-secondary">${precioFilter}</span>
               </span>
               <button onClick={onClearPrecio} className="text-xs color-primary font-semibold underline">
                 {t("marketplace.clear")}
@@ -79,11 +79,7 @@ function MarketPlaceScreen({ currentUser, searchTerm = "", onSearch, estadoFilte
       )}
       {displayProducts.length === 0
         ? <EmptyState message={searchTerm ? t("marketplace.noResultsFor", { term: searchTerm }) : t("marketplace.noProducts")} />
-        : <ProductGrid
-            products={displayProducts}
-            onBuy={onViewProduct}
-            onToggleFavorite={handleToggleFavorite}
-          />
+        : <ProductGrid products={displayProducts} onBuy={onViewProduct} onToggleFavorite={handleToggleFavorite} />
       }
     </div>
   );

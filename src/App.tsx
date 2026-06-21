@@ -36,8 +36,8 @@ const fullbleedScreens = ["profile", "account", "myproducts", "sellerprofile"];
  * - **Con layout**: pantallas autenticadas dentro de {@link MainLayout} con header y nav.
  */
 function App() {
-  const [screen, setScreen]             = useState("info");
-  const [currentUser, setCurrentUser]   = useState<UserProfile | null>(null);
+  const [screen, setScreen] = useState("info");
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
 
   useEffect(() => subscribeUser(setCurrentUser), []);
   const [marketplaceSearch, setMarketplaceSearch] = useState("");

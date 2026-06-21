@@ -11,7 +11,7 @@ import { notify } from "../components/data/NotificationStore";
  * Hook que carga los productos y reseñas de un perfil de usuario.
  *
  * Se suscribe a ambos stores y expone un manejador de eliminación de productos.
- * Usado en {@link ProfileInfo}.
+ * Usado en {@link ProfileTabs}.
  *
  * @param userId - ID del usuario cuyo perfil se está visualizando.
  * @returns `userProducts` — productos publicados por el usuario,

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import type { Product } from "../data/Product";
+import NavigationTabs from "../ui/NavigationTabs";
 import type { Seller } from "../data/Seller";
 import SellerTab from "./SellerTab";
 import ShareTab from "./ShareTab";
@@ -37,24 +38,7 @@ function ProductTabs({ product, selectedTab, onSelectTab, onViewSellerProfile }:
   return (
     <div>
 
-      <div className="flex mb-5">
-        {tabLabels.map((tabLabel, tabIndex) => (
-          <button
-            key={tabLabel}
-            onClick={() => onSelectTab(tabIndex)}
-            className={`relative px-5 py-3 text-sm font-semibold transition-colors rounded-t-sm ${
-              selectedTab === tabIndex
-                ? "color-primary"
-                : "text-gray-500 hover:bg-neutral-100 hover:text-gray-700"
-            }`}
-          >
-            {tabLabel}
-            {selectedTab === tabIndex && (
-              <span className="absolute bottom-0 left-0 right-0 h-1 bg-primary" />
-            )}
-          </button>
-        ))}
-      </div>
+      <NavigationTabs labels={tabLabels} selected={selectedTab} onSelect={onSelectTab} className="mb-5" />
 
       <div className="text-[16px] color-inactive leading-8 text-justify">
 

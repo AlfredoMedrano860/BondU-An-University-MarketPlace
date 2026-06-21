@@ -6,8 +6,6 @@ import EmptyState from "../ui/EmptyState";
 import { getFavorites } from "../data/ProductStore";
 import { useFavoriteToggle } from "../../hooks/useFavoriteToggle";
 
-import CloseOrDelete from "../templates/CloseOrDelete";
-
 interface FavoriteScreenProps {
   /** Abre el detalle de un producto. */
   onViewProduct: (product: Product) => void;
@@ -20,6 +18,7 @@ interface FavoriteScreenProps {
  *
  * @param onViewProduct - Abre el detalle de un producto.
  */
+
 function FavoriteScreen({ onViewProduct }: FavoriteScreenProps) {
   const { t } = useTranslation();
   const [favorites, setFavorites] = useState<Product[]>(getFavorites);

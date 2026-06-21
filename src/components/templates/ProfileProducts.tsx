@@ -29,7 +29,7 @@ interface ProfileProductsProps {
  *
  * Si no hay productos muestra un estado vacío. Adapta el botón y el handler
  * de cada tarjeta según si es perfil propio o ajeno.
- * Usado en {@link ProfileInfo}.
+ * Usado en {@link ProfileTabs}.
  *
  * @param userProducts - Productos del usuario a mostrar.
  * @param isOwnProfile - Si `true`, muestra opciones de edición y eliminación.
