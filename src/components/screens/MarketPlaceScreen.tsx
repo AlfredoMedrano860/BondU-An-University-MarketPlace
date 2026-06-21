@@ -16,13 +16,13 @@ interface MarketPlaceScreenProps {
   /** Actualiza el término de búsqueda en el padre (pasar `""` lo limpia). */
   onSearch?: (term: string) => void;
   /** Filtro de estado activo ("Nuevo" | "Usado" | "Detalle" | ""). */
-  estadoFilter?: string;
+  stateFilter?: string;
   /** Limpia el filtro de estado activo. */
-  onClearEstado?: () => void;
+  onClearState?: () => void;
   /** Precio máximo del filtro activo (500 = sin límite). */
-  precioFilter?: number;
+  priceFilter?: number;
   /** Limpia el filtro de precio. */
-  onClearPrecio?: () => void;
+  onClearPrice?: () => void;
   /** Abre el detalle de un producto. */
   onViewProduct: (product: Product) => void;
 }
@@ -37,13 +37,13 @@ interface MarketPlaceScreenProps {
  * @param onSearch - Actualiza el término en el padre.
  * @param onViewProduct - Abre el detalle de un producto.
  */
-function MarketPlaceScreen({ currentUser, searchTerm = "", onSearch, estadoFilter = "", onClearEstado, precioFilter = 500, onClearPrecio, onViewProduct }: MarketPlaceScreenProps) {
+function MarketPlaceScreen({ currentUser, searchTerm = "", onSearch, stateFilter = "", onClearState, priceFilter = 500, onClearPrice, onViewProduct }: MarketPlaceScreenProps) {
   const { t } = useTranslation();
-  const { displayProducts, handleToggleFavorite } = useMarketplaceProducts(currentUser.id, searchTerm, estadoFilter, precioFilter);
+  const { displayProducts, handleToggleFavorite } = useMarketplaceProducts(currentUser.id, searchTerm, stateFilter, priceFilter);
 
   return (
     <div className="h-full bg-beige overflow-y-auto no-scrollbar pb-28">
-      {(searchTerm || estadoFilter || precioFilter < 500) && (
+      {(searchTerm || stateFilter || priceFilter < 500) && (
         <div className="px-6 sm:px-10 md:px-16 lg:px-20 pt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
           {searchTerm && (
             <>
@@ -55,22 +55,22 @@ function MarketPlaceScreen({ currentUser, searchTerm = "", onSearch, estadoFilte
               </button>
             </>
           )}
-          {estadoFilter && (
+          {stateFilter && (
             <>
               <span className="text-sm text-gray-500">
-                {t("filters.state")}: <span className="font-bold color-secondary">{t(`filters.states.${estadoFilter}`)}</span>
+                {t("filters.state")}: <span className="font-bold color-secondary">{t(`filters.states.${stateFilter}`)}</span>
               </span>
-              <button onClick={onClearEstado} className="text-xs color-primary font-semibold underline">
+              <button onClick={onClearState} className="text-xs color-primary font-semibold underline">
                 {t("marketplace.clear")}
               </button>
             </>
           )}
-          {precioFilter < 500 && (
+          {priceFilter < 500 && (
             <>
               <span className="text-sm text-gray-500">
-                {t("filters.upTo")}: <span className="font-bold color-secondary">${precioFilter}</span>
+                {t("filters.upTo")}: <span className="font-bold color-secondary">${priceFilter}</span>
               </span>
-              <button onClick={onClearPrecio} className="text-xs color-primary font-semibold underline">
+              <button onClick={onClearPrice} className="text-xs color-primary font-semibold underline">
                 {t("marketplace.clear")}
               </button>
             </>

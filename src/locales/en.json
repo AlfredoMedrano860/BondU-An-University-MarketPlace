@@ -166,7 +166,6 @@
       "message": "Are you sure you want to log out?",
       "no": "No",
       "confirm": "Log out",
-      "color":"blue",
       "icon": "!"
     },
     "deleteAccount": {
@@ -174,7 +173,6 @@
       "message": "Are you sure you want to delete your account?",
       "no": "No",
       "confirm": "Delete permanently",
-      "color":"Red",
       "icon":"!"
     },
     "EmptySpace":{

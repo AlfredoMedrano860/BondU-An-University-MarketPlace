@@ -24,7 +24,7 @@ function EmptyState({ message }: EmptyStateProps) {
       {/* Mensaje personalizado según el contexto */}
       <p className="color-secondary text-base font-semibold text-center">{message}</p>
 
-      {/* Mascota triste ── imagen en src/assets/imgs/MascotaTriste.png */}
+      {/* Mascota triste */}
       <img src={mascotaTriste} alt="Sin resultados" className="w-64" />
 
     </div>

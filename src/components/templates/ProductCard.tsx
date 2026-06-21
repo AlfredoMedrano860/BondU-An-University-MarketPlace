@@ -1,7 +1,6 @@
-import { Trash2, BadgeCheck } from "lucide-react";
+import { Trash2, BadgeCheck, Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import AppButton from "../ui/AppButton";
-import FavoriteButton from "../ui/FavoriteButton";
 import CircleButton from "../ui/CircleButton";
 import CardLayout from "../layout/CardLayout";
 import type { Product } from "../data/Product";
@@ -51,7 +50,9 @@ function ProductCard({ product, onBuy, onToggleFavorite, buttonLabel, isOwner = 
               <Trash2 size={13} stroke="white" strokeWidth={2.2} />
             </CircleButton>
           ) : (
-            <FavoriteButton isFavorite={product.isFavorite} onClick={() => onToggleFavorite(product)} />
+            <CircleButton size="sm" variant="aux" onClick={() => onToggleFavorite(product)} className="hover:scale-110">
+              <Heart size={14} stroke="white" strokeWidth={2.5} fill={product.isFavorite ? "white" : "none"} />
+            </CircleButton>
           )}
         </div>
         <img src={product.image} alt={product.name} className="w-4/5 h-4/5 object-contain" />

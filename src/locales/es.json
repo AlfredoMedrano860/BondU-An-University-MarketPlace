@@ -166,7 +166,6 @@
       "message": "¿Seguro que quieres cerrar sesión?",
       "no": "No",
       "confirm": "Cerrar sesión",
-      "color":"blue",
       "icon": "!"
     },
     "deleteAccount": {
@@ -174,7 +173,6 @@
       "message": "¿Seguro que quieres eliminar tu cuenta?",
       "no": "No",
       "confirm": "Eliminar definitivamente",
-      "color":"Red",
       "icon":"!"
     },
     "EmptySpace":{

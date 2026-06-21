@@ -1,6 +1,5 @@
 import { Star } from "lucide-react";
-
-export const STAR_VALUES = [1, 2, 3, 4, 5];
+import { starReviews } from "../data/Review";
 
 /**
  * Props de StarRating.
@@ -26,7 +25,7 @@ interface StarRatingProps {
 function StarRating({ rating, reviews, size = 20 }: StarRatingProps) {
   return (
     <div className="flex items-center gap-1">
-      {STAR_VALUES.map((star) => (
+      {starReviews.map((star) => (
         <Star
           key={star}
           size={size}

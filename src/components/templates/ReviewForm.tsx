@@ -5,7 +5,7 @@ import SectionCard from "../layout/SectionCard";
 import InputSpace from "../ui/InputSpace";
 import IconButton from "../ui/IconButton";
 import { useReviewForm } from "../../hooks/useReviewForm";
-import { STAR_VALUES } from "../ui/StarRating";
+import { starReviews } from "../data/Review";
 
 interface ReviewFormProps {
   reviewer: UserProfile;
@@ -25,7 +25,7 @@ export default function ReviewForm({ reviewer, sellerId }: ReviewFormProps) {
 
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex items-center gap-0.5">
-            {STAR_VALUES.map((star) => (
+            {starReviews.map((star) => (
               <button
                 key={star}
                 type="button"

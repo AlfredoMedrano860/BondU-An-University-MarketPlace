@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
+import { SlidersIcon } from "@phosphor-icons/react";
 import SearchBar from "../ui/SearchBar";
+import CircleButton from "../ui/CircleButton";
 import type { UserProfile } from "../data/UserProfile";
 
 interface AppHeaderProps {
@@ -26,7 +28,12 @@ function AppHeader({ currentUser, onSearch, onFilterOpen }: AppHeaderProps) {
           </div>
         </div>
 
-        <SearchBar onSearch={onSearch} onFilterOpen={onFilterOpen} />
+        <div className="flex items-center gap-3 mt-4 md:mt-0 md:flex-1">
+          <SearchBar onSearch={onSearch} />
+          <CircleButton variant="aux" onClick={onFilterOpen} shrink>
+            <SlidersIcon size={25} color="white" weight="bold" />
+          </CircleButton>
+        </div>
 
       </div>
 

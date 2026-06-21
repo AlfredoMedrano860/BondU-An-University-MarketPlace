@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { createListCollection } from "@ark-ui/react";
 import { getProducts, subscribeProducts } from "../components/data/ProductStore";
 import type { Product } from "../components/data/Product";
 import { normalize } from "../utils/string";
@@ -14,7 +13,7 @@ import { normalize } from "../utils/string";
  * @param onSearch - Callback que se ejecuta al confirmar la búsqueda con el término ingresado.
  * @returns `inputValue` — texto actual del campo,
  * `setInputValue` — actualiza el texto,
- * `collection` — colección de sugerencias para el Combobox de Ark UI,
+ * `suggestions` — productos filtrados según el término actual,
  * `triggerSearch` — confirma la búsqueda con el término actual.
  */
 export function useSearchBar(onSearch?: (term: string) => void) {
@@ -26,25 +25,15 @@ export function useSearchBar(onSearch?: (term: string) => void) {
     return unsub;
   }, []);
 
-  const collection = useMemo(() => {
+  const suggestions = useMemo(() => {
     const term = normalize(inputValue.trim());
-    const items: Product[] = term
-      ? allProducts.filter((p) => normalize(p.name).includes(term))
-      : [];
-    return createListCollection<Product>({
-      items,
-      itemToString: (item) => item.name,
-      itemToValue: (item) => String(item.id),
-    });
+    return term.length >= 2 ? allProducts.filter((p) => normalize(p.name).includes(term)) : [];
   }, [inputValue, allProducts]);
 
-  /**
-   * Confirma la búsqueda con el término actual si no está vacío.
-   */
   function triggerSearch() {
     const term = inputValue.trim();
     if (term) onSearch?.(term);
   }
 
-  return { inputValue, setInputValue, collection, triggerSearch };
+  return { inputValue, setInputValue, suggestions, triggerSearch };
 }

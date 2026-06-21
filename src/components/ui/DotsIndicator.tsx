@@ -28,12 +28,7 @@ function DotsIndicator({ currentIndex, total }: DotsIndicatorProps) {
       ))}
       <span
         className="absolute top-0 rounded-full bg-primary pointer-events-none"
-        style={{
-          width: pill,
-          height,
-          left: 0,
-          transform: `translateX(${currentIndex * (pill + gap)}px)`,
-          transition: "transform 350ms cubic-bezier(0.4, 0, 0.2, 1)",
+        style={{ width: pill, height, left: 0, transform: `translateX(${currentIndex * (pill + gap)}px)`, transition: "transform 350ms cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       />
     </div>
