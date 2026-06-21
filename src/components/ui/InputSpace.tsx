@@ -13,14 +13,18 @@ interface InputSpaceProps {
   hint?: string;
   /** Valor controlado del campo. */
   value: string;
-  /** Callback que recibe el nuevo valor al escribir. */
-  onChange: (value: string) => void;
+  /** Callback que recibe el nuevo valor al escribir. Omitir junto con `readOnly` para campos de solo lectura. */
+  onChange?: (value: string) => void;
+  /** Si `true`, el campo no es editable. Por defecto `false`. */
+  readOnly?: boolean;
+  /** Clases adicionales aplicadas al elemento input o textarea. */
+  className?: string;
   /** Si `true`, renderiza un `<textarea>` en lugar de un `<input>`. Por defecto `false`. */
   multiline?: boolean;
 }
 
 /**
- * Campo de texto estilizado con soporte para contraseñas y modo multilinea.
+ * Campo de texto estilizado con soporte para contraseñas, modo multilinea y solo lectura.
  *
  * En modo contraseña muestra un botón para alternar la visibilidad.
  * En modo `multiline` renderiza un `<textarea>` de 4 filas.
@@ -30,9 +34,11 @@ interface InputSpaceProps {
  * @param hint - Placeholder dentro del campo.
  * @param value - Valor controlado.
  * @param onChange - Callback con el nuevo valor.
+ * @param readOnly - Si `true`, el campo no es editable.
+ * @param className - Clases adicionales para el input o textarea.
  * @param multiline - Si `true`, renderiza un textarea.
  */
-function InputSpace({ type = "text", placeholder, hint, value, onChange, multiline = false }: InputSpaceProps) {
+function InputSpace({ type = "text", placeholder, hint, value, onChange, readOnly = false, className = "", multiline = false }: InputSpaceProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const isPassword = type === "password";
@@ -46,10 +52,11 @@ function InputSpace({ type = "text", placeholder, hint, value, onChange, multili
         )}
         <textarea
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => onChange?.(e.target.value)}
           placeholder={hint}
+          readOnly={readOnly}
           rows={4}
-          className="w-full rounded-3xl px-5 py-3 bg-input text-black text-sm outline-none resize-none placeholder:text-gray-400"
+          className={`w-full rounded-3xl px-5 py-3 bg-input text-black text-sm outline-none resize-none placeholder:text-gray-400 ${className}`}
         />
       </div>
     );
@@ -64,9 +71,10 @@ function InputSpace({ type = "text", placeholder, hint, value, onChange, multili
         <input
           type={inputType}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => onChange?.(e.target.value)}
           placeholder={hint}
-          className={`w-full h-14 rounded-full px-5 bg-input text-black text-sm outline-none placeholder:text-gray-400 [&::-ms-reveal]:hidden [&::-webkit-contacts-auto-fill-button]:hidden [&::-webkit-credentials-auto-fill-button]:hidden${isPassword ? " pr-12" : ""}`}
+          readOnly={readOnly}
+          className={`w-full h-14 rounded-full px-5 bg-input text-black text-sm outline-none placeholder:text-gray-400 [&::-ms-reveal]:hidden [&::-webkit-contacts-auto-fill-button]:hidden [&::-webkit-credentials-auto-fill-button]:hidden${isPassword ? " pr-12" : ""} ${className}`}
         />
         {isPassword && (
           <button

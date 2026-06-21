@@ -1,7 +1,6 @@
 /** @see {@link https://cva.style/docs class-variance-authority} */
 import { cva } from "class-variance-authority";
 import type { ElementType, ReactNode } from "react";
-import type { PropsWithChildren } from "react";
 import { ChevronRight } from "lucide-react";
 
 const settingRow = cva(
@@ -15,15 +14,38 @@ const settingRow = cva(
   }
 );
 
+/**
+ * Props de SettingRow.
+ */
 interface SettingRowProps {
+  /** Ícono que se muestra a la izquierda de la fila. */
   icon: ElementType;
+  /** Texto principal de la fila. */
   label: string;
+  /** Si se provee, la fila se vuelve interactiva y llama a este callback al hacer clic. */
   onClick?: () => void;
+  /** Si `true`, muestra un borde inferior. Por defecto `true`. */
   border?: boolean;
+  /** Si `true`, colorea el ícono y el label en rojo. Por defecto `false`. */
   danger?: boolean;
+  /** Elemento personalizado a la derecha. Si se omite, muestra un `ChevronRight`. */
   right?: ReactNode;
 }
 
+/**
+ * Fila reutilizable para listas de ajustes.
+ *
+ * Si recibe `onClick`, actúa como botón con hover y soporte de teclado.
+ * El slot `right` permite pasar un `Toggle`, un badge u otro elemento.
+ * Usada en {@link SettingsScreen}.
+ *
+ * @param icon - Ícono de la fila.
+ * @param label - Texto principal.
+ * @param onClick - Handler opcional que activa el modo interactivo.
+ * @param border - Muestra borde inferior. Por defecto `true`.
+ * @param danger - Activa el color rojo. Por defecto `false`.
+ * @param right - Elemento derecho personalizado.
+ */
 export function SettingRow({ icon: Icon, label, onClick, border = true, danger = false, right }: SettingRowProps) {
   const colorClass = danger ? "text-red-400" : "text-black";
 
@@ -42,44 +64,5 @@ export function SettingRow({ icon: Icon, label, onClick, border = true, danger =
 
       {right ?? <ChevronRight size={18} className="text-gray-400" />}
     </div>
-  );
-}
-
-interface SectionTitleProps {
-  title: string;
-}
-
-export function SectionTitle({ title }: SectionTitleProps) {
-  return (
-    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest px-2 pt-2">
-      {title}
-    </p>
-  );
-}
-
-interface ToggleProps {
-  value: boolean;
-  onToggle: () => void;
-}
-
-export function SettingsSection({ title, children }: PropsWithChildren<{ title: string }>) {
-  return (
-    <>
-      <SectionTitle title={title} />
-      <div className="bg-white-app rounded-3xl divide-y divide-gray-200">
-        {children}
-      </div>
-    </>
-  );
-}
-
-export function Toggle({ value, onToggle }: ToggleProps) {
-  return (
-    <button
-      onClick={onToggle}
-      className={`w-12 h-6 rounded-full transition-colors duration-300 flex items-center px-1 ${value ? "bg-primary" : "bg-gray-300"}`}
-    >
-      <div className={`w-5 h-5 bg-white rounded-full shadow transition-transform duration-300 ${value ? "translate-x-5" : "translate-x-0"}`} />
-    </button>
   );
 }

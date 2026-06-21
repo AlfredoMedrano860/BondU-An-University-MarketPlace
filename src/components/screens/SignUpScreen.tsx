@@ -45,9 +45,9 @@ function SignUpScreen({ onBack, onRegister }: SignUpScreenProps) {
     <AuthLayout>
       <AuthHeader onBack={onBack} title={t("signup.title")} description={t("signup.description")} />
 
-      <InputSpace type="text" placeholder={t("signup.username")} hint="Tu nombre completo" value={username} onChange={setUsername} />
-      <InputSpace type="text" placeholder={t("signup.email")} hint="ejemplo@gmail.com" value={email} onChange={setEmail} />
-      <InputSpace type="password" placeholder={t("signup.password")} hint="Mínimo 8 caracteres" value={password} onChange={setPassword} />
+      <InputSpace type="text" placeholder={t("signup.username")} hint={t("signup.usernameHint")} value={username} onChange={setUsername} />
+      <InputSpace type="text" placeholder={t("signup.email")} hint={t("signup.emailHint")} value={email} onChange={setEmail} />
+      <InputSpace type="password" placeholder={t("signup.password")} hint={t("signup.passwordHint")} value={password} onChange={setPassword} />
 
       <AppButton text={t("signup.submit")} onClick={handleRegister} />
 

@@ -3,6 +3,7 @@ import { CopySimpleIcon } from "@phosphor-icons/react";
 import { appBaseUrl } from "../data/Terms";
 import { notify } from "../data/NotificationStore";
 import CircleButton from "../ui/CircleButton";
+import InputSpace from "../ui/InputSpace";
 
 /**
  * Props de ShareTab.
@@ -34,23 +35,14 @@ function ShareTab({ productId }: ShareTabProps) {
 
   return (
     <div className="mt-2">
-
       <p className="text-[16px] text-[hsl(26,11%,38%)] mb-3">{t("product.shareInstruction")}</p>
 
-      <div className="flex items-center gap-0">
-        <div className="relative flex-1">
-          <input
-            type="text"
-            readOnly
-            value={url}
-            className="w-full h-12 rounded-full pl-5 pr-5 bg-search text-black text-[13px]"
-          />
-          <CircleButton variant="secondary" onClick={handleCopy} className="absolute right-0 top-0">
-            <CopySimpleIcon size={20} color="white" weight="bold" />
-          </CircleButton>
-        </div>
+      <div className="relative">
+        <InputSpace value={url} readOnly className="h-12 bg-search text-[13px] pr-14" />
+        <CircleButton variant="secondary" onClick={handleCopy} className="absolute right-0 top-0">
+          <CopySimpleIcon size={20} color="white" weight="bold" />
+        </CircleButton>
       </div>
-
     </div>
   );
 }

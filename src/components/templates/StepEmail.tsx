@@ -34,7 +34,7 @@ function StepEmail({ email, onEmailChange, onSubmit }: StepEmailProps) {
         </p>
       </div>
 
-      <InputSpace type="text" placeholder={t("forgotPassword.email.email")} hint="ejemplo@gmail.com" value={email} onChange={onEmailChange} />
+      <InputSpace type="text" placeholder={t("forgotPassword.email.email")} hint={t("forgotPassword.email.emailHint")} value={email} onChange={onEmailChange} />
 
       <AppButton text={t("forgotPassword.email.submit")} onClick={onSubmit} />
     </div>

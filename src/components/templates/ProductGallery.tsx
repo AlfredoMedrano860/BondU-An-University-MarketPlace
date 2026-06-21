@@ -1,3 +1,19 @@
+/** @see {@link https://cva.style/docs class-variance-authority} */
+import { cva } from "class-variance-authority";
+
+const thumbnail = cva(
+  "w-23 h-23 rounded-xl overflow-hidden transition-all border-[5px] hover:scale-[1.04] active:scale-[0.97]",
+  {
+    variants: {
+      selected: {
+        true:  "border-primary",
+        false: "border-transparent",
+      },
+    },
+    defaultVariants: { selected: false },
+  }
+);
+
 /**
  * Props de ProductGallery.
  */
@@ -26,18 +42,15 @@ interface ProductGalleryProps {
 function ProductGallery({ gallery, selectedImage, onSelect, className = "flex justify-between gap-3 mb-5" }: ProductGalleryProps) {
   return (
     <div className={className}>
-      {gallery.map((imageUrl, imageIndex) => {
-        const borderClass = selectedImage === imageIndex ? "border-primary" : "border-transparent";
-        return (
-          <button
-            key={imageUrl}
-            onClick={() => onSelect(imageIndex)}
-            className={`w-23 h-23 rounded-xl overflow-hidden transition-all border-[5px] hover:scale-[1.04] active:scale-[0.97] ${borderClass}`}
-          >
-            <img src={imageUrl} alt="" className="w-full h-full object-cover" />
-          </button>
-        );
-      })}
+      {gallery.map((imageUrl, imageIndex) => (
+        <button
+          key={imageIndex}
+          onClick={() => onSelect(imageIndex)}
+          className={thumbnail({ selected: selectedImage === imageIndex })}
+        >
+          <img src={imageUrl} alt="" className="w-full h-full object-cover" />
+        </button>
+      ))}
     </div>
   );
 }

@@ -1,20 +1,35 @@
-import { Star, SendHorizonal } from "lucide-react";
+import { SendHorizonal } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { UserProfile } from "../data/UserProfile";
 import SectionCard from "../layout/SectionCard";
 import InputSpace from "../ui/InputSpace";
 import IconButton from "../ui/IconButton";
+import StarPicker from "../ui/StarPicker";
 import { useReviewForm } from "../../hooks/useReviewForm";
-import { starReviews } from "../data/Review";
 
+/**
+ * Props de ReviewForm.
+ */
 interface ReviewFormProps {
+  /** Usuario autenticado que escribe la reseña. */
   reviewer: UserProfile;
+  /** ID del vendedor que recibirá la reseña. */
   sellerId: number;
 }
 
+/**
+ * Formulario para escribir una reseña sobre un vendedor.
+ *
+ * Muestra el avatar del reseñador, un selector de estrellas y un campo de texto.
+ * La lógica de estado y envío está en {@link useReviewForm}.
+ * Usado en {@link ProfileReviews}.
+ *
+ * @param reviewer - Usuario que escribe la reseña.
+ * @param sellerId - ID del vendedor receptor.
+ */
 export default function ReviewForm({ reviewer, sellerId }: ReviewFormProps) {
   const { t } = useTranslation();
-  const { rating, setRating, hover, setHover, text, setText, handleSubmit } = useReviewForm(reviewer, sellerId);
+  const { rating, setRating, text, setText, handleSubmit } = useReviewForm(reviewer, sellerId);
 
   return (
     <SectionCard className="bg-white-app mx-0 mt-2 mb-4">
@@ -24,25 +39,7 @@ export default function ReviewForm({ reviewer, sellerId }: ReviewFormProps) {
         </div>
 
         <div className="flex-1 flex flex-col gap-2">
-          <div className="flex items-center gap-0.5">
-            {starReviews.map((star) => (
-              <button
-                key={star}
-                type="button"
-                onClick={() => setRating(star)}
-                onMouseEnter={() => setHover(star)}
-                onMouseLeave={() => setHover(0)}
-                className="transition-transform hover:scale-110 active:scale-95 duration-100"
-              >
-                <Star
-                  size={20}
-                  strokeWidth={1.5}
-                  stroke="var(--color-primary)"
-                  fill={star <= (hover || rating) ? "var(--color-primary)" : "none"}
-                />
-              </button>
-            ))}
-          </div>
+          <StarPicker rating={rating} onChange={setRating} />
 
           <InputSpace
             multiline
