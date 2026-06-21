@@ -16,7 +16,7 @@ interface ProfileContactProps {
  *
  * Si el usuario no tiene datos de contacto registrados, muestra un mensaje informativo.
  * Renderiza bio, teléfono, correo, Instagram y Telegram según los campos disponibles.
- * Usado en {@link ProfileInfo}.
+ * Usado en {@link ProfileTabs}.
  *
  * @param currentUser - Usuario cuya información de contacto se muestra.
  */
