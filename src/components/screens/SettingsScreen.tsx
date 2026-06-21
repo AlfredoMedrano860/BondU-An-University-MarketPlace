@@ -3,7 +3,9 @@ import { Contrast, LogOut, CircleUserRound, Package, Bell, Globe } from "lucide-
 import AboutAccordion from "../templates/AboutAccordion";
 import FaqAccordion from "../templates/FaqAccordion";
 import TermsAccordion from "../templates/TermsAccordion";
-import { SettingRow, Toggle, SettingsSection } from "../templates/SettingRow";
+import { SettingRow } from "../templates/SettingRow";
+import { SettingsSection } from "../templates/SettingsSection";
+import Toggle from "../ui/Toggle";
 import CloseOrDelete from "../templates/CloseOrDelete";
 import type { UserProfile } from "../data/UserProfile";
 import { useSettings } from "../../hooks/useSettings";

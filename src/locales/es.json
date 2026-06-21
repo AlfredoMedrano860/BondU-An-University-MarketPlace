@@ -20,8 +20,11 @@
     "title": "Crear una cuenta",
     "description": "Únete al marketplace universitario de confianza. Comprá, vendé y conectate con estudiantes de tu comunidad.",
     "username": "Usuario",
+    "usernameHint": "Tu nombre completo",
     "email": "Correo",
+    "emailHint": "ejemplo@gmail.com",
     "password": "Contraseña",
+    "passwordHint": "Mínimo 8 caracteres",
     "submit": "REGISTRARSE",
     "alreadyHaveAccount": "¿Ya tenés una cuenta?",
     "loginLink": "Iniciar sesión"
@@ -31,6 +34,7 @@
       "title": "¿Olvidaste tu contraseña?",
       "description": "Ingresá tu correo y te enviaremos un código para recuperar tu cuenta.",
       "email": "Correo",
+      "emailHint": "ejemplo@gmail.com",
       "submit": "ENVIAR CÓDIGO"
     },
     "code": {
@@ -44,7 +48,9 @@
       "title": "Nueva contraseña",
       "description": "Ingresá tu nueva contraseña para recuperar el acceso.",
       "newPassword": "Nueva contraseña",
+      "passwordHint": "Mínimo 8 caracteres",
       "confirm": "Confirmar contraseña",
+      "confirmHint": "Repetí tu contraseña",
       "submit": "CAMBIAR CONTRASEÑA"
     }
   },
@@ -53,7 +59,12 @@
     "noProducts": "No hay productos disponibles",
     "recentlyAdded": "Añadidos Reciente",
     "viewAll": "Ver Todos",
-    "specialForYou": "#EspecialParaTi"
+    "specialForYou": "#EspecialParaTi",
+    "featured": [
+      { "alt": "Especial para ti 1", "title": "Comprá y vendé en tu campus",      "description": "Encontrá lo que necesitás entre estudiantes de tu universidad." },
+      { "alt": "Especial para ti 2", "title": "Conectate con tu comunidad",        "description": "Miles de estudiantes cerca tuyo comprando y vendiendo."       },
+      { "alt": "Especial para ti 3", "title": "Ahorrá comprando entre pares",      "description": "Los mejores precios dentro de tu comunidad universitaria."    }
+    ]
   },
   "marketplace": {
     "resultsFor": "Resultados para:",
@@ -99,6 +110,7 @@
     "pricePlaceholder": "Precio del producto",
     "statePlaceholder": "Estado",
     "descriptionPlaceholder": "Descripción del producto",
+    "photo": "Foto {{n}}",
     "save": "GUARDAR"
   },
   "myProducts": {
@@ -176,13 +188,11 @@
       "icon":"!"
     },
     "EmptySpace":{
-      "message": "Llena el espacio vacio",
-      "color": "Red",
+      "message": "Llena el espacio vacío",
       "icon": "X"
     },
     "successfull":{
-      "message": "Accion hecha correctamente",
-      "color": "green",
+      "message": "Acción hecha correctamente",
       "icon": "✔"
     }
   },
@@ -211,7 +221,12 @@
     "missionText": "Conectar a estudiantes universitarios para que puedan comprar, vender e intercambiar productos de forma fácil, segura y dentro de su propia comunidad.",
     "visionLabel": "Visión",
     "visionText": "Ser el marketplace universitario de referencia en Latinoamérica, fomentando la economía circular y el sentido de comunidad entre estudiantes.",
-    "teamLabel": "El Equipo"
+    "teamLabel": "El Equipo",
+    "team": [
+      { "role": "Desarrollador", "description": "Descripción de su experiencia en el proyecto." },
+      { "role": "Desarrollador", "description": "Descripción de su experiencia en el proyecto." },
+      { "role": "Desarrollador", "description": "Descripción de su experiencia en el proyecto." }
+    ]
   },
   "faq": {
     "title": "Preguntas Frecuentes",

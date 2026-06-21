@@ -10,14 +10,27 @@ const accentBg = cva("", {
   },
 });
 
-const accentOutline = cva("", {
-  variants: {
-    variant: {
-      logout: "text-blue-500 border-blue-500",
-      delete: "text-red-500 border-red-500",
+const dialogButton = cva(
+  "w-[calc(100%-60px)] rounded-xl py-2 hover:opacity-90 active:scale-[0.98] transition-all duration-150",
+  {
+    variants: {
+      intent: {
+        cancel: "bg-white border-[0.5px]",
+        confirm: "text-white",
+      },
+      variant: {
+        logout: "",
+        delete: "",
+      },
     },
-  },
-});
+    compoundVariants: [
+      { intent: "cancel", variant: "logout", className: "text-blue-500 border-blue-500" },
+      { intent: "cancel", variant: "delete", className: "text-red-500 border-red-500"  },
+      { intent: "confirm", variant: "logout", className: "bg-blue-500" },
+      { intent: "confirm", variant: "delete", className: "bg-red-500"  },
+    ],
+  }
+);
 
 /**
  * Props de CloseOrDelete.
@@ -56,6 +69,8 @@ interface CloseOrDeleteProps extends VariantProps<typeof accentBg> {
  * @param onConfirm - Ejecuta la acción destructiva.
  */
 function CloseOrDelete({ variant, title, message, cancelText, confirmText, icon, onCancel, onConfirm }: CloseOrDeleteProps) {
+  const bg = accentBg({ variant });
+
   return (
     <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-7">
 
@@ -63,35 +78,25 @@ function CloseOrDelete({ variant, title, message, cancelText, confirmText, icon,
 
         <div className="flex flex-col items-center p-6 gap-4">
 
-          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${accentBg({ variant })}`}>
+          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${bg}`}>
             {icon}
           </div>
 
-          {title && (
-            <h2 className="font-bold text-lg text-center">{title}</h2>
-          )}
+          <h2 className="font-bold text-lg text-center">{title}</h2>
 
           <p className="text-gray-500 text-center">{message}</p>
 
-          <button
-            type="button"
-            onClick={onCancel}
-            className={`w-[calc(100%-60px)] bg-white rounded-xl py-2 border-[0.5px] hover:opacity-90 active:scale-[0.98] transition-all duration-150 ${accentOutline({ variant })}`}
-          >
+          <button type="button" onClick={onCancel}  className={dialogButton({ intent: "cancel",  variant })}>
             {cancelText}
           </button>
 
-          <button
-            type="button"
-            onClick={onConfirm}
-            className={`w-[calc(100%-60px)] text-white rounded-xl py-2 hover:opacity-90 active:scale-[0.98] transition-all duration-150 ${accentBg({ variant })}`}
-          >
+          <button type="button" onClick={onConfirm} className={dialogButton({ intent: "confirm", variant })}>
             {confirmText}
           </button>
 
         </div>
 
-        <div className={`h-8 ${accentBg({ variant })}`} />
+        <div className={`h-8 ${bg}`} />
 
       </div>
 

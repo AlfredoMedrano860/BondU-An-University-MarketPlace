@@ -32,7 +32,7 @@ function MyProductCard({ product, onRemove }: MyProductCardProps) {
         <span className="text-xs font-bold color-aux">${product.price}</span>
       </div>
 
-      <p className="text-xs text-gray-400 w-full px-1">{product.state}</p>
+      <p className="text-xs text-gray-400 w-full px-1">{t(`filters.states.${product.state}`)}</p>
 
       <button
         type="button"

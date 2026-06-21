@@ -4,12 +4,29 @@ import SearchBar from "../ui/SearchBar";
 import CircleButton from "../ui/CircleButton";
 import type { UserProfile } from "../data/UserProfile";
 
+/**
+ * Props de AppHeader.
+ */
 interface AppHeaderProps {
+  /** Usuario autenticado cuyo avatar y nombre se muestran. */
   currentUser: UserProfile;
+  /** Callback de búsqueda; si se omite el buscador no emite eventos. */
   onSearch?: (term: string) => void;
+  /** Abre el panel de filtros. */
   onFilterOpen?: () => void;
 }
 
+/**
+ * Cabecera principal de la aplicación.
+ *
+ * Muestra el avatar y nombre del usuario, un buscador y el botón de filtros.
+ * Es responsiva: apila verticalmente en móvil y en fila en `md+`.
+ * Usado en {@link MainLayout}.
+ *
+ * @param currentUser - Usuario cuyo avatar y nombre se muestran.
+ * @param onSearch - Callback invocado al escribir en el buscador.
+ * @param onFilterOpen - Abre el panel lateral de filtros.
+ */
 function AppHeader({ currentUser, onSearch, onFilterOpen }: AppHeaderProps) {
   const { t } = useTranslation();
 
@@ -20,7 +37,7 @@ function AppHeader({ currentUser, onSearch, onFilterOpen }: AppHeaderProps) {
 
         <div className="flex items-center gap-3 md:shrink-0">
           <div className="w-10 h-10 rounded-full overflow-hidden">
-            <img src={currentUser.avatar} alt="user" className="w-full h-full object-cover" />
+            <img src={currentUser.avatar} alt={currentUser.username} className="w-full h-full object-cover" />
           </div>
           <div>
             <p className="text-sm">{t("home.welcomeBack")}</p>

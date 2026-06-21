@@ -7,7 +7,7 @@ import { notify } from "../components/data/NotificationStore";
 /**
  * Hook para gestionar el estado y lógica del formulario de reseñas.
  *
- * Maneja la puntuación de estrellas, el hover para previsualización y el texto.
+ * Maneja la puntuación de estrellas y el texto de la reseña.
  * Valida que se haya seleccionado al menos una estrella antes de enviar.
  * Usado en {@link ReviewForm}.
  *
@@ -15,8 +15,6 @@ import { notify } from "../components/data/NotificationStore";
  * @param sellerId - ID del vendedor que recibirá la reseña.
  * @returns `rating` — puntuación seleccionada,
  * `setRating` — actualiza la puntuación,
- * `hover` — estrella bajo el cursor para previsualización,
- * `setHover` — actualiza el hover,
  * `text` — contenido textual de la reseña,
  * `setText` — actualiza el texto,
  * `handleSubmit` — valida y envía la reseña.
@@ -24,7 +22,6 @@ import { notify } from "../components/data/NotificationStore";
 export function useReviewForm(reviewer: UserProfile, sellerId: number) {
   const { t } = useTranslation();
   const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
   const [text, setText] = useState("");
 
   /**
@@ -46,7 +43,6 @@ export function useReviewForm(reviewer: UserProfile, sellerId: number) {
       text: text.trim(),
     });
     setRating(0);
-    setHover(0);
     setText("");
     notify.success(
       t("notifications.reviewSent.title"),
@@ -54,5 +50,5 @@ export function useReviewForm(reviewer: UserProfile, sellerId: number) {
     );
   }
 
-  return { rating, setRating, hover, setHover, text, setText, handleSubmit };
+  return { rating, setRating, text, setText, handleSubmit };
 }
