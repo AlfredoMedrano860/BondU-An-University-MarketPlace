@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-const DIGIT_COUNT = 4;
+const digitCount = 4;
 
 /**
  * Props de CodeInput.
@@ -43,11 +43,11 @@ function CodeInput({ value, onChange }: CodeInputProps) {
   function handleDigitChange(index: number, newChar: string) {
     if (!/^\d$/.test(newChar) && newChar !== "") return;
 
-    const digits = value.padEnd(DIGIT_COUNT, "").split("");
+    const digits = value.padEnd(digitCount, "").split("");
     digits[index] = newChar;
     onChange(digits.join(""));
 
-    if (newChar && index < DIGIT_COUNT - 1) {
+    if (newChar && index < digitCount - 1) {
       inputRefs.current[index + 1]?.focus();
     }
   }
@@ -64,7 +64,7 @@ function CodeInput({ value, onChange }: CodeInputProps) {
 
   return (
     <div className="flex justify-center gap-3">
-      {Array.from({ length: DIGIT_COUNT }, (_, index) => (
+      {Array.from({ length: digitCount }, (_, index) => (
         <input
           key={index}
           ref={(el) => { inputRefs.current[index] = el; }}

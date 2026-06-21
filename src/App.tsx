@@ -1,5 +1,6 @@
 import "./assets/styles/App.css";
 import { useState, useEffect } from "react";
+import { NotificationStack } from "./components/ui/NotificationStack";
 import InfoScreen from "./components/screens/InfoScreen";
 import WelcomeScreen from "./components/screens/WelcomeScreen";
 import LoginScreen from "./components/screens/LoginScreen";
@@ -16,7 +17,7 @@ import ProductScreen from "./components/screens/ProductScreen";
 import type { UserProfile } from "./components/data/UserProfile";
 import type { Product } from "./components/data/Product";
 import type { Seller } from "./components/data/Seller";
-import type { FilterValues } from "./components/templates/Filters";
+import type { FilterValues } from "./components/data/Filters";
 import { getSellerById } from "./components/data/Seller";
 import { subscribeUser } from "./components/data/AuthStore";
 import ProfileScreen from "./components/screens/ProfileScreen";
@@ -41,8 +42,8 @@ function App() {
 
   useEffect(() => subscribeUser(setCurrentUser), []);
   const [marketplaceSearch, setMarketplaceSearch] = useState("");
-  const [appliedEstado, setAppliedEstado] = useState("");
-  const [appliedPrecio, setAppliedPrecio] = useState(500);
+  const [appliedState, setAppliedState] = useState("");
+  const [appliedPrice, setAppliedPrice] = useState(500);
   const [editProduct, setEditProduct]   = useState<Product | null>(null);
   const [editReturnScreen, setEditReturnScreen] = useState("marketplace");
   const [viewedSeller, setViewedSeller] = useState<UserProfile | null>(null);
@@ -129,111 +130,120 @@ function App() {
   }
 
   // ── PRE-LOGIN ──
-  if (preLoginScreens.includes(screen)) {
+  function renderScreen() {
+    if (preLoginScreens.includes(screen)) {
+      return (
+        <div className="min-h-screen bg-beige">
+          {screen === "info"           && <InfoScreen onFinish={() => navigate("welcome")} />}
+          {screen === "welcome"        && <WelcomeScreen onLogin={() => navigate("login")} />}
+          {screen === "login"          && <LoginScreen onBack={() => navigate("welcome")} onLogin={handleLogin} onSignUp={() => navigate("signup")} onForgotPassword={() => navigate("forgotpassword")} />}
+          {screen === "signup"         && <SignUpScreen onBack={() => navigate("login")} onRegister={() => navigate("login")} />}
+          {screen === "forgotpassword" && <ForgotPasswordScreen onBack={() => navigate("login")} onSuccess={() => navigate("login")} />}
+        </div>
+      );
+    }
+
+    // ── FULLBLEED ──
+    if (currentUser && fullbleedScreens.includes(screen)) {
+      return (
+        <>
+          {screen === "profile" && (
+            <ProfileScreen
+              currentUser={currentUser}
+              onBack={() => navigate("settings")}
+              onEdit={(p) => startEdit(p, "profile")}
+              onEditProfile={() => navigate("account")}
+              onViewReviewer={(id) => { const s = getSellerById(id); if (s) openSellerProfile(s); }}
+            />
+          )}
+          {screen === "sellerprofile" && viewedSeller && (
+            <ProfileScreen
+              key={viewedSeller.id}
+              currentUser={viewedSeller}
+              onBack={backFromSellerProfile}
+              onEdit={() => {}}
+              isOwnProfile={false}
+              reviewer={currentUser!}
+              onBuyProduct={openProductDetail}
+              onViewReviewer={(id) => { const s = getSellerById(id); if (s) openSellerProfile(s); }}
+            />
+          )}
+          {screen === "account" && (
+            <AccountScreen
+              currentUser={currentUser}
+              onBack={() => navigate("profile")}
+              onUpdate={setCurrentUser}
+            />
+          )}
+          {screen === "myproducts" && (
+            <MyProductsScreen
+              userId={currentUser.id}
+              onBack={() => navigate("settings")}
+              onEdit={(p) => startEdit(p, "myproducts")}
+            />
+          )}
+        </>
+      );
+    }
+
+    // ── LOGGED-IN CON HEADER ──
+    const handleSearch = (term: string) => {
+      setMarketplaceSearch(term);
+      if (screen !== "marketplace") navigate("marketplace");
+    };
+
+    const handleFilterApply = ({ state, price }: FilterValues) => {
+      setAppliedState(state);
+      setAppliedPrice(price);
+      navigate("marketplace");
+    };
+
     return (
-      <div className="min-h-screen bg-beige">
-        {screen === "info"           && <InfoScreen onFinish={() => navigate("welcome")} />}
-        {screen === "welcome"        && <WelcomeScreen onLogin={() => navigate("login")} />}
-        {screen === "login"          && <LoginScreen onBack={() => navigate("welcome")} onLogin={handleLogin} onSignUp={() => navigate("signup")} onForgotPassword={() => navigate("forgotpassword")} />}
-        {screen === "signup"         && <SignUpScreen onBack={() => navigate("login")} onRegister={() => navigate("login")} />}
-        {screen === "forgotpassword" && <ForgotPasswordScreen onBack={() => navigate("login")} onSuccess={() => navigate("login")} />}
-      </div>
+      <MainLayout screen={screen} currentUser={currentUser!} onNavigate={navigate} onSearch={handleSearch} appliedState={appliedState} appliedPrice={appliedPrice} onFilterApply={handleFilterApply}>
+        {screen === "home" && currentUser && (
+          <HomeScreen onNavigate={navigate} onViewProduct={openProductDetail} currentUser={currentUser} />
+        )}
+        {screen === "marketplace" && currentUser && (
+          <MarketPlaceScreen
+            currentUser={currentUser}
+            searchTerm={marketplaceSearch}
+            onSearch={(term) => setMarketplaceSearch(term)}
+            stateFilter={appliedState}
+            onClearState={() => setAppliedState("")}
+            priceFilter={appliedPrice}
+            onClearPrice={() => setAppliedPrice(500)}
+            onViewProduct={openProductDetail}
+          />
+        )}
+        {screen === "settings" && currentUser && (
+          <SettingsScreen onNavigate={navigate} currentUser={currentUser} onLogout={handleLogout} />
+        )}
+        {screen === "addproduct" && currentUser && (
+          <AddProductScreen
+            onBack={() => { setEditProduct(null); setScreen(editProduct ? editReturnScreen : "myproducts"); }}
+            currentUser={currentUser}
+            initialProduct={editProduct ?? undefined}
+          />
+        )}
+        {screen === "favorite" && currentUser && (
+          <FavoriteScreen onViewProduct={openProductDetail} />
+        )}
+        {screen === "productdetail" && viewedProduct && currentUser && (
+          <ProductScreen
+            product={viewedProduct}
+            onBack={() => navigate(productReturnScreen)}
+            onViewSellerProfile={openSellerProfile}
+          />
+        )}
+      </MainLayout>
     );
   }
-
-  // ── FULLBLEED ──
-  if (currentUser && fullbleedScreens.includes(screen)) {
-    return (
-      <>
-        {screen === "profile" && (
-          <ProfileScreen
-            currentUser={currentUser}
-            onBack={() => navigate("settings")}
-            onEdit={(p) => startEdit(p, "profile")}
-            onEditProfile={() => navigate("account")}
-            onViewReviewer={(id) => { const s = getSellerById(id); if (s) openSellerProfile(s); }}
-          />
-        )}
-        {screen === "sellerprofile" && viewedSeller && (
-          <ProfileScreen
-            key={viewedSeller.id}
-            currentUser={viewedSeller}
-            onBack={backFromSellerProfile}
-            onEdit={() => {}}
-            isOwnProfile={false}
-            reviewer={currentUser!}
-            onBuyProduct={openProductDetail}
-            onViewReviewer={(id) => { const s = getSellerById(id); if (s) openSellerProfile(s); }}
-          />
-        )}
-        {screen === "account" && (
-          <AccountScreen
-            currentUser={currentUser}
-            onBack={() => navigate("profile")}
-            onUpdate={setCurrentUser}
-          />
-        )}
-        {screen === "myproducts" && (
-          <MyProductsScreen
-            userId={currentUser.id}
-            onBack={() => navigate("settings")}
-            onEdit={(p) => startEdit(p, "myproducts")}
-          />
-        )}
-      </>
-    );
-  }
-
-  // ── LOGGED-IN CON HEADER ──
-  const handleSearch = (term: string) => {
-    setMarketplaceSearch(term);
-    if (screen !== "marketplace") navigate("marketplace");
-  };
-
-  const handleFilterApply = ({ estado, precio }: FilterValues) => {
-    setAppliedEstado(estado);
-    setAppliedPrecio(precio);
-    navigate("marketplace");
-  };
 
   return (
-    <MainLayout screen={screen} currentUser={currentUser!} onNavigate={navigate} onSearch={handleSearch} appliedEstado={appliedEstado} appliedPrecio={appliedPrecio} onFilterApply={handleFilterApply}>
-      {screen === "home" && currentUser && (
-        <HomeScreen onNavigate={navigate} onViewProduct={openProductDetail} currentUser={currentUser} />
-      )}
-      {screen === "marketplace" && currentUser && (
-        <MarketPlaceScreen
-          currentUser={currentUser}
-          searchTerm={marketplaceSearch}
-          onSearch={(term) => setMarketplaceSearch(term)}
-          estadoFilter={appliedEstado}
-          onClearEstado={() => setAppliedEstado("")}
-          precioFilter={appliedPrecio}
-          onClearPrecio={() => setAppliedPrecio(500)}
-          onViewProduct={openProductDetail}
-        />
-      )}
-      {screen === "settings" && currentUser && (
-        <SettingsScreen onNavigate={navigate} currentUser={currentUser} onLogout={handleLogout} />
-      )}
-      {screen === "addproduct" && currentUser && (
-        <AddProductScreen
-          onBack={() => { setEditProduct(null); setScreen(editProduct ? editReturnScreen : "myproducts"); }}
-          currentUser={currentUser}
-          initialProduct={editProduct ?? undefined}
-        />
-      )}
-      {screen === "favorite" && currentUser && (
-        <FavoriteScreen onViewProduct={openProductDetail} />
-      )}
-      {screen === "productdetail" && viewedProduct && currentUser && (
-        <ProductScreen
-          product={viewedProduct}
-          onBack={() => navigate(productReturnScreen)}
-          onViewSellerProfile={openSellerProfile}
-        />
-      )}
-    </MainLayout>
+    <>
+      <NotificationStack />
+      {renderScreen()}
+    </>
   );
 }
 

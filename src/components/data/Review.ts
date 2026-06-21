@@ -1,5 +1,9 @@
 import reviewerAvatar from "../../assets/imgs/IconoPerfil.png";
 
+/** Valores de puntuación disponibles en una reseña. */
+export const starReviews = [1, 2, 3, 4, 5];
+
+
 /**
  * Reseña escrita por un comprador sobre un vendedor.
  */

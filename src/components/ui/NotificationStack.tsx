@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { subscribeNotifications, dismissNotification, type AppNotification } from "../data/NotificationStore";
+import { subscribeNotifications, type AppNotification } from "../data/NotificationStore";
 import NotificationToast from "./NotificationToast";
 
 /**
- * Contenedor global de toasts de notificación.
+ * Pila global de toasts de notificación.
  *
- * Se suscribe al {@link NotificationStore} y renderiza un {@link NotificationToast}
+ * Se suscribe al {@link NotificationStore} y renderiza un {@link Toast}
  * por cada notificación activa. Se monta una sola vez en {@link AppLayout}.
  */
-export function NotificationContainer() {
+export function NotificationStack() {
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
 
   useEffect(() => subscribeNotifications(setNotifications), []);
@@ -17,10 +17,8 @@ export function NotificationContainer() {
 
   return (
     <div className="fixed top-20 right-4 z-200 flex flex-col gap-2 pointer-events-none">
-      {notifications.map(n => (
-        <div key={n.id} className="pointer-events-auto">
-          <NotificationToast notification={n} onDismiss={dismissNotification} />
-        </div>
+      {notifications.map(notification => (
+        <NotificationToast key={notification.id} notification={notification} />
       ))}
     </div>
   );

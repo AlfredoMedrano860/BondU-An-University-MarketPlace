@@ -26,12 +26,7 @@ function BottomNav({ onNavigate, currentScreen }: BottomNavProps) {
 
   return (
     <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary rounded-full shadow-sm px-3 py-2.5 flex items-center gap-1 z-50">
-
-      {/* Píldora deslizante */}
-      <div
-        style={{ '--i': activeIndex } as CSSProperties}
-        className="nav-pill"
-      />
+      <div style={{ '--i': activeIndex } as CSSProperties} className="nav-pill" />
 
       {navItems.map((item) => {
         const Icon = item.icon;

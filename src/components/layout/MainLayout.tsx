@@ -3,7 +3,8 @@ import AppLayout from "./AppLayout";
 import AppHeader from "../templates/AppHeader";
 import ProfileHeader from "../templates/ProfileHeader";
 import BottomNav from "../ui/BottomNav";
-import Filtros, { type FilterValues } from "../templates/Filters";
+import Filters from "../ui/Filters";
+import type { FilterValues } from "../data/Filters";
 import type { UserProfile } from "../data/UserProfile";
 
 const headerScreens    = ["home", "marketplace", "favorite", "addproduct", "productdetail"];
@@ -26,13 +27,13 @@ interface MainLayoutProps {
   currentUser: UserProfile;
   onNavigate: (screen: string) => void;
   onSearch: (term: string) => void;
-  appliedEstado: string;
-  appliedPrecio: number;
+  appliedState: string;
+  appliedPrice: number;
   onFilterApply: (filters: FilterValues) => void;
   children: ReactNode;
 }
 
-function MainLayout({ screen, currentUser, onNavigate, onSearch, appliedEstado, appliedPrecio, onFilterApply, children }: MainLayoutProps) {
+function MainLayout({ screen, currentUser, onNavigate, onSearch, appliedState, appliedPrice, onFilterApply, children }: MainLayoutProps) {
   const headerRef    = useRef<HTMLDivElement>(null);
   const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimerRef= useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -117,9 +118,9 @@ function MainLayout({ screen, currentUser, onNavigate, onSearch, appliedEstado, 
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          <Filtros
-            initialEstado={appliedEstado}
-            initialPrecio={appliedPrecio}
+          <Filters
+            initialState={appliedState}
+            initialPrice={appliedPrice}
             onApply={handleApply}
             onClose={closeFilters}
             className="rounded-t-3xl rounded-b-none"
@@ -136,9 +137,9 @@ function MainLayout({ screen, currentUser, onNavigate, onSearch, appliedEstado, 
           style={{ top: headerH + 8 }}
           onClick={(e) => e.stopPropagation()}
         >
-          <Filtros
-            initialEstado={appliedEstado}
-            initialPrecio={appliedPrecio}
+          <Filters
+            initialState={appliedState}
+            initialPrice={appliedPrice}
             onApply={handleApply}
             onClose={closeFilters}
             className="rounded-3xl"

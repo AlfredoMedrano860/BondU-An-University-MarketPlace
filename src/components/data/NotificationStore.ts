@@ -15,13 +15,6 @@ export interface AppNotification {
   message: string;
 }
 
-/** Colores por tipo de notificación usados en {@link NotificationToast}. */
-export const notificationColors: Record<NotificationType, string> = {
-  error:   "#dc2626",
-  warning: "#d97706",
-  success: "var(--color-primary)",
-  info:    "#2563eb",
-};
 
 let _items: AppNotification[] = [];
 let _nextId = 1;
