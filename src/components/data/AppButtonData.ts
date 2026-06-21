@@ -12,7 +12,16 @@ export interface AppButtonVariant {
  * el arreglo como fuente única de verdad para las clases CSS.
  */
 export const appButtonVariants: AppButtonVariant[] = [
-  { name: "primary",   className: "bg-primary text-white font-bold text-sm h-12 hover:opacity-90 active:scale-[0.98] transition-all duration-150" },
-  { name: "secondary", className: "border-2 border-primary color-primary h-12 font-bold hover:opacity-90 active:scale-[0.98] transition-all duration-150" },
-  { name: "aux",       className: "btn-aux text-white text-sm h-10 hover:opacity-90 active:scale-[0.98] transition-all duration-150" },
+  { 
+    name: "primary",   
+    className: "bg-primary text-white font-bold text-sm h-12 hover:opacity-90 active:scale-[0.98] transition-all duration-150" 
+  },
+  { 
+    name: "secondary", 
+    className: "border-2 border-primary color-primary h-12 font-bold hover:opacity-90 active:scale-[0.98] transition-all duration-150" 
+  },
+  { 
+    name: "aux",       
+    className: "btn-aux text-white text-sm h-10 hover:opacity-90 active:scale-[0.98] transition-all duration-150" 
+  },
 ];

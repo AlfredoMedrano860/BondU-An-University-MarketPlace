@@ -45,6 +45,4 @@ export const navItems: NavItem[] = [
 /** Tabs del detalle de producto usados en {@link ProductTabs}. */
 export const productTabs: string[] = ["Información", "Vendedor", "Compartir"];
 
-/** Tabs del perfil de usuario usados en {@link ProfileScreen}. */
-export type ProfileChoice = "contacto" | "productos" | "reseñas";
 

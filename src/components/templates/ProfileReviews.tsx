@@ -26,7 +26,7 @@ interface ProfileReviewsProps {
  *
  * En el perfil propio muestra un estado vacío si no hay reseñas.
  * En perfiles ajenos, muestra el formulario de reseña al final si se pasa `reviewer`.
- * Usado en {@link ProfileInfo}.
+ * Usado en {@link ProfileTabs}.
  *
  * @param reviews - Reseñas a mostrar.
  * @param isOwnProfile - Controla la visibilidad del formulario y el estado vacío.

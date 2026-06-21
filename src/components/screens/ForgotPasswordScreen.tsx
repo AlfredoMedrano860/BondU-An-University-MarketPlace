@@ -24,31 +24,16 @@ interface ForgotPasswordScreenProps {
  * @param onBack - Navega hacia atrás o retrocede el flujo.
  * @param onSuccess - Callback tras cambio exitoso de contraseña.
  */
+
 function ForgotPasswordScreen({ onBack, onSuccess }: ForgotPasswordScreenProps) {
   const { step, fields, setters, handleSendCode, handleVerifyCode, handleChangePassword, handleBack, handleResend } =
     useForgotPassword(onSuccess);
 
-  const activeStep = (
-    <div>
-      {step === 1 && (
-        <StepEmail email={fields.email} onEmailChange={setters.setEmail} onSubmit={handleSendCode} />
-      )}
-      {step === 2 && (
-        <StepCode email={fields.email} code={fields.code} onCodeChange={setters.setCode} onSubmit={handleVerifyCode} onResend={handleResend} />
-      )}
-      {step === 3 && (
-        <StepNewPassword password={fields.password} onPasswordChange={setters.setPassword} confirm={fields.confirm} onConfirmChange={setters.setConfirm} onSubmit={handleChangePassword} />
-      )}
-    </div>
-  );
-
   return (
     <AuthLayout onBack={() => handleBack(onBack)}>
-      <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-20 py-10">
-        <div className="max-w-sm w-full mx-auto flex flex-col gap-5">
-          {activeStep}
-        </div>
-      </div>
+      {step === 1 && <StepEmail email={fields.email} onEmailChange={setters.setEmail} onSubmit={handleSendCode} />}
+      {step === 2 && <StepCode email={fields.email} code={fields.code} onCodeChange={setters.setCode} onSubmit={handleVerifyCode} onResend={handleResend} />}
+      {step === 3 && <StepNewPassword password={fields.password} onPasswordChange={setters.setPassword} confirm={fields.confirm} onConfirmChange={setters.setConfirm} onSubmit={handleChangePassword} />}
     </AuthLayout>
   );
 }

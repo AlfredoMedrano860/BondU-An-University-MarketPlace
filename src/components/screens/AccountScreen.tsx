@@ -1,10 +1,11 @@
 import { useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import type { ElementType, ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 import { Camera, User, AtSign, Lock } from "lucide-react";
 import BackButton from "../ui/BackButton";
 import InputSpace from "../ui/InputSpace";
 import AppButton from "../ui/AppButton";
+import SectionHeader from "../ui/SectionHeader";
 import { useAccountForm } from "../../hooks/useAccountForm";
 import type { UserProfile } from "../data/UserProfile";
 
@@ -18,23 +19,6 @@ interface AccountScreenProps {
   onUpdate: (user: UserProfile) => void;
 }
 
-/**
- * Cabecera visual de una sección del formulario.
- * Muestra un ícono con fondo suave y una etiqueta en mayúsculas.
- *
- * @param icon - Componente ícono de lucide-react.
- * @param label - Texto de la sección en mayúsculas.
- */
-function SectionHeader({ icon: Icon, label }: { icon: ElementType; label: string }) {
-  return (
-    <div className="flex items-center gap-2 px-5 pt-5 pb-4">
-      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-        <Icon size={13} className="color-primary" />
-      </div>
-      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{label}</p>
-    </div>
-  );
-}
 
 /**
  * Pantalla de edición de perfil del usuario autenticado.

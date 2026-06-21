@@ -28,26 +28,16 @@ function WelcomeScreen({ onLogin }: WelcomeScreenProps) {
 
   return (
     <AuthLayout>
-      {/* Logo */}
       <div className="flex flex-col items-center pt-10 gap-3 px-6">
         <img src={logo} alt="logo" className="w-44 md:w-52" />
       </div>
 
-      {/* Mascota */}
       <div className="flex-1 relative min-h-64">
-        <img
-          src={cara}
-          alt="Cara mascota"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 z-0 w-64 md:w-80"
-        />
-        <img
-          src={brazos}
-          alt="Brazos mascota"
-          className="absolute bottom-0 left-1/2 -translate-x-[51%] z-20 w-80 md:w-96"
+        <img src={cara} alt="Cara mascota" className="absolute bottom-0 left-1/2 -translate-x-1/2 z-0 w-64 md:w-80"/>
+        <img src={brazos} alt="Brazos mascota" className="absolute bottom-0 left-1/2 translate-x-[-51%] z-20 w-80 md:w-96"
         />
       </div>
 
-      {/* Botones */}
       <div className="px-8 pb-10 pt-6">
         <div className="max-w-sm w-full mx-auto flex flex-col gap-4">
           <AppButton text={t("welcome.login")} onClick={onLogin} />

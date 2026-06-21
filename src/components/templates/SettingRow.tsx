@@ -1,4 +1,5 @@
 import type { ElementType, ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 import { ChevronRight } from "lucide-react";
 
 /**
@@ -95,6 +96,20 @@ interface ToggleProps {
  * @param value - Estado actual del toggle.
  * @param onToggle - Se ejecuta al presionar el toggle.
  */
+/**
+ * Sección de ajustes con título y tarjeta agrupadora. Usado en {@link SettingsScreen}.
+ */
+export function SettingsSection({ title, children }: PropsWithChildren<{ title: string }>) {
+  return (
+    <>
+      <SectionTitle title={title} />
+      <div className="bg-white-app rounded-3xl divide-y divide-gray-200">
+        {children}
+      </div>
+    </>
+  );
+}
+
 export function Toggle({ value, onToggle }: ToggleProps) {
   return (
     <button

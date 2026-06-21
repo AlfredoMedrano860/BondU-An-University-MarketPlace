@@ -16,6 +16,7 @@ interface AppLayoutProps {
  *
  * @param children - Contenido de la pantalla.
  */
+
 function AppLayout({ children }: AppLayoutProps) {
   return (
     <main className="flex-1 w-full bg-beige overflow-hidden">

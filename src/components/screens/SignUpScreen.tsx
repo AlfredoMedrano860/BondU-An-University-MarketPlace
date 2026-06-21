@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import iconoPerfil from "../../assets/imgs/IconoPerfil.png";
 import AppButton from "../ui/AppButton";
 import InputSpace from "../ui/InputSpace";
 import { register as registerUser } from "../data/AuthStore";
 import { notify } from "../data/NotificationStore";
 import AuthLayout from "../layout/AuthLayout";
+import AuthHeader from "../templates/AuthHeader";
 
 /**
  * Props de SignUpScreen.
@@ -42,30 +42,11 @@ function SignUpScreen({ onBack, onRegister }: SignUpScreenProps) {
   }
 
   return (
-    <AuthLayout onBack={onBack}>
-      <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-20 py-10">
-      <div className="max-w-sm w-full mx-auto flex flex-col gap-5">
+    <AuthLayout>
+      <AuthHeader onBack={onBack} title={t("signup.title")} description={t("signup.description")} />
 
-      {/* Avatar */}
-      <div className="flex justify-center mb-2">
-        <div className="w-24 h-24 rounded-full bg-soft flex items-center justify-center overflow-hidden">
-          <img src={iconoPerfil} alt="avatar" className="w-full h-full object-cover" />
-        </div>
-      </div>
-
-      {/* Title + description */}
-      <div>
-        <h1 className="color-primary text-2xl font-bold">{t("signup.title")}</h1>
-        <p className="text-gray-400 text-sm mt-2 leading-relaxed">{t("signup.description")}</p>
-      </div>
-
-      {/* Username */}
       <InputSpace type="text" placeholder={t("signup.username")} hint="Tu nombre completo" value={username} onChange={setUsername} />
-
-      {/* Email */}
       <InputSpace type="text" placeholder={t("signup.email")} hint="ejemplo@gmail.com" value={email} onChange={setEmail} />
-
-      {/* Password */}
       <InputSpace type="password" placeholder={t("signup.password")} hint="Mínimo 8 caracteres" value={password} onChange={setPassword} />
 
       <AppButton text={t("signup.submit")} onClick={handleRegister} />
@@ -75,8 +56,6 @@ function SignUpScreen({ onBack, onRegister }: SignUpScreenProps) {
         <button onClick={onBack} className="color-primary font-bold hover:underline">{t("signup.loginLink")}</button>
       </p>
 
-      </div>
-      </div>
     </AuthLayout>
   );
 }
