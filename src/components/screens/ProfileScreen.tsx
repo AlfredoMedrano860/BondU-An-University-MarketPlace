@@ -4,6 +4,7 @@ import SellerStats from "../templates/SellerStats";
 import BackButton from "../ui/BackButton";
 import type { UserProfile } from "../data/UserProfile";
 import Profile from "../templates/ProfileInfo";
+import {GearSixIcon } from '@phosphor-icons/react'
 
 interface ProfileScreenProps {
     currentUser: UserProfile;

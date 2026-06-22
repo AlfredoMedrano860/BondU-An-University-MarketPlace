@@ -5,9 +5,9 @@ import type { UserProfile } from "../data/UserProfile";
 import CommentHeader from "./CommentHeader";
 import EmptyState from "../ui/EmptyState";
 import MyProductCard from "./MyProductCard";
-import reviewerAvatar from "../../assets/imgs/IconoPerfil.png";
 import ReviewCard from "./ReviewCard";
 import { getProductsByUser, removeProduct, subscribeProducts } from "../data/ProductStore";
+import { getReviewsByUser } from "../data/Reviews";
 
 type Choice = "contacto" | "productos" | "reseñas";
 
@@ -18,6 +18,7 @@ interface ProfileInfoProps {
 
 function ProfileInfo({ currentUser, choice }: ProfileInfoProps) {
   const [userProducts, setUserProducts] = useState<Product[]>(getProductsByUser(currentUser.id));
+  const [userReviews, setUserReviews] = useState(getReviewsByUser(currentUser.id));
 
   useEffect(() => {
     const unsub = subscribeProducts(() => setUserProducts(getProductsByUser(currentUser.id)));
@@ -58,16 +59,16 @@ function ProfileInfo({ currentUser, choice }: ProfileInfoProps) {
 
       {choice === "reseñas" && (
         <div className="w-full max-w-md">
-          <CommentHeader name={"María López"} avatar={reviewerAvatar} />
-
-          {/* Lista de reseñas de ejemplo */}
-          {[
-            { id: 1, name: "Sophia Kane", avatar: reviewerAvatar, rating: 4, text: "Muy buen vendedor, llegó a tiempo y el producto estaba tal cual." },
-            { id: 2, name: "Aaron Mayorga", avatar: reviewerAvatar, rating: 5, text: "Excelente comunicación y producto en perfectas condiciones." },
-            { id: 3, name: "Alfredo Medrano", avatar: reviewerAvatar, rating: 3, text: "Todo bien, aunque el envío tardó un poco más de lo esperado." }
-          ].map((r) => (
-            <ReviewCard key={r.id} review={r} />
-          ))}
+          {userReviews.length === 0 ? (
+            <EmptyState message="Este perfil no tiene comentarios" />
+          ) : (
+            <>
+              <CommentHeader name={currentUser.username} avatar={currentUser.avatar} />
+              {userReviews.map((r) => (
+                <ReviewCard key={r.id} review={r} />
+              ))}
+            </>
+          )}
         </div>
       )}
     </div>

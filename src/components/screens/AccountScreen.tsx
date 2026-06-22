@@ -94,7 +94,7 @@ function AccountScreen({ currentUser, onBack, onUpdate }: AccountScreenProps) {
             onChange={setters.setCareer}
           />
         </div>
- 
+.
         {/* Cambiar Contraseña */}
         <div className="bg-white-app rounded-3xl p-5 flex flex-col gap-4">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
