@@ -1,4 +1,5 @@
 import type { User } from "./User";
+import type { ContactInfo } from "./Seller";
 
 /**
  * Perfil completo del usuario autenticado.
@@ -21,4 +22,6 @@ export interface UserProfile extends User {
   reviews?: number;
   /** Número de ventas realizadas. */
   sales?: number;
+  /** Información de contacto personalizada del vendedor. */
+  contact?: ContactInfo;
 }

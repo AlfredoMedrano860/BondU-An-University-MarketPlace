@@ -1,99 +1,88 @@
 import { useState } from "react";
-import register from "../../assets/imgs/RegisterCard.png";
-import BackButton from "../ui/BackButton";
-import PrimaryButton from "../ui/PrimaryButton";
+import { useTranslation } from "react-i18next";
+import AppButton from "../ui/AppButton";
 import InputSpace from "../ui/InputSpace";
 import { login } from "../data/AuthStore";
 import type { UserProfile } from "../data/UserProfile";
+import { notify } from "../data/NotificationStore";
+import AuthLayout from "../layout/AuthLayout";
+import AuthHeader from "../templates/AuthHeader";
+import { socialMedias } from "../data/SocialMedia";
 
 /**
  * Props de LoginScreen.
- * @see UserProfile
  */
 interface LoginScreenProps {
-  /** Navega a la pantalla anterior. */
+  /** Navega hacia atrás a {@link WelcomeScreen}. */
   onBack: () => void;
-  /** Se ejecuta al autenticarse exitosamente con el usuario autenticado. */
+  /** Se ejecuta al autenticar exitosamente con el perfil del usuario. */
   onLogin: (user: UserProfile) => void;
-  /** Navega a la pantalla de registro. */
+  /** Navega a {@link SignUpScreen}. */
   onSignUp: () => void;
-  /** Navega a la pantalla de recuperación de contraseña. */
+  /** Navega a {@link ForgotPasswordScreen}. */
   onForgotPassword: () => void;
 }
 
 /**
- * Pantalla de inicio de sesión.
+ * Pantalla de inicio de sesión con campos de correo y contraseña.
  *
- * Valida las credenciales contra {@link login} del AuthStore.
- * En caso de error muestra un mensaje debajo del formulario.
+ * Llama a `login` del {@link AuthStore} y emite notificación de error si falla.
+ * Los botones de redes sociales son decorativos; pendiente de integrar OAuth.
  *
- * @param onBack - Navega a la pantalla anterior.
- * @param onLogin - Se ejecuta al autenticarse exitosamente con el usuario autenticado.
- * @param onSignUp - Navega a la pantalla de registro.
- * @param onForgotPassword - Navega a la pantalla de recuperación de contraseña.
+ * @param onBack - Navega hacia atrás.
+ * @param onLogin - Callback con el usuario autenticado.
+ * @param onSignUp - Navega al registro.
+ * @param onForgotPassword - Navega a recuperación de contraseña.
  */
 function LoginScreen({ onBack, onLogin, onSignUp, onForgotPassword }: LoginScreenProps) {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  /**
-   * Intenta autenticar al usuario con las credenciales ingresadas.
-   * Llama a {@link onLogin} si es exitoso, o muestra el error si falla.
-   */
   function handleLogin() {
     const result = login(email, password);
     if (result.ok) {
-      setError("");
       onLogin(result.user);
     } else {
-      setError(result.error);
+      notify.error(t("notifications.loginError.title"), t("notifications.loginError.message"));
     }
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-beige">
+    <AuthLayout>
+      <AuthHeader onBack={onBack} title={t("login.title")} description={t("login.description")} />
 
-      {/* ── HEADER ── */}
-      <div className="pt-10">
-        <BackButton onClick={onBack} />
+      <InputSpace type="text" placeholder={t("login.email")} hint="ejemplo@gmail.com" value={email} onChange={setEmail} />
+      <InputSpace type="password" placeholder={t("login.password")} hint="Mínimo 8 caracteres" value={password} onChange={setPassword} />
+
+      <div className="flex justify-end -mt-2">
+        <button onClick={onForgotPassword} className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
+          {t("login.forgot")}
+        </button>
       </div>
 
-      {/* ── ILUSTRACIÓN ── */}
-      <div className="relative w-full h-52 mt-10">
-        <img src={register} alt="Cara mascota" className="w-50 absolute bottom-0 left-1/2 -translate-x-1/2 z-0"/>
+      <AppButton text={t("login.submit")} onClick={handleLogin} />
+
+      <div className="flex items-center gap-3">
+        <div className="flex-1 h-px bg-gray-200" />
+        <span className="text-xs text-gray-400">{t("login.orContinueWith")}</span>
+        <div className="flex-1 h-px bg-gray-200" />
       </div>
 
-      {/* ── FORMULARIO ── */}
-      <div className="info-card bg-white-app w-full mt-5 px-8 pt-20 pb-12 flex flex-col gap-5 relative z-10">
-
-        <h1 className="color-primary text-3xl font-bold text-center mb-2">Login</h1>
-
-        <InputSpace type="text" placeholder="Correo" value={email} onChange={setEmail} />
-        <InputSpace type="password" placeholder="Contraseña" value={password} onChange={setPassword} />
-
-        {/* Mensaje de error ── reemplazar con sistema de notificaciones */}
-        {error && (
-          <p className="text-red-500 text-sm text-center -mt-2">{error}</p>
-        )}
-
-        {/* Recuperar contraseña */}
-        <div className="flex justify-end -mt-2">
-          <button onClick={onForgotPassword} className="text-sm text-gray-500">
-            ¿Olvidaste la contraseña?
+      <div className="flex justify-center gap-4">
+        {socialMedias.map((socialMedia) => (
+          <button key={socialMedia.id} className="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all duration-150">
+            <img src={socialMedia.img} alt={socialMedia.alt} className="w-6 h-6 object-contain" />
           </button>
-        </div>
-
-        <PrimaryButton text="INICIAR SESIÓN" onClick={handleLogin} />
-
-        {/* Ir a registro */}
-        <p className="text-center text-sm text-gray-500 mt-1">
-          ¿No tienes una cuenta?{" "}
-          <button onClick={onSignUp} className="color-primary font-bold">Regístrate</button>
-        </p>
-
+        ))}
       </div>
-    </div>
+
+      <p className="text-center text-sm text-gray-400">
+        {t("login.noAccount")}{" "}
+        <button onClick={onSignUp} className="color-primary font-bold hover:underline">{t("login.signUp")}</button>
+      </p>
+
+    </AuthLayout>
   );
 }
 

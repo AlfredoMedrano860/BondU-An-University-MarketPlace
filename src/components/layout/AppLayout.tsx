@@ -1,9 +1,30 @@
+import type { ReactNode } from "react";
+
+/**
+ * Props de AppLayout.
+ */
 interface AppLayoutProps {
-  children: React.ReactNode;
+  /** Contenido de la pantalla principal. */
+  children: ReactNode;
 }
 
+/**
+ * Contenedor centrado del área principal de la app.
+ *
+ * Aplica `max-w-6xl` y ocupa el alto restante disponible.
+ * Usado dentro de {@link MainLayout}.
+ *
+ * @param children - Contenido de la pantalla.
+ */
+
 function AppLayout({ children }: AppLayoutProps) {
-  return <main className="w-full max-w-107.5 min-h-screen bg-beige overflow-hidden">{children}</main>;
+  return (
+    <main className="flex-1 w-full bg-beige overflow-hidden">
+      <div className="max-w-6xl mx-auto h-full">
+        {children}
+      </div>
+    </main>
+  );
 }
 
 export default AppLayout;

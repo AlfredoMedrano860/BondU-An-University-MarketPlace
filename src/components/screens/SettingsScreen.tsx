@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Contrast, LogOut, CircleUserRound, Package, Bell, Globe } from "lucide-react";
-import ProfileHeader from "../templates/ProfileHeader";
-import BottomNav from "../templates/BottomNav";
 import AboutAccordion from "../templates/AboutAccordion";
 import FaqAccordion from "../templates/FaqAccordion";
 import TermsAccordion from "../templates/TermsAccordion";
-import { SettingRow, Toggle, SectionTitle } from "../templates/SettingRow";
-import { logout } from "../data/AuthStore";
+import { SettingRow } from "../templates/SettingRow";
+import { SettingsSection } from "../templates/SettingsSection";
+import Toggle from "../ui/Toggle";
+import CloseOrDelete from "../templates/CloseOrDelete";
 import type { UserProfile } from "../data/UserProfile";
+import { useSettings } from "../../hooks/useSettings";
 
 /**
  * Props de SettingsScreen.
@@ -36,80 +37,78 @@ interface SettingsScreenProps {
  * @param onLogout - Se ejecuta al cerrar sesión exitosamente.
  */
 function SettingsScreen({ onNavigate, currentUser, onLogout }: SettingsScreenProps) {
-  const [darkMode, setDarkMode] = useState(false);
-  const [notifications, setNotifications] = useState(currentUser.notifications ?? true);
-  const [language, setLanguage] = useState(currentUser.language ?? "es");
-
-  /**
-   * Cierra la sesión del usuario en el AuthStore y redirige al flujo de login.
-   */
-  const handleLogout = () => {
-    logout();
-    onLogout();
-  };
+  const { t } = useTranslation();
+  const { notifications, dialog, setDialog, handleConfirmLogout, handleConfirmDelete, toggleLanguage, handleDarkMode, handleNotificationsToggle } = useSettings(currentUser, onLogout);
 
   return (
-    <div className="h-screen bg-beige flex flex-col">
-
-      {/* ── HEADER ── avatar, nombre y correo del usuario */}
-      <ProfileHeader
-        name={currentUser.username}
-        email={currentUser.email}
-        avatar={currentUser.avatar}
-      />
+    <>
+    <div className="h-full bg-beige overflow-y-auto no-scrollbar pb-28">
 
       {/* ── SECCIONES ── */}
-      <div className="flex flex-col gap-3 px-5 pt-4 flex-1 overflow-y-auto no-scrollbar pb-32">
+      <div className="flex flex-col gap-3 px-6 sm:px-10 md:px-16 lg:px-20 pt-4">
 
-        {/* Mi Perfil */}
-        <SectionTitle title="Mi Perfil" />
-        <div className="bg-white-app rounded-3xl">
-          <SettingRow icon={CircleUserRound} label="Perfil" onClick={() => onNavigate("profile")} />
-          <SettingRow icon={Package} label="Mis Productos" onClick={() => onNavigate("myproducts")} border={false} />
-        </div>
+        <SettingsSection title={t("settings.myProfile")}>
+          <SettingRow icon={CircleUserRound} label={t("settings.profile")} onClick={() => onNavigate("profile")} border={false} />
+          <SettingRow icon={Package} label={t("settings.myProducts")} onClick={() => onNavigate("myproducts")} border={false} />
+        </SettingsSection>
 
-        {/* Preferencias ── darkMode sin persistencia aún */}
-        <SectionTitle title="Preferencias" />
-        <div className="bg-white-app rounded-3xl divide-y divide-beige">
-          <SettingRow icon={Contrast} label="Tema oscuro" border={false}
-            right={<Toggle value={darkMode} onToggle={() => setDarkMode(!darkMode)} />}
+        <SettingsSection title={t("settings.preferences")}>
+          <SettingRow icon={Contrast} label={t("settings.darkTheme")} border={false}
+            right={<Toggle value={false} onToggle={handleDarkMode} />}
           />
-          <SettingRow icon={Bell} label="Notificaciones" border={false}
-            right={<Toggle value={notifications} onToggle={() => setNotifications(!notifications)} />}
+          <SettingRow icon={Bell} label={t("settings.notifications")} border={false}
+            right={<Toggle value={notifications} onToggle={handleNotificationsToggle} />}
           />
-          <SettingRow icon={Globe} label="Idioma" border={false}
+          <SettingRow icon={Globe} label={t("settings.language")} border={false}
             right={
-              <button
-                onClick={() => setLanguage(language === "es" ? "en" : "es")}
-                className="text-sm font-bold color-primary"
-              >
-                {language === "es" ? "Español" : "English"}
+              <button onClick={toggleLanguage} className="text-sm font-bold color-primary hover:opacity-75 transition-opacity">
+                {t("settings.langLabel")}
               </button>
             }
           />
-        </div>
+        </SettingsSection>
 
-        {/* Información */}
-        <SectionTitle title="Información" />
-        <div className="bg-white-app rounded-3xl divide-y divide-beige">
+        <SettingsSection title={t("settings.information")}>
           <FaqAccordion />
           <AboutAccordion />
           <TermsAccordion />
-        </div>
+        </SettingsSection>
 
-        {/* Sesión ── eliminar cuenta pendiente de implementar */}
-        <SectionTitle title="Sesión" />
-        <div className="bg-white-app rounded-3xl divide-y divide-beige">
-          <SettingRow icon={LogOut} label="Cerrar Sesión" onClick={handleLogout} danger border={false} />
-          <SettingRow icon={LogOut} label="Eliminar Cuenta" danger border={false} right={null} />
-        </div>
+        <SettingsSection title={t("settings.session")}>
+          <SettingRow icon={LogOut} label={t("settings.logout")} onClick={() => setDialog("logout")} danger border={false} />
+          <SettingRow icon={LogOut} label={t("settings.deleteAccount")} onClick={() => setDialog("deleteAccount")} danger border={false} />
+        </SettingsSection>
 
       </div>
 
-      {/* ── NAVEGACIÓN ── */}
-      <BottomNav onNavigate={onNavigate} currentScreen="settings" />
-
     </div>
+
+    {dialog === "logout" && (
+      <CloseOrDelete
+        variant="logout"
+        title={t("dialogs.logout.title")}
+        message={t("dialogs.logout.message")}
+        cancelText={t("dialogs.logout.no")}
+        confirmText={t("dialogs.logout.confirm")}
+        icon={t("dialogs.logout.icon")}
+        onCancel={() => setDialog(null)}
+        onConfirm={handleConfirmLogout}
+      />
+    )}
+
+    {dialog === "deleteAccount" && (
+      <CloseOrDelete
+        variant="delete"
+        title={t("dialogs.deleteAccount.title")}
+        message={t("dialogs.deleteAccount.message")}
+        cancelText={t("dialogs.deleteAccount.no")}
+        confirmText={t("dialogs.deleteAccount.confirm")}
+        icon={t("dialogs.deleteAccount.icon")}
+        onCancel={() => setDialog(null)}
+        onConfirm={handleConfirmDelete}
+      />
+    )}
+    </>
   );
 }
 

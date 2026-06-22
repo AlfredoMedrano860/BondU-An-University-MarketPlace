@@ -43,7 +43,7 @@ function SettingsGroup({ items, darkMode, onToggle }: SettingsGroupProps) {
               <span className="text-sm font-medium text-black">{item.label}</span>
             </div>
 
-            {/* Toggle o chevron según el tipo de item */}
+            {/* Toggle  */}
             {item.toggle ? (
               <button
                 onClick={onToggle}
@@ -52,7 +52,7 @@ function SettingsGroup({ items, darkMode, onToggle }: SettingsGroupProps) {
                 <div className={`w-5 h-5 bg-white rounded-full shadow transition-transform duration-300 ${darkMode ? "translate-x-5" : "translate-x-0"}`} />
               </button>
             ) : (
-              <button onClick={item.onPress}>
+              <button onClick={item.onPress} className="hover:opacity-75 transition-opacity">
                 <ChevronRight size={18} className="text-gray-400" />
               </button>
             )}

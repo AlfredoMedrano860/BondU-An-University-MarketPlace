@@ -1,67 +1,86 @@
-import { Camera } from "lucide-react";
+import { useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import type { ChangeEvent } from "react";
+import { Camera, User, AtSign, Lock } from "lucide-react";
 import BackButton from "../ui/BackButton";
 import InputSpace from "../ui/InputSpace";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
+import SectionHeader from "../ui/SectionHeader";
 import { useAccountForm } from "../../hooks/useAccountForm";
 import type { UserProfile } from "../data/UserProfile";
 
-/**
- * Props de AccountScreen.
- * @see UserProfile
- */
+/** Props del componente {@link AccountScreen}. */
 interface AccountScreenProps {
-  /** Usuario actualmente autenticado. */
+  /** Perfil actual del usuario autenticado. */
   currentUser: UserProfile;
-  /** Navega a la pantalla anterior. */
+  /** Navega hacia atrás (a la pantalla de perfil). */
   onBack: () => void;
-  /** Se ejecuta al guardar cambios con el perfil actualizado. */
+  /** Se ejecuta con el perfil actualizado tras guardar exitosamente. */
   onUpdate: (user: UserProfile) => void;
 }
 
+
 /**
- * Pantalla de edición del perfil del usuario.
+ * Pantalla de edición de perfil del usuario autenticado.
  *
- * Permite modificar información personal (usuario, correo, teléfono,
- * universidad, carrera) y cambiar la contraseña.
- * Usa {@link useAccountForm} para manejar el estado y la validación del formulario.
- *
- * @param currentUser - Usuario actualmente autenticado.
- * @param onBack - Navega a la pantalla anterior.
- * @param onUpdate - Se ejecuta al guardar cambios con el perfil actualizado.
+ * Muestra un banner con el título, avatar con botón de cámara, y secciones
+ * para información personal, contacto y seguridad (cambio de contraseña).
+ * La nueva contraseña solo puede guardarse si se proporciona la contraseña actual.
  */
 function AccountScreen({ currentUser, onBack, onUpdate }: AccountScreenProps) {
-  const { fields, setters, status, handleSave } = useAccountForm(
-    currentUser,
-    onUpdate,
-  );
+  const { t } = useTranslation();
+  const { fields, setters, handleSave } = useAccountForm(currentUser, onUpdate);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const prevBlobRef    = useRef<string | null>(null);
+
+  useEffect(() => {
+    return () => { if (prevBlobRef.current) URL.revokeObjectURL(prevBlobRef.current); };
+  }, []);
+
+  /**
+   * Crea una blob URL para previsualizar la imagen seleccionada.
+   * Revoca la URL anterior para evitar memory leaks.
+   */
+  const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (prevBlobRef.current) URL.revokeObjectURL(prevBlobRef.current);
+    const url = URL.createObjectURL(file);
+    prevBlobRef.current = url;
+    setters.setAvatar(url);
+  };
 
   return (
     <div className="h-screen bg-beige overflow-y-auto no-scrollbar">
-      {/* ── HEADER ── */}
-      <div className="absolute top-10 left-3">
-        <BackButton onClick={onBack} />
-      </div>
-      <div className="bg-primary px-6 pt-15 pb-16 text-center">
-        <h1 className="text-white text-xl font-bold">Mi Cuenta</h1>
+
+      {/* ── BANNER ── */}
+      <div className="relative bg-primary h-36 flex items-center justify-center">
+        <div className="absolute top-6 left-0 z-10">
+          <BackButton onClick={onBack} />
+        </div>
+        <h1 className="text-white text-xl font-bold">{t("account.title")}</h1>
       </div>
 
-      {/* ── AVATAR ── reemplazar por selector de imagen cuando esté listo */}
-      <div className="flex justify-center -mt-10 mb-6 relative z-10">
+      {/* ── AVATAR ── */}
+      <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+      <div className="flex flex-col items-center -mt-12 mb-2 relative z-10">
         <div className="relative">
-          <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-beige">
-            <img
-              src={currentUser.avatar}
-              alt="avatar"
-              className="w-full h-full object-cover"
-            />
+          <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-beige shadow-lg">
+            <img src={fields.avatar} alt="avatar" className="w-full h-full object-cover" />
           </div>
-          <button className="absolute bottom-0 right-0 w-7 h-7 bg-aux rounded-full flex items-center justify-center">
-            <Camera size={14} color="white" />
+          <button
+            onClick={() => avatarInputRef.current?.click()}
+            className="absolute bottom-0 right-0 w-8 h-8 bg-aux rounded-full flex items-center justify-center shadow hover:opacity-80 active:scale-95 transition-all duration-150"
+          >
+            <Camera size={15} color="white" />
           </button>
         </div>
+        <h2 className="mt-3 text-xl font-bold color-secondary">{fields.username || currentUser.username}</h2>
+        <p className="text-sm text-gray-400 mt-0.5">{currentUser.email}</p>
       </div>
 
       {/* ── FORMULARIO ── */}
+<<<<<<< HEAD
       <div className="px-5 flex flex-col gap-6 pb-10">
         {/* Información Personal */}
         <div className="bg-white-app rounded-3xl p-5 flex flex-col gap-4">
@@ -112,20 +131,47 @@ function AccountScreen({ currentUser, onBack, onUpdate }: AccountScreenProps) {
             value={fields.confirm}
             onChange={setters.setConfirm}
           />
+=======
+      <div className="px-5 sm:px-10 md:max-w-2xl md:mx-auto flex flex-col gap-4 py-6 pb-12">
+
+        {/* Información personal */}
+        <div className="bg-white-app rounded-3xl overflow-hidden">
+          <SectionHeader icon={User} label={t("account.personalInfo")} />
+          <div className="px-5 pb-5 flex flex-col gap-4">
+            <InputSpace placeholder={t("account.username")}   hint="Tu nombre completo"       value={fields.username}   onChange={setters.setUsername} />
+            <InputSpace placeholder={t("account.email")}      hint="ejemplo@gmail.com"         value={fields.email}      onChange={setters.setEmail} />
+            <InputSpace placeholder={t("account.university")} hint="Universidad de Costa Rica" value={fields.university} onChange={setters.setUniversity} />
+            <InputSpace placeholder={t("account.career")}     hint="Ingeniería en Sistemas"    value={fields.career}     onChange={setters.setCareer} />
+          </div>
+>>>>>>> 16c1f102ab07997139a3469741c299c2c95291d4
         </div>
 
-        {/* Mensajes de estado ── reemplazar con sistema de notificaciones */}
-        {status.error && (
-          <p className="text-red-500 text-sm text-center">{status.error}</p>
-        )}
-        {status.saved && (
-          <p className="text-green-500 text-sm text-center">
-            ¡Cambios guardados!
-          </p>
-        )}
+        {/* Información de contacto */}
+        <div className="bg-white-app rounded-3xl overflow-hidden">
+          <SectionHeader icon={AtSign} label={t("account.contactInfo")} />
+          <div className="px-5 pb-5 flex flex-col gap-4">
+            <InputSpace placeholder={t("account.bio")}       hint="Cuéntale algo a los compradores..." value={fields.bio}       onChange={setters.setBio}       multiline />
+            <InputSpace placeholder={t("account.phone")}     hint="+506 8888-8888"                     value={fields.phone}     onChange={setters.setPhone} />
+            <InputSpace placeholder={t("account.instagram")} hint="@tu_usuario"                        value={fields.instagram} onChange={setters.setInstagram} />
+            <InputSpace placeholder={t("account.telegram")}  hint="@tu_usuario"                        value={fields.telegram}  onChange={setters.setTelegram} />
+          </div>
+        </div>
 
-        <PrimaryButton text="GUARDAR CAMBIOS" onClick={handleSave} />
-      </div> 
+        {/* Seguridad */}
+        <div className="bg-white-app rounded-3xl overflow-hidden">
+          <SectionHeader icon={Lock} label={t("account.security")} />
+          <div className="px-5 pb-5 flex flex-col gap-4">
+            <InputSpace type="password" placeholder={t("account.currentPassword")} hint="Tu contraseña actual"  value={fields.currentPassword} onChange={setters.setCurrentPassword} />
+            <InputSpace type="password" placeholder={t("account.newPassword")}     hint="Mínimo 8 caracteres"   value={fields.password}        onChange={setters.setPassword} />
+            {fields.password.length > 0 && (
+              <InputSpace type="password" placeholder={t("account.confirmPassword")} hint="Repetí tu nueva contraseña" value={fields.confirm} onChange={setters.setConfirm} />
+            )}
+          </div>
+        </div>
+
+        <AppButton text={t("account.save")} onClick={handleSave} />
+      </div>
+
     </div>
   );
 }

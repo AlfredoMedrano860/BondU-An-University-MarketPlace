@@ -1,74 +1,57 @@
 import { useState } from "react";
-import AppHeader from "../templates/AppHeader";
+import { useTranslation } from "react-i18next";
 import FeaturedBanner from "../templates/FeaturedBanner";
 import ProductGrid from "../templates/ProductGrid";
-import BottomNav from "../templates/BottomNav";
-import ProductScreen from "./ProductScreen";
 import EmptyState from "../ui/EmptyState";
 import type { Product } from "../data/Product";
 import type { UserProfile } from "../data/UserProfile";
-import { getProducts, toggleFavorite } from "../data/ProductStore";
+import { getProducts } from "../data/ProductStore";
+import { useFavoriteToggle } from "../../hooks/useFavoriteToggle";
 
 /**
  * Props de HomeScreen.
- * @see UserProfile
  */
 interface HomeScreenProps {
   /** Navega a otra pantalla por nombre. */
   onNavigate: (screen: string) => void;
-  /** Usuario actualmente autenticado. */
+  /** Abre el detalle de un producto. */
+  onViewProduct: (product: Product) => void;
+  /** Usuario autenticado; sus propios productos se excluyen del listado. */
   currentUser: UserProfile;
 }
 
 /**
- * Pantalla principal de la aplicación.
+ * Pantalla de inicio con banner destacado y cuadrícula de productos recientes.
  *
- * Muestra el banner destacado y la grilla de productos disponibles.
- * Si no hay productos muestra {@link EmptyState}.
- * Al seleccionar un producto navega a {@link ProductScreen}.
+ * Muestra los productos de otros usuarios y permite alternar favoritos.
+ * No se suscribe al store: carga los productos una sola vez al montar.
  *
  * @param onNavigate - Navega a otra pantalla por nombre.
- * @param currentUser - Usuario actualmente autenticado.
+ * @param onViewProduct - Abre el detalle de un producto.
+ * @param currentUser - Usuario autenticado cuyos productos se excluyen.
  */
-function HomeScreen({ onNavigate, currentUser }: HomeScreenProps) {
-  const [products, setProducts] = useState<Product[]>(getProducts());
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-  /**
-   * Invierte el estado de favorito de un producto y sincroniza el estado local.
-   * @param product - Producto al que se le cambia el estado.
-   */
-  const handleToggleFavorite = (product: Product) => {
-    toggleFavorite(product.id);
-    setProducts(getProducts());
-  };
-
-  if (selectedProduct) {
-    return <ProductScreen product={selectedProduct} onBack={() => setSelectedProduct(null)} />;
-  }
+function HomeScreen({ onNavigate, onViewProduct, currentUser }: HomeScreenProps) {
+  const { t } = useTranslation();
+  const [products, setProducts] = useState<Product[]>(() =>
+    getProducts().filter(p => p.seller.id !== currentUser.id)
+  );
+  const handleToggleFavorite = useFavoriteToggle(
+    () => setProducts(getProducts().filter(p => p.seller.id !== currentUser.id))
+  );
 
   return (
-    <div className="h-screen bg-beige overflow-y-auto no-scrollbar pb-55">
-
-      {/* ── HEADER ── */}
-      <AppHeader currentUser={currentUser} />
-
-      {/* ── BANNER DESTACADO ── */}
+    <div className="h-full bg-beige overflow-y-auto no-scrollbar pb-28">
       <FeaturedBanner />
-
-      {/* ── CONTENIDO ── grilla de productos o estado vacío */}
-      {products.length === 0
-        ? <EmptyState message="No hay productos disponibles" />
-        : <ProductGrid
-            products={products}
-            onBuy={setSelectedProduct}
-            onToggleFavorite={handleToggleFavorite}
-          />
-      }
-
-      {/* ── NAVEGACIÓN ── */}
-      <BottomNav onNavigate={onNavigate} currentScreen="home" />
-
+      {products.length === 0 ? (
+        <EmptyState message={t("home.noProducts")} />
+      ) : (
+        <ProductGrid
+          products={products}
+          onBuy={onViewProduct}
+          onToggleFavorite={handleToggleFavorite}
+          onViewAll={() => onNavigate("marketplace")}
+        />
+      )}
     </div>
   );
 }

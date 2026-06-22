@@ -1,75 +1,70 @@
-import { CirclePlus } from "lucide-react";
-import BackButton from "../ui/BackButton";
-import { MAX_PRODUCT_IMAGES } from "../data/ProductStore";
+import { ImagePlus, Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { maxProductImages } from "../data/ProductStore";
 import { useImagePicker } from "../../hooks/useImagePicker";
 
 /**
  * Props de ProductImagePicker.
  */
 interface ProductImagePickerProps {
-  /** Lista de URLs de imágenes seleccionadas. */
+  /** Arreglo de URLs de imágenes; el índice 0 es la imagen principal. */
   gallery: string[];
-  /** Se ejecuta al cambiar la galería con la lista actualizada. */
+  /** Se ejecuta con la galería actualizada al seleccionar una imagen. */
   onGalleryChange: (gallery: string[]) => void;
-  /** Navega a la pantalla anterior. */
-  onBack: () => void;
 }
 
 /**
- * Selector de imágenes para un nuevo producto.
+ * Selector de imágenes para el formulario de producto.
  *
- * Muestra la imagen principal y miniaturas para cada slot disponible.
- * El número de slots está definido por {@link MAX_PRODUCT_IMAGES}.
- * Usa {@link useImagePicker} para manejar la selección de archivos del dispositivo.
+ * Muestra un slot principal y miniaturas secundarias (hasta {@link maxProductImages}).
+ * Al pulsar cualquier slot abre el selector de archivos del sistema.
+ * Usado en {@link AddProductScreen}.
  *
- * @param gallery - Lista de URLs de imágenes seleccionadas.
- * @param onGalleryChange - Se ejecuta al cambiar la galería con la lista actualizada.
- * @param onBack - Navega a la pantalla anterior.
+ * @param gallery - URLs de imágenes actuales.
+ * @param onGalleryChange - Callback con la galería actualizada.
  */
-function ProductImagePicker({ gallery, onGalleryChange, onBack }: ProductImagePickerProps) {
+function ProductImagePicker({ gallery, onGalleryChange }: ProductImagePickerProps) {
+  const { t } = useTranslation();
   const { fileInputRef, handleFileChange, openPicker } = useImagePicker(gallery, onGalleryChange);
-
   const mainImage = gallery[0] ?? null;
 
   return (
-    <div className="relative w-full bg-white overflow-hidden">
+    <div className="flex flex-col gap-3 px-4 pt-5 pb-2">
 
-      {/* Input de archivo oculto ── se activa programáticamente con openPicker */}
       <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
 
-      {/* ── IMAGEN PRINCIPAL ── muestra placeholder si no hay imagen */}
-      <div className="w-full h-72.5 bg-[#d9cfc4] flex items-center justify-center">
-        {mainImage
-          ? <img src={mainImage} alt="preview" className="w-full h-full object-cover" />
-          : <CirclePlus size={60} color="hsl(67, 100%, 35%)" strokeWidth={1} />
-        }
-      </div>
+      <p className="text-sm font-semibold color-text">{t("addProduct.photos")}</p>
 
-      {/* ── HEADER ── */}
-      <div className="absolute top-4 left-0">
-        <BackButton onClick={onBack} />
-      </div>
-
-      {/* Botón flotante para agregar imagen al slot 0 */}
+      {/* ── SLOT PRINCIPAL ── */}
       <button
+        type="button"
         onClick={() => openPicker(0)}
-        className="absolute bottom-24 right-4 w-11 h-11 rounded-full bg-aux flex items-center justify-center"
+        className="w-full h-52 rounded-2xl overflow-hidden bg-white-app border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-2 hover:opacity-80 active:opacity-70 transition-opacity"
       >
-        <CirclePlus size={24} color="white" strokeWidth={1.5} />
+        {mainImage ? (
+          <img src={mainImage} alt={t("addProduct.mainPhoto")} className="w-full h-full object-cover" />
+        ) : (
+          <>
+            <ImagePlus size={36} color="hsl(67,100%,35%)" strokeWidth={1.5} />
+            <span className="text-xs text-gray-400 font-medium">{t("addProduct.mainPhoto")}</span>
+          </>
+        )}
       </button>
 
-      {/* ── MINIATURAS ── un slot por cada imagen permitida */}
-      <div className="flex gap-3 px-4 py-3 bg-[#d9cfc4]">
-        {Array.from({ length: MAX_PRODUCT_IMAGES }).map((_, i) => (
+      {/* ── MINIATURAS ── */}
+      <div className="flex gap-2">
+        {Array.from({ length: maxProductImages }).map((_, i) => (
           <button
             key={i}
-            onClick={() => openPicker(i)}
-            className="w-20 h-20 rounded-xl overflow-hidden border-2 border-dashed border-white flex items-center justify-center"
+            type="button"
+            onClick={() => openPicker(i + 1)}
+            className="flex-1 aspect-square rounded-xl overflow-hidden bg-white-app border border-dashed border-gray-200 flex items-center justify-center hover:opacity-80 active:opacity-70 transition-opacity"
           >
-            {gallery[i]
-              ? <img src={gallery[i]} alt={`imagen ${i + 1}`} className="w-full h-full object-cover" />
-              : <CirclePlus size={28} color="white" strokeWidth={1.5} />
-            }
+            {gallery[i + 1] ? (
+              <img src={gallery[i + 1]} alt={t("addProduct.photo", { n: i + 2 })} className="w-full h-full object-cover" />
+            ) : (
+              <Plus size={20} color="#9ca3af" strokeWidth={1.5} />
+            )}
           </button>
         ))}
       </div>

@@ -1,0 +1,374 @@
+{
+  "welcome": {
+    "title": "welcome to",
+    "subtitle": "A University Marketplace",
+    "login": "LOG IN",
+    "exit": "EXIT"
+  },
+  "login": {
+    "title": "Welcome back!",
+    "description": "Access the trusted university marketplace. Buy, sell and connect with students in your community.",
+    "email": "Email",
+    "password": "Password",
+    "forgot": "Forgot your password?",
+    "submit": "LOG IN",
+    "orContinueWith": "or continue with",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+  "signup": {
+    "title": "Create an account",
+    "description": "Join the trusted university marketplace. Buy, sell and connect with students in your community.",
+    "username": "Username",
+    "usernameHint": "Your full name",
+    "email": "Email",
+    "emailHint": "example@gmail.com",
+    "password": "Password",
+    "passwordHint": "At least 8 characters",
+    "submit": "SIGN UP",
+    "alreadyHaveAccount": "Already have an account?",
+    "loginLink": "Login"
+  },
+  "forgotPassword": {
+    "email": {
+      "title": "Forgot your password?",
+      "description": "Enter your email and we'll send you a code to recover your account.",
+      "email": "Email",
+      "emailHint": "example@gmail.com",
+      "submit": "SEND CODE"
+    },
+    "code": {
+      "title": "Verify code",
+      "description": "Enter the code sent to",
+      "submit": "VERIFY",
+      "noCode": "Didn't receive the code?",
+      "resend": "Resend"
+    },
+    "newPassword": {
+      "title": "New password",
+      "description": "Enter your new password to recover access.",
+      "newPassword": "New password",
+      "passwordHint": "At least 8 characters",
+      "confirm": "Confirm password",
+      "confirmHint": "Repeat your password",
+      "submit": "CHANGE PASSWORD"
+    }
+  },
+  "home": {
+    "welcomeBack": "Welcome back!",
+    "noProducts": "No products available",
+    "recentlyAdded": "Recently Added",
+    "viewAll": "View All",
+    "specialForYou": "#SpecialForYou",
+    "featured": [
+      { "alt": "Special for you 1", "title": "Buy and sell on your campus",        "description": "Find what you need among students at your university."         },
+      { "alt": "Special for you 2", "title": "Connect with your community",        "description": "Thousands of students near you buying and selling."           },
+      { "alt": "Special for you 3", "title": "Save by buying from peers",          "description": "The best prices within your university community."            }
+    ]
+  },
+  "marketplace": {
+    "resultsFor": "Results for:",
+    "clear": "Clear",
+    "noResultsFor": "No results for \"{{term}}\"",
+    "noProducts": "No products available"
+  },
+  "filters": {
+    "title": "Filters",
+    "state": "Condition",
+    "maxPrice": "Max price",
+    "noLimit": "No limit",
+    "upTo": "Up to",
+    "apply": "APPLY",
+    "states": {
+      "Nuevo": "New",
+      "Usado": "Used",
+      "Detalle": "Like New"
+    }
+  },
+  "favorites": {
+    "noFavorites": "You have no favorites yet"
+  },
+  "product": {
+    "buy": "BUY",
+    "tabs": {
+      "info": "Information",
+      "seller": "Seller",
+      "share": "Share"
+    },
+    "verifiedSeller": "Verified seller.",
+    "noDescription": "No description",
+    "shareInstruction": "You can share this item with this url:",
+    "unavailable": "This product does not exist"
+  },
+  "addProduct": {
+    "title": "New Product",
+    "editTitle": "Edit Product",
+    "photos": "Product photos",
+    "mainPhoto": "Add main photo",
+    "details": "Product details",
+    "namePlaceholder": "Product name",
+    "pricePlaceholder": "Product price",
+    "statePlaceholder": "Condition",
+    "descriptionPlaceholder": "Product description",
+    "photo": "Photo {{n}}",
+    "save": "SAVE"
+  },
+  "myProducts": {
+    "title": "My Products",
+    "empty": "You have no published products",
+    "delete": "DELETE",
+    "edit": "EDIT",
+    "markSold": "SOLD"
+  },
+  "account": {
+    "title": "Edit Profile",
+    "personalInfo": "Personal Information",
+    "username": "Username",
+    "email": "Email",
+    "phone": "Phone",
+    "university": "University",
+    "career": "Major",
+    "contactInfo": "Contact Information",
+    "bio": "Bio",
+    "instagram": "Instagram",
+    "telegram": "Telegram",
+    "security": "Security",
+    "changePassword": "Change Password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "saved": "Changes saved!",
+    "save": "SAVE CHANGES",
+    "passwordMismatch": "Passwords do not match."
+  },
+  "settings": {
+    "myProfile": "My Profile",
+    "profile": "Profile",
+    "myProducts": "My Products",
+    "preferences": "Preferences",
+    "darkTheme": "Dark theme",
+    "notifications": "Notifications",
+    "language": "Language",
+    "information": "Information",
+    "session": "Session",
+    "logout": "Log Out",
+    "deleteAccount": "Delete Account",
+    "langLabel": "English"
+  },
+  "profile": {
+    "contact": "Contact",
+    "products": "Products",
+    "reviews": "Reviews",
+    "sales": "Sales",
+    "contactMessage": "Contact me! I'm reliable",
+    "noProducts": "You have no published products",
+    "noReviews": "No reviews yet"
+  },
+  "review": {
+    "placeholder": "Write your review...",
+    "send": "SEND"
+  },
+  "search": {
+    "placeholder": "Search...",
+    "noResults": "No results"
+  },
+  "dialogs": {
+    "logout": {
+      "title":"Log Out",
+      "message": "Are you sure you want to log out?",
+      "no": "No",
+      "confirm": "Log out",
+      "icon": "!"
+    },
+    "deleteAccount": {
+      "title":"Delete Account",
+      "message": "Are you sure you want to delete your account?",
+      "no": "No",
+      "confirm": "Delete permanently",
+      "icon":"!"
+    },
+    "EmptySpace":{
+      "message": "Fill the blank space",
+      "icon": "X"
+    },
+    "successfull":{
+      "message": "Action made correctly",
+      "icon": "✔"
+    }
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "next": "NEXT",
+    "slides": [
+      {
+        "title": "Exchange",
+        "description": "Buy, sell, and exchange products easily with other students at your university."
+      },
+      {
+        "title": "Connect",
+        "description": "Find students near you and discover useful products within your community."
+      },
+      {
+        "title": "Save",
+        "description": "Find what you need at the best price within your trusted university community.",
+        "buttonText": "GET STARTED"
+      }
+    ]
+  },
+  "about": {
+    "title": "About Us",
+    "missionLabel": "Mission",
+    "missionText": "Connect university students so they can buy, sell, and exchange products easily, safely, and within their own community.",
+    "visionLabel": "Vision",
+    "visionText": "To be the reference university marketplace in Latin America, fostering the circular economy and sense of community among students.",
+    "teamLabel": "The Team",
+    "team": [
+      { "role": "Developer", "description": "Description of their experience in the project." },
+      { "role": "Developer", "description": "Description of their experience in the project." },
+      { "role": "Developer", "description": "Description of their experience in the project." }
+    ]
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "How do I contact a seller?",
+        "answer": "Go to the product and tap the Seller tab. There you'll find the seller's profile to coordinate delivery."
+      },
+      {
+        "question": "How do I publish a product?",
+        "answer": "Tap the + button in the navigation bar, fill out the form with photos, name, price and product condition."
+      },
+      {
+        "question": "Is it safe to buy here?",
+        "answer": "All users are verified university students. We recommend making exchanges in public places on campus."
+      },
+      {
+        "question": "Can I delete my product?",
+        "answer": "Yes. Go to Settings → My Products and tap DELETE on the product you want to remove."
+      },
+      {
+        "question": "How does the exchange work?",
+        "answer": "You can publish your product indicating that you accept exchanges in the description and coordinate directly with the seller."
+      }
+    ]
+  },
+  "notifications": {
+    "productPublished": {
+      "title": "Product published!",
+      "message": "Your product is now available in the marketplace."
+    },
+    "productUpdated": {
+      "title": "Product updated!",
+      "message": "Changes were saved successfully."
+    },
+    "productDeleted": {
+      "title": "Product deleted",
+      "message": "The product was removed from your profile."
+    },
+    "productSold": {
+      "title": "Product sold!",
+      "message": "Your sale was registered. Congratulations!"
+    },
+    "productError": {
+      "title": "Could not save",
+      "message": "Check the fields and try again."
+    },
+    "passwordChanged": {
+      "title": "Password updated!",
+      "message": "You can now log in with your new password."
+    },
+    "loginError": {
+      "title": "Login failed",
+      "message": "Check your email and password."
+    },
+    "signupSuccess": {
+      "title": "Account created!",
+      "message": "You can now log in with your account."
+    },
+    "signupError": {
+      "title": "Registration failed",
+      "message": "Check your details and try again."
+    },
+    "accountSaved": {
+      "title": "Profile updated!",
+      "message": "Your information was saved successfully."
+    },
+    "accountRequired": {
+      "title": "Required fields",
+      "message": "Username and email cannot be empty."
+    },
+    "codeSent": {
+      "title": "Code sent",
+      "message": "Check your email inbox."
+    },
+    "favoriteAdded": {
+      "title": "Added to favorites",
+      "message": "The product was saved to your list."
+    },
+    "favoriteRemoved": {
+      "title": "Removed from favorites",
+      "message": "The product was removed from your list."
+    },
+    "linkCopied": {
+      "title": "Link copied!",
+      "message": "The link was copied to the clipboard."
+    },
+    "languageChanged": {
+      "title": "Language updated",
+      "message": "The app language has been changed."
+    },
+    "notificationsEnabled": {
+      "title": "Notifications enabled",
+      "message": "You'll receive app alerts."
+    },
+    "notificationsDisabled": {
+      "title": "Notifications disabled",
+      "message": "You won't receive app alerts."
+    },
+    "darkModeComingSoon": {
+      "title": "Coming soon",
+      "message": "Dark mode will be available in future versions."
+    },
+    "passwordMismatch": {
+      "title": "Passwords don't match",
+      "message": "Make sure both passwords are the same."
+    },
+    "wrongPassword": {
+      "title": "Wrong password",
+      "message": "The current password you entered is incorrect."
+    },
+    "emailRequired": {
+      "title": "Email required",
+      "message": "Enter your email to continue."
+    },
+    "codeIncomplete": {
+      "title": "Incomplete code",
+      "message": "Enter all 4 digits of the code."
+    },
+    "passwordRequired": {
+      "title": "Password required",
+      "message": "Enter a new password."
+    },
+    "loggedOut": {
+      "title": "Logged out",
+      "message": "See you soon!"
+    },
+    "reviewSent": {
+      "title": "Review sent!",
+      "message": "Thanks for your feedback."
+    },
+    "reviewError": {
+      "title": "Select a rating",
+      "message": "Choose how many stars to give before sending."
+    }
+  },
+  "terms": {
+    "title": "Terms & Privacy",
+    "termsLabel": "Terms and Conditions",
+    "termsText": "By using Bondu you agree that you are an active university student. Publishing illegal, counterfeit products or those that violate third-party rights is prohibited. Bondu is not responsible for transactions made outside the platform. The user is responsible for the accuracy of published information.",
+    "privacyLabel": "Privacy Policy",
+    "privacyText": "The personal information you provide (name, email, university) is used solely for the app's operation. We do not share your data with third parties. You can request deletion of your account and data at any time from Settings.",
+    "version": "Version {{version}}"
+  }
+}

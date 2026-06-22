@@ -4,31 +4,19 @@ import banner3 from "../../assets/imgs/Banner3.png";
 
 /**
  * Item del banner destacado en la pantalla principal.
+ * Textos (`alt`, `title`, `description`) viven en `home.featured[i]` en i18n.
+ * Usado en {@link FeaturedBanner}.
  */
 export interface FeaturedItem {
   /** Identificador único del item. */
   id: number;
   /** URL de la imagen del banner. */
   image: string;
-  /** Texto alternativo de la imagen. */
-  alt: string;
 }
 
-/** Banners del carrusel mostrado en {@link FeaturedBanner}. */
+/** Listado de items para el banner rotativo de {@link FeaturedBanner}. */
 export const featuredItems: FeaturedItem[] = [
-  {
-    id: 1,
-    image: banner1,
-    alt: "Especial para ti 1",
-  },
-  {
-    id: 2,
-    image: banner2,
-    alt: "Especial para ti 2",
-  },
-  {
-    id: 3,
-    image: banner3,
-    alt: "Especial para ti 3",
-  },
+  { id: 1, image: banner1 },
+  { id: 2, image: banner2 },
+  { id: 3, image: banner3 },
 ];

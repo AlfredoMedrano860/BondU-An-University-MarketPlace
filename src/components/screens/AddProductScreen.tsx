@@ -1,56 +1,44 @@
+import { useTranslation } from "react-i18next";
 import ProductImagePicker from "../templates/ProductImagePicker";
 import ProductForm from "../templates/ProductForm";
 import { useAddProductForm } from "../../hooks/useAddProductForm";
 import type { UserProfile } from "../data/UserProfile";
+import type { Product } from "../data/Product";
 
-/**
- * Props de AddProductScreen.
- * @see UserProfile
- */
 interface AddProductScreenProps {
-  /** Navega a la pantalla anterior y descarta los cambios. */
   onBack: () => void;
-  /** Usuario autenticado que publica el producto. */
   currentUser: UserProfile;
+  initialProduct?: Product;
 }
 
-/**
- * Pantalla para publicar un nuevo producto en el marketplace.
- *
- * Combina la selección de imágenes y el formulario de datos del producto.
- * Usa {@link useAddProductForm} para manejar el estado y la validación,
- * y llama a {@link onBack} al guardar exitosamente.
- *
- * @param onBack - Navega a la pantalla anterior y descarta los cambios.
- * @param currentUser - Usuario autenticado que publica el producto.
- */
-function AddProductScreen({ onBack, currentUser }: AddProductScreenProps) {
-  const { fields, setters, error, handleSave } = useAddProductForm(currentUser, onBack);
-
+function AddProductScreen({ onBack, currentUser, initialProduct }: AddProductScreenProps) {
+  const { t } = useTranslation();
+  const { fields, setters, handleSave } = useAddProductForm(currentUser, onBack, initialProduct);
+  const title = initialProduct ? t("addProduct.editTitle") : t("addProduct.title");
+  
   return (
-    <div className="h-screen bg-[#eee7dd] overflow-y-auto no-scrollbar">
-
-      {/* ── SELECTOR DE IMÁGENES ── máximo de imágenes definido en MAX_PRODUCT_IMAGES */}
-      <ProductImagePicker
-        gallery={fields.gallery}
-        onGalleryChange={setters.setGallery}
-        onBack={onBack}
-      />
-
-      {/* ── FORMULARIO ── nombre, precio, estado, descripción y mensaje de error */}
-      <ProductForm
-        name={fields.name}
-        price={fields.price}
-        state={fields.state}
-        description={fields.description}
-        error={error}
-        onNameChange={setters.setName}
-        onPriceChange={setters.setPrice}
-        onStateChange={setters.setState}
-        onDescriptionChange={setters.setDescription}
-        onSave={handleSave}
-      />
-
+    <div className="h-full bg-beige overflow-hidden overflow-y-auto no-scrollbar pb-28">
+      <h1 className="color-primary text-[28px] md:text-[32px] font-bold text-center pt-6 pb-1">
+        {title}
+      </h1>
+      <div className="md:grid md:grid-cols-2">
+        <div className="md:self-start">
+          <ProductImagePicker gallery={fields.gallery} onGalleryChange={setters.setGallery} />
+        </div>
+        <div>
+          <ProductForm
+            name={fields.name}
+            price={fields.price}
+            state={fields.state}
+            description={fields.description}
+            onNameChange={setters.setName}
+            onPriceChange={setters.setPrice}
+            onStateChange={setters.setState}
+            onDescriptionChange={setters.setDescription}
+            onSave={handleSave}
+          />
+        </div>
+      </div>
     </div>
   );
 }

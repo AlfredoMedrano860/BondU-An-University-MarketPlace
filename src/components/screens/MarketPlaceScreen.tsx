@@ -1,70 +1,86 @@
-import { useState } from "react";
-import AppHeader from "../templates/AppHeader";
+import { useTranslation } from "react-i18next";
 import ProductGrid from "../templates/ProductGrid";
-import BottomNav from "../templates/BottomNav";
-import ProductScreen from "./ProductScreen";
 import EmptyState from "../ui/EmptyState";
 import type { Product } from "../data/Product";
 import type { UserProfile } from "../data/UserProfile";
-import { getProducts, toggleFavorite } from "../data/ProductStore";
+import { useMarketplaceProducts } from "../../hooks/useMarketplaceProducts";
 
 /**
  * Props de MarketPlaceScreen.
- * @see UserProfile
  */
 interface MarketPlaceScreenProps {
-  /** Navega a otra pantalla por nombre. */
-  onNavigate: (screen: string) => void;
-  /** Usuario actualmente autenticado. */
+  /** Usuario autenticado; sus productos se excluyen del listado. */
   currentUser: UserProfile;
+  /** Término de búsqueda activo. Por defecto `""`. */
+  searchTerm?: string;
+  /** Actualiza el término de búsqueda en el padre (pasar `""` lo limpia). */
+  onSearch?: (term: string) => void;
+  /** Filtro de estado activo ("Nuevo" | "Usado" | "Detalle" | ""). */
+  stateFilter?: string;
+  /** Limpia el filtro de estado activo. */
+  onClearState?: () => void;
+  /** Precio máximo del filtro activo (500 = sin límite). */
+  priceFilter?: number;
+  /** Limpia el filtro de precio. */
+  onClearPrice?: () => void;
+  /** Abre el detalle de un producto. */
+  onViewProduct: (product: Product) => void;
 }
 
 /**
- * Pantalla del marketplace con todos los productos disponibles.
+ * Pantalla del marketplace con listado filtrable de productos de otros usuarios.
  *
- * Muestra la grilla completa de productos publicados en la plataforma.
- * Si no hay productos muestra {@link EmptyState}.
- * Al seleccionar un producto navega a {@link ProductScreen}.
+ * Delega suscripción, filtrado y manejo de favoritos a {@link useMarketplaceProducts}.
  *
- * @param onNavigate - Navega a otra pantalla por nombre.
- * @param currentUser - Usuario actualmente autenticado.
+ * @param currentUser - Usuario autenticado cuyos productos se excluyen.
+ * @param searchTerm - Término activo para filtrar por nombre.
+ * @param onSearch - Actualiza el término en el padre.
+ * @param onViewProduct - Abre el detalle de un producto.
  */
-function MarketPlaceScreen({ onNavigate, currentUser }: MarketPlaceScreenProps) {
-  const [products, setProducts] = useState<Product[]>(getProducts());
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-  /**
-   * Invierte el estado de favorito de un producto y sincroniza el estado local.
-   * @param product - Producto al que se le cambia el estado.
-   */
-  const handleToggleFavorite = (product: Product) => {
-    toggleFavorite(product.id);
-    setProducts(getProducts());
-  };
-
-  if (selectedProduct) {
-    return <ProductScreen product={selectedProduct} onBack={() => setSelectedProduct(null)} />;
-  }
+function MarketPlaceScreen({ currentUser, searchTerm = "", onSearch, stateFilter = "", onClearState, priceFilter = 500, onClearPrice, onViewProduct }: MarketPlaceScreenProps) {
+  const { t } = useTranslation();
+  const { displayProducts, handleToggleFavorite } = useMarketplaceProducts(currentUser.id, searchTerm, stateFilter, priceFilter);
 
   return (
-    <div className="h-screen bg-beige overflow-y-auto no-scrollbar pb-55">
-
-      {/* ── HEADER ── */}
-      <AppHeader currentUser={currentUser} />
-
-      {/* ── CONTENIDO ── grilla de productos o estado vacío */}
-      {products.length === 0
-        ? <EmptyState message="No hay productos disponibles" />
-        : <ProductGrid
-            products={products}
-            onBuy={setSelectedProduct}
-            onToggleFavorite={handleToggleFavorite}
-          />
+    <div className="h-full bg-beige overflow-y-auto no-scrollbar pb-28">
+      {(searchTerm || stateFilter || priceFilter < 500) && (
+        <div className="px-6 sm:px-10 md:px-16 lg:px-20 pt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
+          {searchTerm && (
+            <>
+              <span className="text-sm text-gray-500">
+                {t("marketplace.resultsFor")} <span className="font-bold color-secondary">"{searchTerm}"</span>
+              </span>
+              <button onClick={() => onSearch?.("")} className="text-xs color-primary font-semibold underline">
+                {t("marketplace.clear")}
+              </button>
+            </>
+          )}
+          {stateFilter && (
+            <>
+              <span className="text-sm text-gray-500">
+                {t("filters.state")}: <span className="font-bold color-secondary">{t(`filters.states.${stateFilter}`)}</span>
+              </span>
+              <button onClick={onClearState} className="text-xs color-primary font-semibold underline">
+                {t("marketplace.clear")}
+              </button>
+            </>
+          )}
+          {priceFilter < 500 && (
+            <>
+              <span className="text-sm text-gray-500">
+                {t("filters.upTo")}: <span className="font-bold color-secondary">${priceFilter}</span>
+              </span>
+              <button onClick={onClearPrice} className="text-xs color-primary font-semibold underline">
+                {t("marketplace.clear")}
+              </button>
+            </>
+          )}
+        </div>
+      )}
+      {displayProducts.length === 0
+        ? <EmptyState message={searchTerm ? t("marketplace.noResultsFor", { term: searchTerm }) : t("marketplace.noProducts")} />
+        : <ProductGrid products={displayProducts} onBuy={onViewProduct} onToggleFavorite={handleToggleFavorite} />
       }
-
-      {/* ── NAVEGACIÓN ── */}
-      <BottomNav onNavigate={onNavigate} currentScreen="marketplace" />
-
     </div>
   );
 }

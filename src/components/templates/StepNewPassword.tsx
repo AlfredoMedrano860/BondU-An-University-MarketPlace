@@ -1,56 +1,50 @@
+import { useTranslation } from "react-i18next";
 import InputSpace from "../ui/InputSpace";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
 
 /**
  * Props de StepNewPassword.
  */
 interface StepNewPasswordProps {
-  /** Valor actual del campo nueva contraseña. */
+  /** Nueva contraseña ingresada. */
   password: string;
   /** Actualiza el valor de la nueva contraseña. */
   onPasswordChange: (value: string) => void;
-  /** Valor actual del campo confirmar contraseña. */
+  /** Confirmación de la nueva contraseña. */
   confirm: string;
-  /** Actualiza el valor de confirmar contraseña. */
+  /** Actualiza el valor de la confirmación. */
   onConfirmChange: (value: string) => void;
-  /** Mensaje de error de validación. Vacío si no hay error. */
-  error: string;
-  /** Se ejecuta al presionar CAMBIAR CONTRASEÑA. */
+  /** Valida y actualiza la contraseña en el store. */
   onSubmit: () => void;
 }
 
 /**
- * Paso 3 del flujo de recuperación de contraseña.
- *
- * El usuario ingresa y confirma su nueva contraseña.
+ * Paso 3 del flujo de recuperación de contraseña: ingreso y confirmación de la nueva contraseña.
  * Usado en {@link ForgotPasswordScreen}.
  *
- * @param password - Valor actual del campo nueva contraseña.
- * @param onPasswordChange - Actualiza el valor de la nueva contraseña.
- * @param confirm - Valor actual del campo confirmar contraseña.
- * @param onConfirmChange - Actualiza el valor de confirmar contraseña.
- * @param error - Mensaje de error de validación.
- * @param onSubmit - Se ejecuta al presionar CAMBIAR CONTRASEÑA.
+ * @param password - Nueva contraseña.
+ * @param onPasswordChange - Actualiza la contraseña.
+ * @param confirm - Confirmación de la contraseña.
+ * @param onConfirmChange - Actualiza la confirmación.
+ * @param onSubmit - Valida y guarda la nueva contraseña.
  */
-function StepNewPassword({ password, onPasswordChange, confirm, onConfirmChange, error, onSubmit }: StepNewPasswordProps) {
+function StepNewPassword({ password, onPasswordChange, confirm, onConfirmChange, onSubmit }: StepNewPasswordProps) {
+  const { t } = useTranslation();
+
   return (
-    <>
-      {/* Título e instrucción */}
-      <div className="text-center mb-10">
-        <h1 className="color-primary text-3xl font-bold">Nueva contraseña</h1>
+    <div className="flex flex-col gap-6">
+      <div className="text-center">
+        <h1 className="color-primary text-3xl font-bold">{t("forgotPassword.newPassword.title")}</h1>
         <p className="text-gray-400 text-sm mt-3 leading-5">
-          Ingresá tu nueva contraseña para recuperar el acceso.
+          {t("forgotPassword.newPassword.description")}
         </p>
       </div>
 
-      <InputSpace type="password" placeholder="Nueva contraseña" value={password} onChange={onPasswordChange} />
-      <InputSpace type="password" placeholder="Confirmar contraseña" value={confirm} onChange={onConfirmChange} />
+      <InputSpace type="password" placeholder={t("forgotPassword.newPassword.newPassword")} hint={t("forgotPassword.newPassword.passwordHint")} value={password} onChange={onPasswordChange} />
+      <InputSpace type="password" placeholder={t("forgotPassword.newPassword.confirm")} hint={t("forgotPassword.newPassword.confirmHint")} value={confirm} onChange={onConfirmChange} />
 
-      {/* Mensaje de error ── reemplazar con sistema de notificaciones */}
-      {error && <p className="text-red-500 text-sm text-center -mt-2">{error}</p>}
-
-      <PrimaryButton text="CAMBIAR CONTRASEÑA" onClick={onSubmit} />
-    </>
+      <AppButton text={t("forgotPassword.newPassword.submit")} onClick={onSubmit} />
+    </div>
   );
 }
 

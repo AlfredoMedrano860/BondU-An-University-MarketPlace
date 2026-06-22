@@ -1,8 +1,11 @@
+import { useTranslation } from "react-i18next";
 import logo from "../../assets/imgs/logo.png";
+
+const noop = () => {};
 import cara from "../../assets/imgs/CaraMascota.png";
 import brazos from "../../assets/imgs/BrazosMascota.png";
-import PrimaryButton from "../ui/PrimaryButton";
-import SecondaryButton from "../ui/SecondaryButton";
+import AppButton from "../ui/AppButton";
+import AuthLayout from "../layout/AuthLayout";
 
 /**
  * Props de WelcomeScreen.
@@ -13,37 +16,36 @@ interface WelcomeScreenProps {
 }
 
 /**
- * Pantalla de bienvenida de la aplicación.
+ * Pantalla de bienvenida con logo, mascota animada y botones de acceso.
  *
- * Es la primera pantalla que ve el usuario al abrir la app.
- * Muestra el logo, la mascota y los botones para iniciar sesión o salir.
+ * Es la primera pantalla que ve el usuario al abrir la app (tras el onboarding).
+ * Usa {@link AuthLayout} para el panel bicolor.
  *
- * @param onLogin - Navega a la pantalla de inicio de sesión.
+ * @param onLogin - Navega a {@link LoginScreen}.
  */
 function WelcomeScreen({ onLogin }: WelcomeScreenProps) {
+  const { t } = useTranslation();
+
   return (
-    <div className="min-h-screen flex flex-col items-center">
-
-      {/* ── LOGO ── */}
-      <div className="flex flex-col items-center pt-12 gap-4">
-        <h1 className="color-primary text-2xl font-bold">welcome to</h1>
-        <img src={logo} alt="logo" className="w-52 mt-3.5" />
-        <p className="text-black text-sm tracking-[0.2em]">A University Marketplace</p>
+    <AuthLayout>
+      <div className="flex flex-col items-center pt-10 gap-3 px-6">
+        <img src={logo} alt="logo" className="w-44 md:w-52" />
       </div>
 
-      {/* ── MASCOTA ── cara y brazos en capas separadas para efecto de profundidad */}
-      <div className="relative w-full h-72 mt-8">
-        <img src={cara} alt="Cara mascota" className="w-72 absolute bottom-0 left-1/2 -translate-x-1/2 z-0"/>
-        <img src={brazos} alt="Brazos mascota" className="w-90 absolute bottom-0 left-1/2 -translate-x-[51%] z-20"/>
+      <div className="flex-1 relative min-h-64">
+        <img src={cara} alt="Cara mascota" className="absolute bottom-0 left-1/2 -translate-x-1/2 z-0 w-64 md:w-80"/>
+        <img src={brazos} alt="Brazos mascota" className="absolute bottom-0 left-1/2 translate-x-[-51%] z-20 w-80 md:w-96"
+        />
       </div>
 
-      {/* ── ACCIONES ── botón salir sin funcionalidad aún */}
-      <div className="info-card bg-white-app w-full -mt-10 px-8 pt-20 pb-12 flex flex-col gap-4 relative z-10">
-        <PrimaryButton text="INICIAR SESIÓN" onClick={onLogin} />
-        <SecondaryButton text="SALIR" onClick={() => {}} />
+      <div className="px-8 pb-10 pt-6">
+        <div className="max-w-sm w-full mx-auto flex flex-col gap-4">
+          <AppButton text={t("welcome.login")} onClick={onLogin} />
+          <AppButton variant="secondary" text={t("welcome.exit")} onClick={noop} />
+        </div>
       </div>
-
-    </div>
+      
+    </AuthLayout>
   );
 }
 

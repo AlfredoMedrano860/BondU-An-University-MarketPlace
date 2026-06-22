@@ -1,55 +1,81 @@
-import AuxiliaryButton from "../ui/AuxiliaryButton";
-import FavoriteButton from "../ui/FavoriteButton";
+import { Trash2, Heart } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import AppButton from "../ui/AppButton";
+import CircleButton from "../ui/CircleButton";
+import CardLayout from "../layout/CardLayout";
 import type { Product } from "../data/Product";
 
 /**
  * Props de ProductCard.
- * @see Product
  */
 interface ProductCardProps {
   /** Producto a mostrar. */
   product: Product;
-  /** Se ejecuta al presionar COMPRAR con el producto seleccionado. */
+  /** Se ejecuta al hacer clic en el botón principal (Comprar o Editar). */
   onBuy: (product: Product) => void;
-  /** Se ejecuta al presionar la estrella para marcar o desmarcar como favorito. */
+  /** Se ejecuta al hacer clic en el botón de favorito o eliminar. */
   onToggleFavorite: (product: Product) => void;
+  /** Texto del botón principal. Por defecto usa la traducción de `product.buy`. */
+  buttonLabel?: string;
+  /** Si `true`, muestra el botón de eliminar en lugar del de favorito. */
+  isOwner?: boolean;
+  /** Se ejecuta al marcar el producto como vendido. Solo visible cuando `isOwner` es `true`. */
+  onSell?: (product: Product) => void;
 }
 
 /**
- * Card de un producto en la grilla del marketplace.
+ * Tarjeta de producto para el grid del marketplace y del perfil.
  *
- * Muestra imagen, nombre, precio y dos acciones: marcar como favorito
- * con {@link FavoriteButton} y comprar con {@link AuxiliaryButton}.
- * Resalta el borde al hacer hover.
+ * Muestra imagen, nombre, precio y estado del producto. Si `isOwner` es `true`,
+ * el botón de la esquina superior derecha elimina el producto; de lo contrario
+ * permite marcarlo como favorito. Usado en {@link ProductGrid} y {@link ProfileProducts}.
  *
  * @param product - Producto a mostrar.
- * @param onBuy - Se ejecuta al presionar COMPRAR con el producto seleccionado.
- * @param onToggleFavorite - Se ejecuta al presionar la estrella.
+ * @param onBuy - Handler del botón principal.
+ * @param onToggleFavorite - Handler del botón de favorito o eliminar.
+ * @param buttonLabel - Etiqueta del botón principal.
+ * @param isOwner - Si `true`, activa el modo de gestión del propietario.
  */
-function ProductCard({ product, onBuy, onToggleFavorite }: ProductCardProps) {
+function ProductCard({ product, onBuy, onToggleFavorite, buttonLabel, isOwner = false, onSell }: ProductCardProps) {
+  const { t } = useTranslation();
+
   return (
-    <div className="group bg-white rounded-3xl p-4 flex flex-col items-center border border-transparent hover:border-[hsl(54,80%,63%)] transition relative">
+    <CardLayout>
 
-      {/* Botón favorito */}
-      <div className="absolute top-2 right-2">
-        <FavoriteButton isFavorite={product.isFavorite} onClick={() => onToggleFavorite(product)} />
+      {/* Área imagen */}
+      <div className="relative w-full aspect-square bg-neutral-100 rounded-2xl flex items-center justify-center overflow-hidden">
+        <div className="absolute top-2 right-2">
+          {isOwner ? (
+            <CircleButton size="sm" variant="danger" onClick={() => onToggleFavorite(product)} className="hover:scale-110">
+              <Trash2 size={13} stroke="white" strokeWidth={2.2} />
+            </CircleButton>
+          ) : (
+            <CircleButton size="sm" variant="aux" onClick={() => onToggleFavorite(product)} className="hover:scale-110">
+              <Heart size={14} stroke="white" strokeWidth={2.5} fill={product.isFavorite ? "white" : "none"} />
+            </CircleButton>
+          )}
+        </div>
+        <img src={product.image} alt={product.name} className="w-4/5 h-4/5 object-contain" />
       </div>
 
-      {/* Imagen */}
-      <div className="w-full h-full flex items-center justify-center rounded-xl overflow-hidden">
-        <img src={product.image} alt={product.name} className="h-full object-cover"/>
+      {/* Info */}
+      <div className="flex flex-col gap-2 px-1 pb-1">
+        <h3 className="text-base font-bold text-black leading-tight line-clamp-2 min-h-10">{product.name}</h3>
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-bold color-primary">${product.price}</span>
+          <span className="text-xs text-gray-500 bg-neutral-200 px-2.5 py-0.5 rounded-full">{t(`filters.states.${product.state}`)}</span>
+        </div>
+        {isOwner && onSell ? (
+          <div className="flex gap-2">
+            <AppButton variant="aux" text={buttonLabel ?? t("product.buy")} onClick={() => onBuy(product)} className="flex-1" />
+            <AppButton variant="aux" text={t("myProducts.markSold")} onClick={() => onSell(product)} className="flex-1" />
+          </div>
+        ) : (
+          <AppButton variant="aux" text={buttonLabel ?? t("product.buy")} onClick={() => onBuy(product)} />
+        )}
       </div>
 
-      {/* Nombre y precio */}
-      <div className="w-full flex justify-between items-center mt-0.5">
-        <h3 className="text-lg font-semibold text-black">{product.name}</h3>
-        <span className="text-[hsl(54,80%,63%)] font-bold">${product.price}</span>
-      </div>
-
-      {/* Botón comprar */}
-      <AuxiliaryButton text="COMPRAR" onClick={() => onBuy(product)} />
-
-    </div>
+    </CardLayout>
   );
 }
 

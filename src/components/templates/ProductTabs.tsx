@@ -1,68 +1,56 @@
+import { useTranslation } from "react-i18next";
 import type { Product } from "../data/Product";
-import { productTabs } from "../data/Navigation";
+import NavigationTabs from "../ui/NavigationTabs";
+import type { Seller } from "../data/Seller";
 import SellerTab from "./SellerTab";
 import ShareTab from "./ShareTab";
 
 /**
  * Props de ProductTabs.
- * @see Product
  */
 interface ProductTabsProps {
-  /** Producto del que se muestra la información. */
+  /** Producto cuyo detalle se muestra. */
   product: Product;
-  /** Índice del tab actualmente activo. */
+  /** Índice de la pestaña activa (0 = Información, 1 = Vendedor, 2 = Compartir). */
   selectedTab: number;
-  /** Se ejecuta al seleccionar un tab con su índice. */
+  /** Se ejecuta al cambiar de pestaña. */
   onSelectTab: (index: number) => void;
+  /** Se ejecuta al hacer clic en el perfil del vendedor dentro de la pestaña Vendedor. */
+  onViewSellerProfile?: (seller: Seller) => void;
 }
 
 /**
- * Tabs de detalle de un producto.
+ * Sistema de pestañas para el detalle de un producto.
  *
- * Muestra tres tabs definidos en {@link productTabs}:
- * - **Información** (0): descripción del producto.
- * - **Vendedor** (1): datos del vendedor con {@link SellerTab}.
- * - **Compartir** (2): opciones para compartir con {@link ShareTab}.
+ * Renderiza tres pestañas: Información, Vendedor y Compartir.
+ * Cada pestaña delega el contenido a su componente correspondiente.
+ * Usado en {@link ProductScreen}.
  *
- * @param product - Producto del que se muestra la información.
- * @param selectedTab - Índice del tab actualmente activo.
- * @param onSelectTab - Se ejecuta al seleccionar un tab con su índice.
+ * @param product - Producto cuyos datos se muestran.
+ * @param selectedTab - Índice de la pestaña activa.
+ * @param onSelectTab - Cambia la pestaña activa.
+ * @param onViewSellerProfile - Navega al perfil del vendedor.
  */
-function ProductTabs({ product, selectedTab, onSelectTab }: ProductTabsProps) {
+function ProductTabs({ product, selectedTab, onSelectTab, onViewSellerProfile }: ProductTabsProps) {
+  const { t } = useTranslation();
+  const tabLabels = [t("product.tabs.info"), t("product.tabs.seller"), t("product.tabs.share")];
+
   return (
     <div>
 
-      {/* ── NAVEGACIÓN DE TABS ── tab activo subrayado en color primario */}
-      <div className="flex justify-between mb-5">
-        {productTabs.map((tab, i) => {
-          const tabClass = selectedTab === i ? "color-primary underline underline-offset-4" : "color-inactive";
-          return (
-            <button
-              key={i}
-              onClick={() => onSelectTab(i)}
-              className={`text-17px transition-colors pb-1 ${tabClass}`}
-            >
-              {tab}
-            </button>
-          );
-        })}
-      </div>
+      <NavigationTabs labels={tabLabels} selected={selectedTab} onSelect={onSelectTab} className="mb-5" />
 
-      {/* ── CONTENIDO ── cambia según el tab seleccionado */}
       <div className="text-[16px] color-inactive leading-8 text-justify">
 
-        {/* Información */}
-        {selectedTab === 0 && <p>{product.description || "Sin descripción"}</p>}
+        {selectedTab === 0 && <p>{product.description || t("product.noDescription")}</p>}
 
-        {/* Vendedor */}
         {selectedTab === 1 && (
           <div>
-            <p>Vendedor verificado.</p>
-            <SellerTab seller={product.seller} />
+            <p>{t("product.verifiedSeller")}</p>
+            <SellerTab seller={product.seller} onViewProfile={onViewSellerProfile ? () => onViewSellerProfile(product.seller) : undefined} />
           </div>
         )}
 
-        {/* Compartir */}
         {selectedTab === 2 && <ShareTab productId={product.id} />}
 
       </div>

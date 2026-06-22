@@ -1,68 +1,59 @@
+import { useTranslation } from "react-i18next";
 import CodeInput from "../ui/CodeInput";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
 
 /**
  * Props de StepCode.
  */
 interface StepCodeProps {
-  /** Correo al que se envió el código, mostrado en el mensaje. */
+  /** Correo al que se envió el código (se muestra en el texto). */
   email: string;
   /** Valor actual del código de 4 dígitos. */
   code: string;
   /** Actualiza el valor del código. */
   onCodeChange: (value: string) => void;
-  /** Mensaje de error de validación. Vacío si no hay error. */
-  error: string;
-  /** Se ejecuta al presionar VERIFICAR. */
+  /** Valida el código y avanza al paso 3. */
   onSubmit: () => void;
-  /** Se ejecuta al presionar Reenviar para volver al paso 1. */
+  /** Reenvía el código volviendo al paso 1. */
   onResend: () => void;
 }
 
 /**
- * Paso 2 del flujo de recuperación de contraseña.
- *
- * El usuario ingresa el código de 4 dígitos recibido en su correo.
- * Usa {@link CodeInput} para la entrada por cajas separadas.
+ * Paso 2 del flujo de recuperación de contraseña: ingreso del código de verificación.
  * Usado en {@link ForgotPasswordScreen}.
  *
- * @param email - Correo al que se envió el código.
- * @param code - Valor actual del código de 4 dígitos.
- * @param onCodeChange - Actualiza el valor del código.
- * @param error - Mensaje de error de validación.
- * @param onSubmit - Se ejecuta al presionar VERIFICAR.
- * @param onResend - Se ejecuta al presionar Reenviar.
+ * @param email - Correo mostrado en el texto de instrucción.
+ * @param code - Valor del código de 4 dígitos.
+ * @param onCodeChange - Actualiza el código.
+ * @param onSubmit - Valida y avanza al siguiente paso.
+ * @param onResend - Vuelve al paso 1 para reenviar el código.
  */
-function StepCode({ email, code, onCodeChange, error, onSubmit, onResend }: StepCodeProps) {
+function StepCode({ email, code, onCodeChange, onSubmit, onResend }: StepCodeProps) {
+  const { t } = useTranslation();
+
   return (
-    <>
-      {/* Título e instrucción */}
-      <div className="text-center mb-7">
-        <h1 className="color-primary text-3xl font-bold">Verificar código</h1>
+    <div className="flex flex-col gap-6">
+      <div className="text-center">
+        <h1 className="color-primary text-3xl font-bold">{t("forgotPassword.code.title")}</h1>
         <p className="text-gray-400 text-sm mt-3 leading-5">
-          Ingresá el código enviado a{" "}
+          {t("forgotPassword.code.description")}{" "}
           <span className="color-primary font-semibold">{email}</span>.
         </p>
-        <div className="mt-12">
-        <CodeInput value={code} onChange={onCodeChange} />
-        </div>
       </div>
 
-      
+      <div className="flex justify-center">
+        <CodeInput value={code} onChange={onCodeChange} />
+      </div>
 
-      {/* Mensaje de error ── reemplazar con sistema de notificaciones */}
-      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+      <AppButton text={t("forgotPassword.code.submit")} onClick={onSubmit} />
 
-      <PrimaryButton text="VERIFICAR" onClick={onSubmit} />
-
-      {/* Reenviar código */}
       <p className="text-center text-sm text-gray-500">
-        ¿No recibiste el código?{" "}
-        <button onClick={onResend} className="color-primary font-bold">
-          Reenviar
+        {t("forgotPassword.code.noCode")}{" "}
+        <button type="button" onClick={onResend} className="color-primary font-bold hover:underline">
+          {t("forgotPassword.code.resend")}
         </button>
       </p>
-    </>
+    </div>
   );
 }
 

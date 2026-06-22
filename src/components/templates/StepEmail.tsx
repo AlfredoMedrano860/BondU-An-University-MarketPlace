@@ -1,49 +1,43 @@
+import { useTranslation } from "react-i18next";
 import InputSpace from "../ui/InputSpace";
-import PrimaryButton from "../ui/PrimaryButton";
+import AppButton from "../ui/AppButton";
 
 /**
  * Props de StepEmail.
  */
 interface StepEmailProps {
-  /** Valor actual del campo correo. */
+  /** Valor actual del campo de correo electrónico. */
   email: string;
   /** Actualiza el valor del correo. */
   onEmailChange: (value: string) => void;
-  /** Mensaje de error de validación. Vacío si no hay error. */
-  error: string;
-  /** Se ejecuta al presionar ENVIAR CÓDIGO. */
+  /** Valida el correo y avanza al paso 2. */
   onSubmit: () => void;
 }
 
 /**
- * Paso 1 del flujo de recuperación de contraseña.
- *
- * El usuario ingresa su correo para recibir el código de verificación.
+ * Paso 1 del flujo de recuperación de contraseña: ingreso del correo electrónico.
  * Usado en {@link ForgotPasswordScreen}.
  *
- * @param email - Valor actual del campo correo.
- * @param onEmailChange - Actualiza el valor del correo.
- * @param error - Mensaje de error de validación.
- * @param onSubmit - Se ejecuta al presionar ENVIAR CÓDIGO.
+ * @param email - Valor del campo de correo.
+ * @param onEmailChange - Actualiza el correo.
+ * @param onSubmit - Avanza al siguiente paso.
  */
-function StepEmail({ email, onEmailChange, error, onSubmit }: StepEmailProps) {
+function StepEmail({ email, onEmailChange, onSubmit }: StepEmailProps) {
+  const { t } = useTranslation();
+
   return (
-    <>
-      {/* Título e instrucción */}
-      <div className="text-center mb-10">
-        <h1 className="color-primary text-3xl font-bold">¿Olvidaste tu contraseña?</h1>
+    <div className="flex flex-col gap-6">
+      <div className="text-center">
+        <h1 className="color-primary text-3xl font-bold">{t("forgotPassword.email.title")}</h1>
         <p className="text-gray-400 text-sm mt-3 leading-5">
-          Ingresá tu correo y te enviaremos un código para recuperar tu cuenta.
+          {t("forgotPassword.email.description")}
         </p>
       </div>
 
-      <InputSpace type="text" placeholder="Correo" value={email} onChange={onEmailChange} />
+      <InputSpace type="text" placeholder={t("forgotPassword.email.email")} hint={t("forgotPassword.email.emailHint")} value={email} onChange={onEmailChange} />
 
-      {/* Mensaje de error ── reemplazar con sistema de notificaciones */}
-      {error && <p className="text-red-500 text-sm text-center -mt-2">{error}</p>}
-
-      <PrimaryButton text="ENVIAR CÓDIGO" onClick={onSubmit} />
-    </>
+      <AppButton text={t("forgotPassword.email.submit")} onClick={onSubmit} />
+    </div>
   );
 }
 
