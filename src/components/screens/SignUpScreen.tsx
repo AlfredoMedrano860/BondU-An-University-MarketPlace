@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AppButton from "../ui/AppButton";
 import InputSpace from "../ui/InputSpace";
-import { register as registerUser } from "../data/AuthStore";
+import { authService } from "../../services/auth";
 import { notify } from "../data/NotificationStore";
 import AuthLayout from "../layout/AuthLayout";
 import AuthHeader from "../templates/AuthHeader";
@@ -19,11 +19,7 @@ interface SignUpScreenProps {
 
 /**
  * Pantalla de registro de nuevo usuario con nombre, correo y contraseña.
- *
- * Llama a `register` del {@link AuthStore} y emite notificación según el resultado.
- *
- * @param onBack - Navega hacia atrás.
- * @param onRegister - Callback tras registro exitoso.
+ * Llama al backend vía authService.register y navega al login si es exitoso.
  */
 function SignUpScreen({ onBack, onRegister }: SignUpScreenProps) {
   const { t } = useTranslation();
@@ -31,12 +27,12 @@ function SignUpScreen({ onBack, onRegister }: SignUpScreenProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleRegister() {
-    const result = registerUser(username, email, password);
-    if (result.ok) {
+  async function handleRegister() {
+    try {
+      await authService.register({ username, email, password });
       notify.success(t("notifications.signupSuccess.title"), t("notifications.signupSuccess.message"));
       onRegister();
-    } else {
+    } catch {
       notify.error(t("notifications.signupError.title"), t("notifications.signupError.message"));
     }
   }
