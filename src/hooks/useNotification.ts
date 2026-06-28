@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { NotificationContext } from "../components/layout/NotificationProvider";
+import { notify, dismissNotification } from "../components/data/NotificationStore";
 
 /**
  * Hook para acceder al sistema de notificaciones desde cualquier componente.
@@ -10,12 +9,12 @@ import { NotificationContext } from "../components/layout/NotificationProvider";
  * `dismiss` — cierra la notificación activa.
  */
 export function useNotification() {
-  const { show, dismiss } = useContext(NotificationContext);
   return {
-    showSuccess: (title: string, message: string) => show("success", title, message),
-    showError:   (title: string, message: string) => show("error",   title, message),
-    showWarning: (title: string, message: string) => show("warning", title, message),
-    showInfo:    (title: string, message: string) => show("info",    title, message),
-    dismiss,
+    showSuccess: (title: string, message: string) => notify.success(title, message),
+    showError: (title: string, message: string) => notify.error(title, message),
+    showWarning: (title: string, message: string) => notify.warning(title, message),
+    showInfo: (title: string, message: string) => notify.info(title, message),
+    // Dismiss requires an id; provide a helper that accepts an id when needed.
+    dismiss: (id?: number) => { if (typeof id === "number") dismissNotification(id); },
   };
 }

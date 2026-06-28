@@ -19,53 +19,63 @@ import type { Product } from "./components/data/Product";
 import type { Seller } from "./components/data/Seller";
 import type { FilterValues } from "./components/data/Filters";
 import { getSellerById } from "./components/data/Seller";
-import { subscribeUser } from "./components/data/AuthStore";
 import ProfileScreen from "./components/screens/ProfileScreen";
 import MainLayout from "./components/layout/MainLayout";
+import { useAuthContext } from "./contexts/AuthContext";
+import type { AuthUser } from "./types/auth";
+import avatarDefault from "./assets/imgs/IconoPerfil.png";
 
 const preLoginScreens = ["info", "welcome", "login", "signup", "forgotpassword"];
 const fullbleedScreens = ["profile", "account", "myproducts", "sellerprofile"];
 
-/**
- * Componente raíz de la aplicación.
- *
- * Gestiona la navegación por nombre de pantalla (`screen`), el usuario autenticado
- * y el estado compartido entre pantallas (producto editado, perfil visto, búsqueda).
- * Divide el árbol en tres regiones:
- * - **Pre-login**: pantallas públicas sin layout (Info, Welcome, Login, SignUp, ForgotPassword).
- * - **Fullbleed**: pantallas autenticadas sin {@link MainLayout} (Profile, Account, MyProducts).
- * - **Con layout**: pantallas autenticadas dentro de {@link MainLayout} con header y nav.
- */
-function App() {
-  const [screen, setScreen] = useState("info");
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
+/** Convierte el AuthUser del backend al UserProfile que esperan las pantallas existentes. */
+function authUserToProfile(u: AuthUser): UserProfile {
+  return {
+    id: u.id as unknown as number,
+    username: u.username,
+    email: u.email,
+    password: "",
+    avatar: u.avatar ?? avatarDefault,
+    createdAt: new Date(u.created_at),
+    location: u.location ?? "",
+    phone: u.phone ?? undefined,
+    university: u.university ?? undefined,
+    career: u.career ?? undefined,
+  };
+}
 
-  useEffect(() => subscribeUser(setCurrentUser), []);
+function App() {
+  const { user: authUser, isAuthenticated, isLoading, logout } = useAuthContext();
+  const currentUser: UserProfile | null = authUser ? authUserToProfile(authUser) : null;
+
+  const [screen, setScreen] = useState("info");
   const [marketplaceSearch, setMarketplaceSearch] = useState("");
-  const [appliedState, setAppliedState] = useState("");
-  const [appliedPrice, setAppliedPrice] = useState(500);
-  const [editProduct, setEditProduct]   = useState<Product | null>(null);
+  const [appliedState, setAppliedState]   = useState("");
+  const [appliedPrice, setAppliedPrice]   = useState(500);
+  const [editProduct, setEditProduct]     = useState<Product | null>(null);
   const [editReturnScreen, setEditReturnScreen] = useState("marketplace");
-  const [viewedSeller, setViewedSeller] = useState<UserProfile | null>(null);
+  const [viewedSeller, setViewedSeller]   = useState<UserProfile | null>(null);
   const [sellerReturnScreen, setSellerReturnScreen] = useState("home");
-  const [sellerStack, setSellerStack] = useState<{ seller: UserProfile; returnScreen: string }[]>([]);
+  const [sellerStack, setSellerStack]     = useState<{ seller: UserProfile; returnScreen: string }[]>([]);
   const [viewedProduct, setViewedProduct] = useState<Product | null>(null);
   const [productReturnScreen, setProductReturnScreen] = useState("home");
 
-  /**
-   * Navega a la pantalla indicada y limpia el producto en edición.
-   * @param target - Nombre de la pantalla destino.
-   */
+  // Redirigir a home cuando el usuario se autentica, y a welcome cuando se desautentica
+  useEffect(() => {
+    if (isLoading) return;
+    if (isAuthenticated && preLoginScreens.includes(screen)) {
+      setScreen("home");
+    }
+    if (!isAuthenticated && !preLoginScreens.includes(screen)) {
+      setScreen("welcome");
+    }
+  }, [isAuthenticated, isLoading]);
+
   function navigate(target: string) {
     setEditProduct(null);
     setScreen(target);
   }
 
-  /**
-   * Abre el perfil de un vendedor. Si ya hay un perfil abierto, apila el anterior
-   * para permitir navegar hacia atrás en la cadena de perfiles.
-   * @param seller - Vendedor cuyo perfil se va a mostrar.
-   */
   function openSellerProfile(seller: Seller) {
     if (screen === "sellerprofile" && viewedSeller) {
       setSellerStack(prev => [...prev, { seller: viewedSeller, returnScreen: sellerReturnScreen }]);
@@ -78,10 +88,6 @@ function App() {
     }
   }
 
-  /**
-   * Retrocede desde el perfil de vendedor. Si hay perfiles apilados vuelve al anterior;
-   * de lo contrario navega a la pantalla de origen.
-   */
   function backFromSellerProfile() {
     if (sellerStack.length > 0) {
       const prev = sellerStack[sellerStack.length - 1];
@@ -93,39 +99,20 @@ function App() {
     }
   }
 
-  /**
-   * Abre el detalle de un producto recordando la pantalla de origen para el retroceso.
-   * @param product - Producto cuyo detalle se va a mostrar.
-   */
   function openProductDetail(product: Product) {
     setViewedProduct(product);
     setProductReturnScreen(screen);
     setScreen("productdetail");
   }
 
-  /**
-   * Inicia la edición de un producto guardando la pantalla de retorno.
-   * @param product - Producto a editar.
-   * @param returnScreen - Pantalla a la que volver tras guardar.
-   */
   function startEdit(product: Product, returnScreen: string) {
     setEditProduct(product);
     setEditReturnScreen(returnScreen);
     setScreen("addproduct");
   }
 
-  /**
-   * Guarda el usuario autenticado y navega a la pantalla de inicio.
-   * @param user - Perfil del usuario que inició sesión.
-   */
-  function handleLogin(user: UserProfile) {
-    setCurrentUser(user);
-    navigate("home");
-  }
-
-  /** Limpia el usuario autenticado y vuelve a la pantalla de bienvenida. */
   function handleLogout() {
-    setCurrentUser(null);
+    logout();
     navigate("welcome");
   }
 
@@ -136,7 +123,7 @@ function App() {
         <div className="min-h-screen bg-beige">
           {screen === "info"           && <InfoScreen onFinish={() => navigate("welcome")} />}
           {screen === "welcome"        && <WelcomeScreen onLogin={() => navigate("login")} />}
-          {screen === "login"          && <LoginScreen onBack={() => navigate("welcome")} onLogin={handleLogin} onSignUp={() => navigate("signup")} onForgotPassword={() => navigate("forgotpassword")} />}
+          {screen === "login"          && <LoginScreen onBack={() => navigate("welcome")} onLogin={() => navigate("home")} onSignUp={() => navigate("signup")} onForgotPassword={() => navigate("forgotpassword")} />}
           {screen === "signup"         && <SignUpScreen onBack={() => navigate("login")} onRegister={() => navigate("login")} />}
           {screen === "forgotpassword" && <ForgotPasswordScreen onBack={() => navigate("login")} onSuccess={() => navigate("login")} />}
         </div>
@@ -172,7 +159,7 @@ function App() {
             <AccountScreen
               currentUser={currentUser}
               onBack={() => navigate("profile")}
-              onUpdate={setCurrentUser}
+              onUpdate={() => {}}
             />
           )}
           {screen === "myproducts" && (
@@ -238,6 +225,8 @@ function App() {
       </MainLayout>
     );
   }
+
+  if (isLoading) return null;
 
   return (
     <>
