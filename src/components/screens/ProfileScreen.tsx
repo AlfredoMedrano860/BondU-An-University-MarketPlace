@@ -7,13 +7,8 @@ import StarRating from "../ui/StarRating";
 import ProfileTabs from "../templates/ProfileTabs";
 import ProductScreen from "./ProductScreen";
 import type { UserProfile } from "../data/UserProfile";
-<<<<<<< HEAD
-import Profile from "../templates/ProfileInfo";
-import {GearSixIcon } from '@phosphor-icons/react'
-=======
 import type { Product } from "../data/Product";
 import { getVisibleReviews, computeRating, subscribeReviews } from "../data/Review";
->>>>>>> 16c1f102ab07997139a3469741c299c2c95291d4
 
 
 /** Props del componente {@link ProfileScreen}. */

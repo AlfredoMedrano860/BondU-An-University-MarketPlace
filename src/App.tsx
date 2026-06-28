@@ -1,5 +1,6 @@
 import "./assets/styles/App.css";
 import { useState, useEffect } from "react";
+import Loading from "./components/templates/Loading";
 import { NotificationStack } from "./components/ui/NotificationStack";
 import InfoScreen from "./components/screens/InfoScreen";
 import WelcomeScreen from "./components/screens/WelcomeScreen";
@@ -38,6 +39,7 @@ const fullbleedScreens = ["profile", "account", "myproducts", "sellerprofile"];
  */
 function App() {
   const [screen, setScreen] = useState("info");
+  const [splashVisible, setSplashVisible] = useState(true);
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
 
   useEffect(() => subscribeUser(setCurrentUser), []);
@@ -60,6 +62,11 @@ function App() {
     setEditProduct(null);
     setScreen(target);
   }
+
+  useEffect(() => {
+    const t = setTimeout(() => setSplashVisible(false), 1400);
+    return () => clearTimeout(t);
+  }, []);
 
   /**
    * Abre el perfil de un vendedor. Si ya hay un perfil abierto, apila el anterior
@@ -242,7 +249,7 @@ function App() {
   return (
     <>
       <NotificationStack />
-      {renderScreen()}
+      {splashVisible ? <Loading duration={2800} /> : renderScreen()}
     </>
   );
 }

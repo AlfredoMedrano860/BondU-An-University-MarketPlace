@@ -80,58 +80,6 @@ function AccountScreen({ currentUser, onBack, onUpdate }: AccountScreenProps) {
       </div>
 
       {/* ── FORMULARIO ── */}
-<<<<<<< HEAD
-      <div className="px-5 flex flex-col gap-6 pb-10">
-        {/* Información Personal */}
-        <div className="bg-white-app rounded-3xl p-5 flex flex-col gap-4">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-            Información Personal
-          </p>
-          <InputSpace
-            placeholder="Usuario"
-            value={fields.username}
-            onChange={setters.setUsername}
-          />
-          <InputSpace
-            placeholder="Correo"
-            value={fields.email}
-            onChange={setters.setEmail}
-          />
-          <InputSpace
-            placeholder="Teléfono"
-            value={fields.phone}
-            onChange={setters.setPhone}
-          />
-          <InputSpace
-            placeholder="Universidad"
-            value={fields.university}
-            onChange={setters.setUniversity}
-          />
-          <InputSpace
-            placeholder="Carrera"
-            value={fields.career}
-            onChange={setters.setCareer}
-          />
-        </div>
-.
-        {/* Cambiar Contraseña */}
-        <div className="bg-white-app rounded-3xl p-5 flex flex-col gap-4">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-            Cambiar Contraseña
-          </p>
-          <InputSpace
-            type="password"
-            placeholder="Nueva contraseña"
-            value={fields.password}
-            onChange={setters.setPassword}
-          />
-          <InputSpace
-            type="password"
-            placeholder="Confirmar contraseña"
-            value={fields.confirm}
-            onChange={setters.setConfirm}
-          />
-=======
       <div className="px-5 sm:px-10 md:max-w-2xl md:mx-auto flex flex-col gap-4 py-6 pb-12">
 
         {/* Información personal */}
@@ -143,7 +91,6 @@ function AccountScreen({ currentUser, onBack, onUpdate }: AccountScreenProps) {
             <InputSpace placeholder={t("account.university")} hint="Universidad de Costa Rica" value={fields.university} onChange={setters.setUniversity} />
             <InputSpace placeholder={t("account.career")}     hint="Ingeniería en Sistemas"    value={fields.career}     onChange={setters.setCareer} />
           </div>
->>>>>>> 16c1f102ab07997139a3469741c299c2c95291d4
         </div>
 
         {/* Información de contacto */}
