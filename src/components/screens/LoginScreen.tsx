@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AppButton from "../ui/AppButton";
 import InputSpace from "../ui/InputSpace";
-import { login } from "../data/AuthStore";
-import type { UserProfile } from "../data/UserProfile";
+import { useAuthContext } from "../../contexts/AuthContext";
 import { notify } from "../data/NotificationStore";
 import AuthLayout from "../layout/AuthLayout";
 import AuthHeader from "../templates/AuthHeader";
@@ -15,8 +14,8 @@ import { socialMedias } from "../data/SocialMedia";
 interface LoginScreenProps {
   /** Navega hacia atrás a {@link WelcomeScreen}. */
   onBack: () => void;
-  /** Se ejecuta al autenticar exitosamente con el perfil del usuario. */
-  onLogin: (user: UserProfile) => void;
+  /** Se ejecuta al autenticar exitosamente. */
+  onLogin: () => void;
   /** Navega a {@link SignUpScreen}. */
   onSignUp: () => void;
   /** Navega a {@link ForgotPasswordScreen}. */
@@ -25,25 +24,19 @@ interface LoginScreenProps {
 
 /**
  * Pantalla de inicio de sesión con campos de correo y contraseña.
- *
- * Llama a `login` del {@link AuthStore} y emite notificación de error si falla.
- * Los botones de redes sociales son decorativos; pendiente de integrar OAuth.
- *
- * @param onBack - Navega hacia atrás.
- * @param onLogin - Callback con el usuario autenticado.
- * @param onSignUp - Navega al registro.
- * @param onForgotPassword - Navega a recuperación de contraseña.
+ * Llama al backend vía AuthContext.login y navega a home si el login es exitoso.
  */
 function LoginScreen({ onBack, onLogin, onSignUp, onForgotPassword }: LoginScreenProps) {
   const { t } = useTranslation();
+  const { login } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleLogin() {
-    const result = login(email, password);
-    if (result.ok) {
-      onLogin(result.user);
-    } else {
+  async function handleLogin() {
+    try {
+      await login({ email, password });
+      onLogin();
+    } catch {
       notify.error(t("notifications.loginError.title"), t("notifications.loginError.message"));
     }
   }
