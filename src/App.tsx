@@ -39,7 +39,7 @@ const fullbleedScreens = ["profile", "account", "myproducts", "sellerprofile"];
  */
 function App() {
   const [screen, setScreen] = useState("info");
-  const [splashVisible, setSplashVisible] = useState(true);
+  const [loadingVisible, setLoadingVisible] = useState(true);
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
 
   useEffect(() => subscribeUser(setCurrentUser), []);
@@ -63,10 +63,8 @@ function App() {
     setScreen(target);
   }
 
-  useEffect(() => {
-    const t = setTimeout(() => setSplashVisible(false), 1400);
-    return () => clearTimeout(t);
-  }, []);
+  // `Loading` is decorative: App renders underneath and the overlay hides when
+  // `Loading` calls `onFinish`. Keep control here so we don't block rendering.
 
   /**
    * Abre el perfil de un vendedor. Si ya hay un perfil abierto, apila el anterior
@@ -249,7 +247,8 @@ function App() {
   return (
     <>
       <NotificationStack />
-      {splashVisible ? <Loading duration={2800} /> : renderScreen()}
+      {renderScreen()}
+      {loadingVisible && <Loading duration={2800} onFinish={() => setLoadingVisible(false)} />}
     </>
   );
 }
