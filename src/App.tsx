@@ -1,5 +1,6 @@
 import "./assets/styles/App.css";
 import { useState, useEffect } from "react";
+import Loading from "./components/templates/Loading";
 import { NotificationStack } from "./components/ui/NotificationStack";
 import InfoScreen from "./components/screens/InfoScreen";
 import WelcomeScreen from "./components/screens/WelcomeScreen";
@@ -76,6 +77,14 @@ function App() {
     setScreen(target);
   }
 
+  // `Loading` is decorative: App renders underneath and the overlay hides when
+  // `Loading` calls `onFinish`. Keep control here so we don't block rendering.
+
+  /**
+   * Abre el perfil de un vendedor. Si ya hay un perfil abierto, apila el anterior
+   * para permitir navegar hacia atrás en la cadena de perfiles.
+   * @param seller - Vendedor cuyo perfil se va a mostrar.
+   */
   function openSellerProfile(seller: Seller) {
     if (screen === "sellerprofile" && viewedSeller) {
       setSellerStack(prev => [...prev, { seller: viewedSeller, returnScreen: sellerReturnScreen }]);
@@ -232,6 +241,7 @@ function App() {
     <>
       <NotificationStack />
       {renderScreen()}
+      {loadingVisible && <Loading duration={2800} onFinish={() => setLoadingVisible(false)} />}
     </>
   );
 }

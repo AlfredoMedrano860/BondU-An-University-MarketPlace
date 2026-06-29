@@ -1,0 +1,65 @@
+.bu-loading {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #b6cf00; /* slightly brighter green so logo stands out */
+  z-index: 60;
+  transition: opacity 400ms ease;
+}
+
+.bu-loading-inner {
+  text-align: center;
+  color: white;
+  max-width: 90%;
+}
+
+.bu-loading-logo {
+  width: min(260px, 45vw);
+  height: auto;
+  display: block;
+  margin: 0 auto 18px auto;
+}
+
+.bu-loading-sub {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  opacity: 0.95;
+}
+
+.bu-loading-progress {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 36px;
+  height: 8px;
+  background: rgba(0,0,0,0.08);
+  border-radius: 999px;
+  overflow: visible;
+}
+
+.bu-loading-progress-bar {
+  height: 100%;
+  background: rgba(255,255,255,0.96);
+  max-width: 100%;
+  border-radius: 999px;
+  transition: width 360ms linear;
+}
+
+.bu-loading-progress-head {
+  position: absolute;
+  top: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+@media (max-width: 640px) {
+  .bu-loading-logo { width: min(200px, 60vw); }
+  .bu-loading-sub { font-size: 12px; }
+  .bu-loading-progress { bottom: 22px; left: 4%; right: 4%; }
+}
