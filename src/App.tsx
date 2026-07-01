@@ -32,7 +32,7 @@ const fullbleedScreens = ["profile", "account", "myproducts", "sellerprofile"];
 /** Convierte el AuthUser del backend al UserProfile que esperan las pantallas existentes. */
 function authUserToProfile(u: AuthUser): UserProfile {
   return {
-    id: u.id as unknown as number,
+    id: u.id,
     username: u.username,
     email: u.email,
     password: "",
@@ -132,10 +132,10 @@ function App() {
     if (preLoginScreens.includes(screen)) {
       return (
         <div className="min-h-screen bg-beige">
-          {screen === "info"           && <InfoScreen onFinish={() => navigate("welcome")} />}
-          {screen === "welcome"        && <WelcomeScreen onLogin={() => navigate("login")} onExit={() => navigate("loading")} />}
-          {screen === "login"          && <LoginScreen onBack={() => navigate("welcome")} onLogin={() => navigate("home")} onSignUp={() => navigate("signup")} onForgotPassword={() => navigate("forgotpassword")} />}
-          {screen === "signup"         && <SignUpScreen onBack={() => navigate("login")} onRegister={() => navigate("login")} />}
+          {screen === "info" && <InfoScreen onFinish={() => navigate("welcome")} />}
+          {screen === "welcome" && <WelcomeScreen onLogin={() => navigate("login")} onExit={() => navigate("loading")} />}
+          {screen === "login" && <LoginScreen onBack={() => navigate("welcome")} onLogin={() => navigate("home")} onSignUp={() => navigate("signup")} onForgotPassword={() => navigate("forgotpassword")} />}
+          {screen === "signup" && <SignUpScreen onBack={() => navigate("login")} onRegister={() => navigate("login")} />}
           {screen === "forgotpassword" && <ForgotPasswordScreen onBack={() => navigate("login")} onSuccess={() => navigate("login")} />}
         </div>
       );

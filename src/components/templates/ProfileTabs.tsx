@@ -25,7 +25,7 @@ interface ProfileTabsProps {
   /** Se ejecuta al comprar un producto (perfil ajeno). */
   onBuyProduct?: (product: Product) => void;
   /** Se ejecuta al hacer clic en el avatar de un reseñador. */
-  onViewReviewer?: (reviewerId: number) => void;
+  onViewReviewer?: (reviewerId: string) => void;
 }
 
 /**

@@ -10,8 +10,8 @@ import { sellers } from "./Seller";
  * @see Seller
  */
 export interface Product {
-  /** Identificador único del producto. */
-  id: number;
+  /** Identificador único del producto (UUID del backend). */
+  id: string;
   /** Nombre del producto. */
   name: string;
   /** Precio del producto en dólares. */
@@ -37,7 +37,7 @@ export interface Product {
  */
 export const products: Product[] = [
   {
-    id: 1,
+    id: "1",
     name: "Audífonos inalámbricos",
     price: 60,
     state: "Nuevo",
@@ -48,7 +48,7 @@ export const products: Product[] = [
     isFavorite: false,
   },
   {
-    id: 2,
+    id: "2",
     name: "Cargador portátil",
     price: 25,
     state: "Nuevo",
@@ -59,7 +59,7 @@ export const products: Product[] = [
     isFavorite: false,
   },
   {
-    id: 3,
+    id: "3",
     name: "Cuaderno universitario",
     price: 8,
     state: "Nuevo",
@@ -70,7 +70,7 @@ export const products: Product[] = [
     isFavorite: false,
   },
   {
-    id: 4,
+    id: "4",
     name: "Mochila universitaria",
     price: 35,
     state: "Usado",

@@ -16,9 +16,9 @@ interface ProfileReviewsProps {
   /** Usuario autenticado que puede escribir una reseña. Solo aplica en perfiles ajenos. */
   reviewer?: UserProfile;
   /** ID del vendedor que recibirá la reseña. */
-  sellerId: number;
+  sellerId: string;
   /** Se ejecuta al hacer clic en el avatar de un reseñador para ver su perfil. */
-  onViewReviewer?: (reviewerId: number) => void;
+  onViewReviewer?: (reviewerId: string) => void;
 }
 
 /**

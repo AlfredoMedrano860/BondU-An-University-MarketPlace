@@ -28,7 +28,7 @@ interface ProfileScreenProps {
   /** Navega al detalle de un producto. Si no se pasa, el producto se abre en pantalla completa inline. */
   onBuyProduct?: (product: Product) => void;
   /** Abre el perfil del autor de una reseña. */
-  onViewReviewer?: (reviewerId: number) => void;
+  onViewReviewer?: (reviewerId: string) => void;
 }
 
 /**
