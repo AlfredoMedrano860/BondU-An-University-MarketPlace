@@ -111,7 +111,13 @@
     "statePlaceholder": "Condition",
     "descriptionPlaceholder": "Product description",
     "photo": "Photo {{n}}",
-    "save": "SAVE"
+    "save": "SAVE",
+    "errors": {
+      "nameTooShort": "Name must be at least 3 characters",
+      "priceRequired": "Price is required",
+      "priceInvalid": "Please enter a valid price greater than 0",
+      "conditionRequired": "Please select a condition"
+    }
   },
   "myProducts": {
     "title": "My Products",

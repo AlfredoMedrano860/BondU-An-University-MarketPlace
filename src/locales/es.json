@@ -111,7 +111,13 @@
     "statePlaceholder": "Estado",
     "descriptionPlaceholder": "Descripción del producto",
     "photo": "Foto {{n}}",
-    "save": "GUARDAR"
+    "save": "GUARDAR",
+    "errors": {
+      "nameTooShort": "El nombre debe tener al menos 3 caracteres",
+      "priceRequired": "El precio es requerido",
+      "priceInvalid": "Ingresa un precio válido mayor a 0",
+      "conditionRequired": "Por favor selecciona una condición"
+    }
   },
   "myProducts": {
     "title": "Mis Productos",
