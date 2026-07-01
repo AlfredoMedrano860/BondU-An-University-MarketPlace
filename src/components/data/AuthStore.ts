@@ -38,12 +38,13 @@ export function register(username: string, email: string, password: string): Aut
   if (error) return { ok: false, error };
 
   const user: UserProfile = {
-    id: nextId++,
+    id: String(nextId++),
     username,
     email,
     password,
     avatar: avatarImg,
     createdAt: new Date(),
+    location: "",
   };
 
   users.push(user);

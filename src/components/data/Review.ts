@@ -11,7 +11,7 @@ export interface Review {
   /** Identificador único de la reseña. */
   id: number;
   /** ID del usuario que escribió la reseña. */
-  reviewerId: number;
+  reviewerId: string;
   /** Nombre visible del reseñador. */
   name: string;
   /** URL del avatar del reseñador. */
@@ -23,21 +23,21 @@ export interface Review {
 }
 
 /** Mapa de reseñas indexadas por ID de vendedor. Dato de prueba; reemplazar con backend. */
-const reviewsBySellerId: Record<number, Review[]> = {
-  1: [
-    { id: 3, reviewerId: 2, name: "Camila Rojas",    avatar: reviewerAvatar, rating: 3, text: "Todo bien, aunque el envío tardó un poco más de lo esperado." },
+const reviewsBySellerId: Record<string, Review[]> = {
+  "1": [
+    { id: 3, reviewerId: "2", name: "Camila Rojas",    avatar: reviewerAvatar, rating: 3, text: "Todo bien, aunque el envío tardó un poco más de lo esperado." },
   ],
-  2: [
-    { id: 4, reviewerId: 3, name: "Diego Herrera",   avatar: reviewerAvatar, rating: 5, text: "Vendedora muy amable, el artículo llegó en excelente estado." },
-    { id: 5, reviewerId: 1, name: "Alfredo Medrano", avatar: reviewerAvatar, rating: 4, text: "Buena experiencia, respondió rápido y coordinó bien la entrega." },
-    { id: 6, reviewerId: 4, name: "Valentina Cruz",  avatar: reviewerAvatar, rating: 5, text: "Todo perfecto, lo recomiendo sin dudar." },
+  "2": [
+    { id: 4, reviewerId: "3", name: "Diego Herrera",   avatar: reviewerAvatar, rating: 5, text: "Vendedora muy amable, el artículo llegó en excelente estado." },
+    { id: 5, reviewerId: "1", name: "Alfredo Medrano", avatar: reviewerAvatar, rating: 4, text: "Buena experiencia, respondió rápido y coordinó bien la entrega." },
+    { id: 6, reviewerId: "4", name: "Valentina Cruz",  avatar: reviewerAvatar, rating: 5, text: "Todo perfecto, lo recomiendo sin dudar." },
   ],
-  3: [
-    { id: 8, reviewerId: 2, name: "Camila Rojas",    avatar: reviewerAvatar, rating: 4, text: "Buen vendedor, el artículo estaba en buen estado." },
+  "3": [
+    { id: 8, reviewerId: "2", name: "Camila Rojas",    avatar: reviewerAvatar, rating: 4, text: "Buen vendedor, el artículo estaba en buen estado." },
   ],
-  4: [
-    { id: 10, reviewerId: 3, name: "Diego Herrera",  avatar: reviewerAvatar, rating: 5, text: "Increíble vendedora, súper detallista con el empaque." },
-    { id: 11, reviewerId: 1, name: "Alfredo Medrano",avatar: reviewerAvatar, rating: 5, text: "Producto impecable y atención de primera." },
+  "4": [
+    { id: 10, reviewerId: "3", name: "Diego Herrera",  avatar: reviewerAvatar, rating: 5, text: "Increíble vendedora, súper detallista con el empaque." },
+    { id: 11, reviewerId: "1", name: "Alfredo Medrano",avatar: reviewerAvatar, rating: 5, text: "Producto impecable y atención de primera." },
   ],
 };
 
@@ -46,7 +46,7 @@ const reviewsBySellerId: Record<number, Review[]> = {
  * @param sellerId - ID del vendedor.
  * @returns Lista de reseñas del vendedor.
  */
-export function getSellerReviews(sellerId: number): Review[] {
+export function getSellerReviews(sellerId: string): Review[] {
   return reviewsBySellerId[sellerId] ?? [];
 }
 
@@ -55,7 +55,7 @@ export function getSellerReviews(sellerId: number): Review[] {
  * @param sellerId - ID del vendedor.
  * @returns Lista de reseñas visibles públicamente.
  */
-export function getVisibleReviews(sellerId: number): Review[] {
+export function getVisibleReviews(sellerId: string): Review[] {
   return (reviewsBySellerId[sellerId] ?? [])
     .filter(r => r.reviewerId !== sellerId);
 }
@@ -78,7 +78,7 @@ const reviewSubscribers: (() => void)[] = [];
  * @param sellerId - ID del vendedor que recibe la reseña.
  * @param review - Datos de la reseña sin el `id` (se asigna automáticamente).
  */
-export function addReview(sellerId: number, review: Omit<Review, "id">): void {
+export function addReview(sellerId: string, review: Omit<Review, "id">): void {
   if (!reviewsBySellerId[sellerId]) reviewsBySellerId[sellerId] = [];
   reviewsBySellerId[sellerId].push({ ...review, id: nextReviewId++ });
   reviewSubscribers.forEach(fn => fn());

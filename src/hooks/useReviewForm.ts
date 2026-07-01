@@ -19,7 +19,7 @@ import { notify } from "../components/data/NotificationStore";
  * `setText` — actualiza el texto,
  * `handleSubmit` — valida y envía la reseña.
  */
-export function useReviewForm(reviewer: UserProfile, sellerId: number) {
+export function useReviewForm(reviewer: UserProfile, sellerId: string) {
   const { t } = useTranslation();
   const [rating, setRating] = useState(0);
   const [text, setText] = useState("");

@@ -18,7 +18,7 @@ import { normalize } from "../utils/string";
  * @returns `displayProducts` — productos filtrados listos para mostrar,
  * `handleToggleFavorite` — alterna favorito y emite notificación.
  */
-export function useMarketplaceProducts(currentUserId: number, searchTerm: string, stateFilter = "", priceFilter = 500) {
+export function useMarketplaceProducts(currentUserId: string, searchTerm: string, stateFilter = "", priceFilter = 500) {
   const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>(getProducts);
 

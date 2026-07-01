@@ -8,7 +8,7 @@ interface MyProductCardProps {
   /** Producto a mostrar. */
   product: Product;
   /** Se ejecuta al hacer clic en el botón de eliminar con el ID del producto. */
-  onRemove: (id: number) => void;
+  onRemove: (id: string) => void;
 }
 
 /**

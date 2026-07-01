@@ -14,7 +14,7 @@ interface ReviewFormProps {
   /** Usuario autenticado que escribe la reseña. */
   reviewer: UserProfile;
   /** ID del vendedor que recibirá la reseña. */
-  sellerId: number;
+  sellerId: string;
 }
 
 /**

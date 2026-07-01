@@ -29,7 +29,7 @@ export interface Seller extends User {
  */
 export const sellers: Seller[] = [
   {
-    id: 1,
+    id: "1",
     username: "Alfredo Medrano",
     email: "mc.alfredomedra@gmail.com",
     location: "Esparza, Puntarenas",
@@ -47,7 +47,7 @@ export const sellers: Seller[] = [
     },
   },
   {
-    id: 2,
+    id: "2",
     username: "Camila Rojas",
     email: "camila.rojas@ucr.ac.cr",
     location: "San José, Costa Rica",
@@ -65,7 +65,7 @@ export const sellers: Seller[] = [
     },
   },
   {
-    id: 3,
+    id: "3",
     username: "Diego Herrera",
     email: "diego.herrera@tec.ac.cr",
     location: "Cartago, Costa Rica",
@@ -83,7 +83,7 @@ export const sellers: Seller[] = [
     },
   },
   {
-    id: 4,
+    id: "4",
     username: "Valentina Cruz",
     email: "valentina.cruz@una.ac.cr",
     location: "Heredia, Costa Rica",
@@ -102,6 +102,6 @@ export const sellers: Seller[] = [
   },
 ];
 
-export function getSellerById(id: number): Seller | undefined {
+export function getSellerById(id: string): Seller | undefined {
   return sellers.find(s => s.id === id);
 }
