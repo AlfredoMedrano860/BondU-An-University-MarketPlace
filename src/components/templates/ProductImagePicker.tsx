@@ -1,7 +1,8 @@
 import { ImagePlus, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { maxProductImages } from "../data/ProductStore";
 import { useImagePicker } from "../../hooks/useImagePicker";
+
+const maxProductImages = 3;
 
 /**
  * Props de ProductImagePicker.
@@ -9,8 +10,8 @@ import { useImagePicker } from "../../hooks/useImagePicker";
 interface ProductImagePickerProps {
   /** Arreglo de URLs de imágenes; el índice 0 es la imagen principal. */
   gallery: string[];
-  /** Se ejecuta con la galería actualizada al seleccionar una imagen. */
-  onGalleryChange: (gallery: string[]) => void;
+  /** Se ejecuta con la galería actualizada, el archivo real y el slot al seleccionar una imagen. */
+  onGalleryChange: (gallery: string[], file: File, slotIndex: number) => void;
 }
 
 /**
