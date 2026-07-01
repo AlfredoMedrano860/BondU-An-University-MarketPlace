@@ -3,13 +3,13 @@ import { useTranslation } from "react-i18next";
 import { logout, deleteUser } from "../components/data/AuthStore";
 import { notify } from "../components/data/NotificationStore";
 import type { UserProfile } from "../components/data/UserProfile";
-import i18n from "../i18n";
+// Using the i18n instance provided by `useTranslation()` instead of a top-level import
 
 /**
  * Lógica de estado y acciones de {@link SettingsScreen}.
  */
 export function useSettings(currentUser: UserProfile, onLogout: () => void) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [notifications, setNotifications] = useState(currentUser.notifications ?? true);
   const [dialog, setDialog] = useState<"logout" | "deleteAccount" | null>(null);
 

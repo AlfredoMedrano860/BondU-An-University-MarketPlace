@@ -1,6 +1,7 @@
 import "./assets/styles/App.css";
 import { useState, useEffect } from "react";
 import { NotificationStack } from "./components/ui/NotificationStack";
+import LoadingScreen from "./components/screens/LoadingScreen";
 import InfoScreen from "./components/screens/InfoScreen";
 import WelcomeScreen from "./components/screens/WelcomeScreen";
 import LoginScreen from "./components/screens/LoginScreen";
@@ -48,7 +49,7 @@ function App() {
   const { user: authUser, isAuthenticated, isLoading, logout } = useAuthContext();
   const currentUser: UserProfile | null = authUser ? authUserToProfile(authUser) : null;
 
-  const [screen, setScreen] = useState("info");
+  const [screen, setScreen] = useState("loading");
   const [marketplaceSearch, setMarketplaceSearch] = useState("");
   const [appliedState, setAppliedState]   = useState("");
   const [appliedPrice, setAppliedPrice]   = useState(500);
@@ -62,7 +63,7 @@ function App() {
 
   // Redirigir a home cuando el usuario se autentica, y a welcome cuando se desautentica
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || screen === "loading") return;
     if (isAuthenticated && preLoginScreens.includes(screen)) {
       setScreen("home");
     }
@@ -76,6 +77,11 @@ function App() {
     setScreen(target);
   }
 
+  /**
+   * Abre el perfil de un vendedor. Si ya hay un perfil abierto, apila el anterior
+   * para permitir navegar hacia atrás en la cadena de perfiles.
+   * @param seller - Vendedor cuyo perfil se va a mostrar.
+   */
   function openSellerProfile(seller: Seller) {
     if (screen === "sellerprofile" && viewedSeller) {
       setSellerStack(prev => [...prev, { seller: viewedSeller, returnScreen: sellerReturnScreen }]);
@@ -116,13 +122,18 @@ function App() {
     navigate("welcome");
   }
 
-  // ── PRE-LOGIN ──
   function renderScreen() {
+    // ── LOADING ──
+    if (screen === "loading") {
+      return <LoadingScreen onFinish={() => navigate(isAuthenticated ? "home" : "info")} />;
+    }
+
+    // ── PRE-LOGIN ──
     if (preLoginScreens.includes(screen)) {
       return (
         <div className="min-h-screen bg-beige">
           {screen === "info"           && <InfoScreen onFinish={() => navigate("welcome")} />}
-          {screen === "welcome"        && <WelcomeScreen onLogin={() => navigate("login")} />}
+          {screen === "welcome"        && <WelcomeScreen onLogin={() => navigate("login")} onExit={() => navigate("loading")} />}
           {screen === "login"          && <LoginScreen onBack={() => navigate("welcome")} onLogin={() => navigate("home")} onSignUp={() => navigate("signup")} onForgotPassword={() => navigate("forgotpassword")} />}
           {screen === "signup"         && <SignUpScreen onBack={() => navigate("login")} onRegister={() => navigate("login")} />}
           {screen === "forgotpassword" && <ForgotPasswordScreen onBack={() => navigate("login")} onSuccess={() => navigate("login")} />}
