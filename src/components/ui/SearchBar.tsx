@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
 import { useSearchBar } from "../../hooks/useSearchBar";
 import CircleButton from "./CircleButton";
+import ComboboxList from "./ComboboxList";
 
 /**
  * Props de SearchBar.
@@ -65,27 +66,23 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
           </div>
 
           {open && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden z-50">
-              <Command.List>
-                <Command.Empty className="px-4 py-4 text-sm text-gray-400 text-center">
-                  {t("search.noResults")}
-                </Command.Empty>
-                {suggestions.map((item) => (
-                  <Command.Item
-                    key={item.id}
-                    value={item.name}
-                    onSelect={() => selectSuggestion(item.name)}
-                    className="flex items-center gap-3 px-4 py-2.5 cursor-pointer transition-colors aria-selected:bg-gray-50"
-                  >
-                    <img src={item.image} alt={item.name} className="w-10 h-10 rounded-lg object-cover shrink-0" />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-gray-800 truncate">{item.name}</p>
-                      <p className="text-xs color-primary font-bold">${item.price}</p>
-                    </div>
-                  </Command.Item>
-                ))}
-              </Command.List>
-            </div>
+            <ComboboxList
+              items={suggestions}
+              getKey={(item) => item.id}
+              getValue={(item) => item.name}
+              onSelect={(item) => selectSuggestion(item.name)}
+              emptyMessage={t("search.noResults")}
+            >
+              {(item) => (
+                <div className="flex items-center gap-3 px-4 py-2.5">
+                  <img src={item.image} alt={item.name} className="w-10 h-10 rounded-lg object-cover shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold text-gray-800 truncate">{item.name}</p>
+                    <p className="text-xs color-primary font-bold">${item.price}</p>
+                  </div>
+                </div>
+              )}
+            </ComboboxList>
           )}
 
         </Command>
