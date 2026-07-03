@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import type { Product } from "../components/data/Product";
-import { getProducts, toggleFavorite, subscribeProducts } from "../components/data/ProductStore";
+import { productsService } from "../services/products";
+import { favoritesService } from "../services/favorites";
+import { apiProductToProduct } from "../utils/adapters";
 import { notify } from "../components/data/NotificationStore";
 import { normalize } from "../utils/string";
 
@@ -20,35 +22,54 @@ import { normalize } from "../utils/string";
  */
 export function useMarketplaceProducts(currentUserId: string, searchTerm: string, stateFilter = "", priceFilter = 500) {
   const { t } = useTranslation();
-  const [products, setProducts] = useState<Product[]>(getProducts);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    const unsub = subscribeProducts(() => setProducts(getProducts()));
-    return unsub;
-  }, []);
+  const load = useCallback(async () => {
+    try {
+      const [apiProducts, apiFavorites] = await Promise.all([
+        productsService.getAll(),
+        favoritesService.getByUser(currentUserId),
+      ]);
 
-  /**
-   * Alterna el favorito del producto, refresca el estado local y emite notificación.
-   * @param product - Producto cuyo estado de favorito se alterna.
-   */
-  function handleToggleFavorite(product: Product) {
+      const favIds = new Set(apiFavorites.map(f => f.product_id));
+      setAllProducts(apiProducts.map(p => apiProductToProduct(p, favIds)));
+    } catch {
+      // silently fail so UI can show empty state
+    }
+  }, [currentUserId]);
+
+  useEffect(() => { load(); }, [load]);
+
+  async function handleToggleFavorite(product: Product) {
     const adding = !product.isFavorite;
-    toggleFavorite(product.id);
-    setProducts(getProducts());
-    if (adding) {
-      notify.success(t("notifications.favoriteAdded.title"), t("notifications.favoriteAdded.message"));
-    } else {
-      notify.info(t("notifications.favoriteRemoved.title"), t("notifications.favoriteRemoved.message"));
+    try {
+      if (adding) await favoritesService.add(currentUserId, product.id);
+      else        await favoritesService.remove(currentUserId, product.id);
+
+      setAllProducts(prev =>
+        prev.map(p => p.id === product.id ? { ...p, isFavorite: adding } : p)
+      );
+
+      if (adding) {
+        notify.success(t("notifications.favoriteAdded.title"), t("notifications.favoriteAdded.message"));
+      } else {
+        notify.info(t("notifications.favoriteRemoved.title"), t("notifications.favoriteRemoved.message"));
+      }
+    } catch {
+      notify.error(t("notifications.favoriteError.title"), t("notifications.favoriteError.message"));
     }
   }
 
-  const otherUsersProducts = products.filter(p => p.seller.id !== currentUserId);
+  const otherUsersProducts = allProducts.filter(p => p.seller.id !== currentUserId);
+
   const bySearch = searchTerm.trim()
     ? otherUsersProducts.filter(p => normalize(p.name).includes(normalize(searchTerm)))
     : otherUsersProducts;
+
   const byState = stateFilter
     ? bySearch.filter(p => p.state === stateFilter)
     : bySearch;
+
   const displayProducts = priceFilter < 500
     ? byState.filter(p => p.price <= priceFilter)
     : byState;

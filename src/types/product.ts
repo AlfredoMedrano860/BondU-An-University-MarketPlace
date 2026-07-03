@@ -1,4 +1,4 @@
-import type { AuthUser } from "./auth";
+import type { ApiUser } from './user';
 
 export interface ApiProduct {
     product_id: string;
@@ -11,7 +11,7 @@ export interface ApiProduct {
     created_at: string;
     updated_at: string;
     /** Populated by JOIN when fetching full product data. */
-    seller?: AuthUser | null;
+    seller?: ApiUser | null;
     condition?: { condition_id: string; name_condition: string } | null;
     images?: ApiProductImage[];
 }
@@ -54,4 +54,15 @@ export interface UpdateProductData {
     price?: number;
     condition_id?: string;
     status_id?: string;
+}
+
+export interface ApiReview {
+    id: string;
+    reviewer_id: string;
+    seller_id: string;
+    rating: string;
+    comment: string | null;
+    created_at: string;
+    updated_at: string;
+    reviewer?: Pick<ApiUser, 'id' | 'username' | 'email' | 'avatar' | 'created_at' | 'updated_at'> | null;
 }

@@ -9,7 +9,7 @@ export const starReviews = [1, 2, 3, 4, 5];
  */
 export interface Review {
   /** Identificador único de la reseña. */
-  id: number;
+  id: string;
   /** ID del usuario que escribió la reseña. */
   reviewerId: string;
   /** Nombre visible del reseñador. */
@@ -25,19 +25,19 @@ export interface Review {
 /** Mapa de reseñas indexadas por ID de vendedor. Dato de prueba; reemplazar con backend. */
 const reviewsBySellerId: Record<string, Review[]> = {
   "1": [
-    { id: 3, reviewerId: "2", name: "Camila Rojas",    avatar: reviewerAvatar, rating: 3, text: "Todo bien, aunque el envío tardó un poco más de lo esperado." },
+    { id: "3", reviewerId: "2", name: "Camila Rojas",    avatar: reviewerAvatar, rating: 3, text: "Todo bien, aunque el envío tardó un poco más de lo esperado." },
   ],
   "2": [
-    { id: 4, reviewerId: "3", name: "Diego Herrera",   avatar: reviewerAvatar, rating: 5, text: "Vendedora muy amable, el artículo llegó en excelente estado." },
-    { id: 5, reviewerId: "1", name: "Alfredo Medrano", avatar: reviewerAvatar, rating: 4, text: "Buena experiencia, respondió rápido y coordinó bien la entrega." },
-    { id: 6, reviewerId: "4", name: "Valentina Cruz",  avatar: reviewerAvatar, rating: 5, text: "Todo perfecto, lo recomiendo sin dudar." },
+    { id: "4", reviewerId: "3", name: "Diego Herrera",   avatar: reviewerAvatar, rating: 5, text: "Vendedora muy amable, el artículo llegó en excelente estado." },
+    { id: "5", reviewerId: "1", name: "Alfredo Medrano", avatar: reviewerAvatar, rating: 4, text: "Buena experiencia, respondió rápido y coordinó bien la entrega." },
+    { id: "6", reviewerId: "4", name: "Valentina Cruz",  avatar: reviewerAvatar, rating: 5, text: "Todo perfecto, lo recomiendo sin dudar." },
   ],
   "3": [
-    { id: 8, reviewerId: "2", name: "Camila Rojas",    avatar: reviewerAvatar, rating: 4, text: "Buen vendedor, el artículo estaba en buen estado." },
+    { id: "8", reviewerId: "2", name: "Camila Rojas",    avatar: reviewerAvatar, rating: 4, text: "Buen vendedor, el artículo estaba en buen estado." },
   ],
   "4": [
-    { id: 10, reviewerId: "3", name: "Diego Herrera",  avatar: reviewerAvatar, rating: 5, text: "Increíble vendedora, súper detallista con el empaque." },
-    { id: 11, reviewerId: "1", name: "Alfredo Medrano",avatar: reviewerAvatar, rating: 5, text: "Producto impecable y atención de primera." },
+    { id: "10", reviewerId: "3", name: "Diego Herrera",  avatar: reviewerAvatar, rating: 5, text: "Increíble vendedora, súper detallista con el empaque." },
+    { id: "11", reviewerId: "1", name: "Alfredo Medrano",avatar: reviewerAvatar, rating: 5, text: "Producto impecable y atención de primera." },
   ],
 };
 
@@ -80,7 +80,7 @@ const reviewSubscribers: (() => void)[] = [];
  */
 export function addReview(sellerId: string, review: Omit<Review, "id">): void {
   if (!reviewsBySellerId[sellerId]) reviewsBySellerId[sellerId] = [];
-  reviewsBySellerId[sellerId].push({ ...review, id: nextReviewId++ });
+  reviewsBySellerId[sellerId].push({ ...review, id: String(nextReviewId++) });
   reviewSubscribers.forEach(fn => fn());
 }
 

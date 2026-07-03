@@ -224,7 +224,7 @@ function App() {
           />
         )}
         {screen === "favorite" && currentUser && (
-          <FavoriteScreen onViewProduct={openProductDetail} />
+          <FavoriteScreen onViewProduct={openProductDetail} currentUser={currentUser} />
         )}
         {screen === "productdetail" && viewedProduct && currentUser && (
           <ProductScreen
@@ -238,6 +238,8 @@ function App() {
   }
 
   if (isLoading) return null;
+
+  // loadingVisible handled via state above
 
   return (
     <>
