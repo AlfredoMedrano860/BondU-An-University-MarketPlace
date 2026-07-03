@@ -43,7 +43,7 @@ export function register(username: string, email: string, password: string): Aut
     email,
     password,
     avatar: avatarImg,
-    location: '',
+    location: "",
     createdAt: new Date(),
   };
 

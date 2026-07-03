@@ -9,7 +9,7 @@ import { useMyProducts } from "../../hooks/useMyProducts";
  * Props de MyProductsScreen.
  */
 interface MyProductsScreenProps {
-  /** ID del usuario cuyos productos se muestran. */
+  /** ID del usuario cuyos productos se muestran (UUID del backend). */
   userId: string;
   /** Navega hacia atrás. */
   onBack: () => void;

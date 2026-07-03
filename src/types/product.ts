@@ -10,6 +10,7 @@ export interface ApiProduct {
     status_id: string | null;
     created_at: string;
     updated_at: string;
+    /** Populated by JOIN when fetching full product data. */
     seller?: ApiUser | null;
     condition?: { condition_id: string; name_condition: string } | null;
     images?: ApiProductImage[];

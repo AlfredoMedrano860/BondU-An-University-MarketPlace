@@ -14,12 +14,16 @@ import type { ChangeEvent } from "react";
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications Using files from web applications}
  *
  * @param gallery - Lista actual de URLs de imágenes.
- * @param onGalleryChange - Se ejecuta al seleccionar una imagen con la galería actualizada.
+ * @param onGalleryChange - Se ejecuta al seleccionar una imagen con la galería actualizada,
+ * el archivo real seleccionado y el índice del slot (para subirlo al backend).
  * @returns `fileInputRef` — ref para el input de archivo oculto,
  * `handleFileChange` — manejador del evento onChange del input,
  * `openPicker` — abre el selector de archivos para el slot dado.
  */
-export function useImagePicker(gallery: string[], onGalleryChange: (gallery: string[]) => void) {
+export function useImagePicker(
+  gallery: string[],
+  onGalleryChange: (gallery: string[], file: File, slotIndex: number) => void,
+) {
   const fileInputRef  = useRef<HTMLInputElement>(null);
   const slotIndexRef  = useRef<number>(0);
   const prevBlobRef   = useRef<string | null>(null);
@@ -40,7 +44,7 @@ export function useImagePicker(gallery: string[], onGalleryChange: (gallery: str
 
     const updated = gallery.slice();
     updated[slotIndexRef.current] = url;
-    onGalleryChange(updated);
+    onGalleryChange(updated, file, slotIndexRef.current);
   };
 
   /**

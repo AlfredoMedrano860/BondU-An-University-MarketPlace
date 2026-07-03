@@ -38,6 +38,7 @@ export const productsService = {
         await apiClient.patch(`/products/${id}/sell`);
     },
 
+    // Imágenes
     async getImages(productId: string): Promise<ApiProductImage[]> {
         const response = await apiClient.get<ApiProductImage[]>(`/products/${productId}/images`);
         return response.data;
@@ -46,11 +47,9 @@ export const productsService = {
     async uploadImage(productId: string, file: File): Promise<ApiProductImage> {
         const form = new FormData();
         form.append('image', file);
-        const response = await apiClient.post<ApiProductImage>(
-            `/products/${productId}/images`,
-            form,
-            { headers: { 'Content-Type': 'multipart/form-data' } }
-        );
+        const response = await apiClient.post<ApiProductImage>(`/products/${productId}/images`, form, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
         return response.data;
     },
 
@@ -62,6 +61,7 @@ export const productsService = {
         await apiClient.patch(`/products/${productId}/images/${imageId}/primary`);
     },
 
+    // Catálogos
     async getCategories(): Promise<ApiProductCategory[]> {
         const response = await apiClient.get<ApiProductCategory[]>('/products/categories');
         return response.data;

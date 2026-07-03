@@ -7,6 +7,19 @@ import { apiProductToProduct } from "../utils/adapters";
 import { notify } from "../components/data/NotificationStore";
 import { normalize } from "../utils/string";
 
+/**
+ * Hook que gestiona la lista de productos del Marketplace.
+ *
+ * Se suscribe al store, filtra los productos del usuario actual y aplica
+ * el término de búsqueda normalizando tildes y mayúsculas.
+ * Incluye el manejador de favoritos con notificación estandarizada.
+ * Usado en {@link MarketPlaceScreen}.
+ *
+ * @param currentUserId - ID del usuario actual; sus productos se excluyen del listado.
+ * @param searchTerm - Término para filtrar productos por nombre.
+ * @returns `displayProducts` — productos filtrados listos para mostrar,
+ * `handleToggleFavorite` — alterna favorito y emite notificación.
+ */
 export function useMarketplaceProducts(currentUserId: string, searchTerm: string, stateFilter = "", priceFilter = 500) {
   const { t } = useTranslation();
   const [allProducts, setAllProducts] = useState<Product[]>([]);

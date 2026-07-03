@@ -1,7 +1,5 @@
 import { useTranslation } from "react-i18next";
 import logo from "../../assets/imgs/logo.png";
-
-const noop = () => {};
 import cara from "../../assets/imgs/CaraMascota.png";
 import brazos from "../../assets/imgs/BrazosMascota.png";
 import AppButton from "../ui/AppButton";
@@ -13,6 +11,8 @@ import AuthLayout from "../layout/AuthLayout";
 interface WelcomeScreenProps {
   /** Navega a la pantalla de inicio de sesión. */
   onLogin: () => void;
+  /** Vuelve a la pantalla de carga (botón "salir"). */
+  onExit: () => void;
 }
 
 /**
@@ -22,8 +22,9 @@ interface WelcomeScreenProps {
  * Usa {@link AuthLayout} para el panel bicolor.
  *
  * @param onLogin - Navega a {@link LoginScreen}.
+ * @param onExit - Vuelve a la pantalla de carga.
  */
-function WelcomeScreen({ onLogin }: WelcomeScreenProps) {
+function WelcomeScreen({ onLogin, onExit }: WelcomeScreenProps) {
   const { t } = useTranslation();
 
   return (
@@ -41,7 +42,7 @@ function WelcomeScreen({ onLogin }: WelcomeScreenProps) {
       <div className="px-8 pb-10 pt-6">
         <div className="max-w-sm w-full mx-auto flex flex-col gap-4">
           <AppButton text={t("welcome.login")} onClick={onLogin} />
-          <AppButton variant="secondary" text={t("welcome.exit")} onClick={noop} />
+          <AppButton variant="secondary" text={t("welcome.exit")} onClick={onExit} />
         </div>
       </div>
       

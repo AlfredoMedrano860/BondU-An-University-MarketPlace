@@ -8,6 +8,7 @@ export const maxProductImages = 3;
 
 let products: Product[] = initialProducts.slice();
 let nextId = initialProducts.length + 1;
+const generateId = () => String(nextId++);
 const subscribers: Array<() => void> = [];
 
 function notifySubscribers() {
@@ -72,7 +73,7 @@ export function addProduct(input: NewProductInput): ProductResult {
   if (error) return { ok: false, error };
 
   const product: Product = {
-    id: String(nextId++),
+    id: generateId(),
     name: input.name,
     price: input.price,
     state: input.state,

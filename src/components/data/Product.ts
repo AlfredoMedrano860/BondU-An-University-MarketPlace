@@ -10,7 +10,7 @@ import { sellers } from "./Seller";
  * @see Seller
  */
 export interface Product {
-  /** Identificador único del producto. */
+  /** Identificador único del producto (UUID del backend). */
   id: string;
   /** Nombre del producto. */
   name: string;
