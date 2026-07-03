@@ -4,7 +4,7 @@
  */
 export interface User {
   /** Identificador único del usuario. */
-  id: number;
+  id: string;
   /** Nombre de usuario visible en la app. */
   username: string;
   /** Correo electrónico del usuario. */

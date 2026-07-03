@@ -1,43 +1,46 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import FeaturedBanner from "../templates/FeaturedBanner";
 import ProductGrid from "../templates/ProductGrid";
 import EmptyState from "../ui/EmptyState";
 import type { Product } from "../data/Product";
 import type { UserProfile } from "../data/UserProfile";
-import { getProducts } from "../data/ProductStore";
+import { productsService } from "../../services/products";
+import { favoritesService } from "../../services/favorites";
+import { apiProductToProduct } from "../../utils/adapters";
 import { useFavoriteToggle } from "../../hooks/useFavoriteToggle";
 
-/**
- * Props de HomeScreen.
- */
 interface HomeScreenProps {
-  /** Navega a otra pantalla por nombre. */
   onNavigate: (screen: string) => void;
-  /** Abre el detalle de un producto. */
   onViewProduct: (product: Product) => void;
-  /** Usuario autenticado; sus propios productos se excluyen del listado. */
   currentUser: UserProfile;
 }
 
-/**
- * Pantalla de inicio con banner destacado y cuadrícula de productos recientes.
- *
- * Muestra los productos de otros usuarios y permite alternar favoritos.
- * No se suscribe al store: carga los productos una sola vez al montar.
- *
- * @param onNavigate - Navega a otra pantalla por nombre.
- * @param onViewProduct - Abre el detalle de un producto.
- * @param currentUser - Usuario autenticado cuyos productos se excluyen.
- */
 function HomeScreen({ onNavigate, onViewProduct, currentUser }: HomeScreenProps) {
   const { t } = useTranslation();
-  const [products, setProducts] = useState<Product[]>(() =>
-    getProducts().filter(p => p.seller.id !== currentUser.id)
-  );
-  const handleToggleFavorite = useFavoriteToggle(
-    () => setProducts(getProducts().filter(p => p.seller.id !== currentUser.id))
-  );
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const load = useCallback(async () => {
+    try {
+      const [apiProducts, apiFavorites] = await Promise.all([
+        productsService.getAll(),
+        favoritesService.getByUser(currentUser.id),
+      ]);
+
+      const favIds = new Set(apiFavorites.map(f => f.product_id));
+      const others = apiProducts
+        .filter(p => p.seller_id !== currentUser.id)
+        .map(p => apiProductToProduct(p, favIds));
+
+      setProducts(others);
+    } catch {
+      // silently fail
+    }
+  }, [currentUser.id]);
+
+  useEffect(() => { load(); }, [load]);
+
+  const handleToggleFavorite = useFavoriteToggle(currentUser.id, load);
 
   return (
     <div className="h-full bg-beige overflow-y-auto no-scrollbar pb-28">

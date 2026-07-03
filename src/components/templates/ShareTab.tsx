@@ -10,7 +10,7 @@ import InputSpace from "../ui/InputSpace";
  */
 interface ShareTabProps {
   /** ID del producto cuya URL se va a compartir. */
-  productId: number;
+  productId: string;
 }
 
 /**

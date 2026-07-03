@@ -32,7 +32,7 @@ const fullbleedScreens = ["profile", "account", "myproducts", "sellerprofile"];
 /** Convierte el AuthUser del backend al UserProfile que esperan las pantallas existentes. */
 function authUserToProfile(u: AuthUser): UserProfile {
   return {
-    id: u.id as unknown as number,
+    id: u.id,
     username: u.username,
     email: u.email,
     password: "",
@@ -50,6 +50,7 @@ function App() {
   const currentUser: UserProfile | null = authUser ? authUserToProfile(authUser) : null;
 
   const [screen, setScreen] = useState("info");
+  const [loadingVisible, setLoadingVisible] = useState(true);
   const [marketplaceSearch, setMarketplaceSearch] = useState("");
   const [appliedState, setAppliedState]   = useState("");
   const [appliedPrice, setAppliedPrice]   = useState(500);
@@ -222,7 +223,7 @@ function App() {
           />
         )}
         {screen === "favorite" && currentUser && (
-          <FavoriteScreen onViewProduct={openProductDetail} />
+          <FavoriteScreen onViewProduct={openProductDetail} currentUser={currentUser} />
         )}
         {screen === "productdetail" && viewedProduct && currentUser && (
           <ProductScreen
@@ -236,6 +237,8 @@ function App() {
   }
 
   if (isLoading) return null;
+
+  // loadingVisible handled via state above
 
   return (
     <>

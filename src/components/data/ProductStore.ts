@@ -54,7 +54,7 @@ export function getProducts(): Product[] {
  * @param userId - ID del usuario vendedor.
  * @returns Lista de productos del usuario.
  */
-export function getProductsByUser(userId: number): Product[] {
+export function getProductsByUser(userId: string): Product[] {
   return products.filter(p => p.seller.id === userId);
 }
 
@@ -72,7 +72,7 @@ export function addProduct(input: NewProductInput): ProductResult {
   if (error) return { ok: false, error };
 
   const product: Product = {
-    id: nextId++,
+    id: String(nextId++),
     name: input.name,
     price: input.price,
     state: input.state,
@@ -92,7 +92,7 @@ export function addProduct(input: NewProductInput): ProductResult {
  * Elimina un producto del store por su ID.
  * @param productId - ID del producto a eliminar.
  */
-export function removeProduct(productId: number): void {
+export function removeProduct(productId: string): void {
   products = products.filter(p => p.id !== productId);
   notifySubscribers();
 }
@@ -103,7 +103,7 @@ export function removeProduct(productId: number): void {
  * @param input - Campos a modificar (parcial).
  * @returns {@link ProductResult} con el producto actualizado o un mensaje de error.
  */
-export function updateProduct(productId: number, input: Omit<NewProductInput, "seller">): ProductResult {
+export function updateProduct(productId: string, input: Omit<NewProductInput, "seller">): ProductResult {
   const existing = products.find(p => p.id === productId);
   if (!existing) return { ok: false, error: "Producto no encontrado." };
 
@@ -132,7 +132,7 @@ export function updateProduct(productId: number, input: Omit<NewProductInput, "s
  *
  * @param productId - ID del producto a modificar.
  */
-export function toggleFavorite(productId: number): void {
+export function toggleFavorite(productId: string): void {
   products = products.map(p => {
     if (p.id !== productId) return p;
 

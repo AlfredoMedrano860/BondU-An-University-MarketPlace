@@ -18,7 +18,7 @@ import { notify } from "../components/data/NotificationStore";
  * `reviews` — reseñas recibidas por el usuario,
  * `handleDelete` — elimina un producto y emite notificación de éxito.
  */
-export function useProfileData(userId: number) {
+export function useProfileData(userId: string) {
   const { t } = useTranslation();
   const [userProducts, setUserProducts] = useState<Product[]>(() => getProductsByUser(userId));
   const [reviews, setReviews] = useState<Review[]>(() => getVisibleReviews(userId));

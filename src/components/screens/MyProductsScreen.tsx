@@ -10,7 +10,7 @@ import { useMyProducts } from "../../hooks/useMyProducts";
  */
 interface MyProductsScreenProps {
   /** ID del usuario cuyos productos se muestran. */
-  userId: number;
+  userId: string;
   /** Navega hacia atrás. */
   onBack: () => void;
   /** Abre el formulario de edición para el producto seleccionado. */

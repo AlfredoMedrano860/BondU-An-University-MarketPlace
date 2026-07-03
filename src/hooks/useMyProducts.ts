@@ -15,7 +15,7 @@ import { notify } from "../components/data/NotificationStore";
  * @returns `userProducts` — lista de productos del usuario,
  * `handleDelete` — elimina un producto y emite notificación de advertencia.
  */
-export function useMyProducts(userId: number) {
+export function useMyProducts(userId: string) {
   const { t } = useTranslation();
   const [userProducts, setUserProducts] = useState<Product[]>(() => getProductsByUser(userId));
 
