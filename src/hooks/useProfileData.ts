@@ -1,63 +1,51 @@
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useState, useEffect, useCallback } from "react";
 import type { Product } from "../components/data/Product";
 import type { Review } from "../components/data/Review";
-import { getProductsByUser, removeProduct, subscribeProducts } from "../components/data/ProductStore";
-import { getCurrentUser, updateUser } from "../components/data/AuthStore";
-import { getVisibleReviews, subscribeReviews } from "../components/data/Review";
-import { notify } from "../components/data/NotificationStore";
+import { usersService } from "../services/users";
+import { apiProductToProduct, apiReviewToReview } from "../utils/adapters";
+import { useProductActions } from "./useProductActions";
 
-/**
- * Hook que carga los productos y reseñas de un perfil de usuario.
- *
- * Se suscribe a ambos stores y expone un manejador de eliminación de productos.
- * Usado en {@link ProfileTabs}.
- *
- * @param userId - ID del usuario cuyo perfil se está visualizando.
- * @returns `userProducts` — productos publicados por el usuario,
- * `reviews` — reseñas recibidas por el usuario,
- * `handleDelete` — elimina un producto y emite notificación de éxito.
- */
+// ANTES: useProfileData(userId: number)
+// AHORA:  useProfileData(userId: string)
 export function useProfileData(userId: string) {
-  const { t } = useTranslation();
-  const [userProducts, setUserProducts] = useState<Product[]>(() => getProductsByUser(userId));
-  const [reviews, setReviews] = useState<Review[]>(() => getVisibleReviews(userId));
+  const [userProducts, setUserProducts] = useState<Product[]>([]);
+  const [reviews,      setReviews]      = useState<Review[]>([]);
+  const [salesCount,   setSalesCount]   = useState<number>(0);
+  const { handleDelete, handleSell } = useProductActions(setUserProducts);
 
-  useEffect(() => {
-    const unsub = subscribeProducts(() => setUserProducts(getProductsByUser(userId)));
-    return unsub;
+  const reload = useCallback(async () => {
+    try {
+      // Los 3 requests en PARALELO: más rápido que uno a la vez
+      const [apiProducts, apiReviews, stats] = await Promise.all([
+        usersService.getProducts(userId),
+        usersService.getReviews(userId),
+        usersService.getStats(userId).catch(() => null),  // no crítico si falla
+      ]);
+      setUserProducts(apiProducts.map(p => apiProductToProduct(p)));
+      setReviews(apiReviews.map(r => apiReviewToReview(r)));
+      if (stats) setSalesCount(stats.sales_count ?? 0);
+    } catch {
+      setUserProducts([]);
+      setReviews([]);
+    }
   }, [userId]);
 
-  useEffect(() => {
-    const unsub = subscribeReviews(() => setReviews(getVisibleReviews(userId)));
-    return unsub;
-  }, [userId]);
+  useEffect(() => { reload(); }, [reload]);
 
-  /**
-   * Elimina el producto del store y emite una notificación de éxito.
-   * @param product - Producto a eliminar.
-   */
-  function handleDelete(product: Product) {
-    removeProduct(product.id);
-    notify.success(
-      t("notifications.productDeleted.title"),
-      t("notifications.productDeleted.message"),
-    );
+  // Al vender, actualiza el conteo de ventas además de quitar el producto
+  async function handleSellAndRefresh(product: Product) {
+    await handleSell(product);
+    usersService.getStats(userId)
+      .then(s => setSalesCount(s.sales_count ?? 0))
+      .catch(() => {});
   }
 
-  /**
-   * Marca el producto como vendido: lo elimina del store e incrementa el contador de ventas del usuario.
-   * @param product - Producto vendido.
-   */
-  function handleSell(product: Product) {
-    removeProduct(product.id);
-    const user = getCurrentUser();
-    if (user) updateUser({ sales: (user.sales ?? 0) + 1 });
-    notify.success(
-      t("notifications.productSold.title"),
-      t("notifications.productSold.message"),
-    );
-  }
-
-  return { userProducts, reviews, handleDelete, handleSell };
+  return {
+    userProducts,
+    reviews,
+    salesCount,
+    handleDelete,
+    handleSell: handleSellAndRefresh,
+    reload,
+  };
 }

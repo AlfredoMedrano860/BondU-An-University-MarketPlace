@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Settings } from "lucide-react";
 import BackButton from "../ui/BackButton";
@@ -8,46 +8,26 @@ import ProfileTabs from "../templates/ProfileTabs";
 import ProductScreen from "./ProductScreen";
 import type { UserProfile } from "../data/UserProfile";
 import type { Product } from "../data/Product";
-import { getVisibleReviews, computeRating, subscribeReviews } from "../data/Review";
+import { computeRating } from "../data/Review";
+import { useProfileData } from "../../hooks/useProfileData";
 
-
-/** Props del componente {@link ProfileScreen}. */
 interface ProfileScreenProps {
-  /** Usuario cuyo perfil se muestra. */
   currentUser: UserProfile;
-  /** Navega hacia atrás desde el perfil. */
   onBack: () => void;
-  /** Inicia la edición de un producto del perfil. */
   onEdit: (product: Product) => void;
-  /** Abre la pantalla de edición del perfil propio. Solo se pasa cuando `isOwnProfile` es `true`. */
   onEditProfile?: () => void;
-  /** Indica si el perfil mostrado pertenece al usuario autenticado. Por defecto `true`. */
   isOwnProfile?: boolean;
-  /** Usuario autenticado que puede dejar reseñas. Solo se pasa en perfiles ajenos. */
   reviewer?: UserProfile;
-  /** Navega al detalle de un producto. Si no se pasa, el producto se abre en pantalla completa inline. */
   onBuyProduct?: (product: Product) => void;
-  /** Abre el perfil del autor de una reseña. */
-  onViewReviewer?: (reviewerId: string) => void;
+  onViewReviewer?: (reviewerId: string) => void;  // ← era number, ahora string
 }
 
-/**
- * Pantalla de perfil de usuario.
- *
- * Muestra un banner, avatar, estadísticas (ventas / reseñas) y tres pestañas:
- * Contacto, Productos y Reseñas. Cuando `isOwnProfile` es `true` muestra el
- * botón de configuración en el banner. Suscribe al store de reseñas para
- * reflejar cambios en tiempo real.
- */
 export default function ProfileScreen({ currentUser, onBack, onEdit, onEditProfile, isOwnProfile = true, reviewer, onBuyProduct, onViewReviewer }: ProfileScreenProps) {
   const { t } = useTranslation();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [userReviews, setUserReviews] = useState(() => getVisibleReviews(currentUser.id));
 
-  useEffect(() => {
-    const unsub = subscribeReviews(() => setUserReviews(getVisibleReviews(currentUser.id)));
-    return unsub;
-  }, [currentUser.id]);
+  // Hook que carga productos, reseñas y ventas del API
+  const { userProducts, reviews, salesCount, handleDelete, handleSell, reload } = useProfileData(currentUser.id);
 
   if (selectedProduct && !onBuyProduct) {
     return (
@@ -77,7 +57,7 @@ export default function ProfileScreen({ currentUser, onBack, onEdit, onEditProfi
       <div className="bg-white">
         <div className="max-w-6xl mx-auto">
 
-          {/* MOBILE */}
+          {/* MÓVIL */}
           <div className="md:hidden flex flex-col items-center px-4 pb-6">
             <div className="-mt-14 relative z-10">
               <img
@@ -88,15 +68,15 @@ export default function ProfileScreen({ currentUser, onBack, onEdit, onEditProfi
             </div>
             <h1 className="mt-3 text-2xl font-bold color-secondary">{currentUser.username}</h1>
             <div className="mt-2">
-              <StarRating rating={computeRating(userReviews)} reviews={userReviews.length} />
+              <StarRating rating={computeRating(reviews)} reviews={reviews.length} />
             </div>
             <div className="flex gap-12 mt-4 text-center">
               <div>
-                <p className="text-xl font-bold">{currentUser.sales ?? 0}</p>
+                <p className="text-xl font-bold">{salesCount}</p>
                 <p className="text-sm text-gray-500">{t("profile.sales")}</p>
               </div>
               <div>
-                <p className="text-xl font-bold">{userReviews.length}</p>
+                <p className="text-xl font-bold">{reviews.length}</p>
                 <p className="text-sm text-gray-500">{t("profile.reviews")}</p>
               </div>
             </div>
@@ -110,11 +90,11 @@ export default function ProfileScreen({ currentUser, onBack, onEdit, onEditProfi
             <div className="flex-1 pb-5 pt-3">
               <h1 className="text-3xl font-bold color-secondary">{currentUser.username}</h1>
               <div className="mt-1">
-                <StarRating rating={computeRating(userReviews)} reviews={userReviews.length} />
+                <StarRating rating={computeRating(reviews)} reviews={reviews.length} />
               </div>
               <div className="flex gap-8 mt-2 text-sm text-gray-600">
-                <span><span className="font-bold text-black">{currentUser.sales ?? 0}</span> {t("profile.sales")}</span>
-                <span><span className="font-bold text-black">{userReviews.length}</span> {t("profile.reviews")}</span>
+                <span><span className="font-bold text-black">{salesCount}</span> {t("profile.sales")}</span>
+                <span><span className="font-bold text-black">{reviews.length}</span> {t("profile.reviews")}</span>
               </div>
             </div>
           </div>
@@ -126,9 +106,14 @@ export default function ProfileScreen({ currentUser, onBack, onEdit, onEditProfi
         currentUser={currentUser}
         isOwnProfile={isOwnProfile}
         reviewer={reviewer}
+        userProducts={userProducts}
+        reviews={reviews}
         onEdit={onEdit}
         onBuyProduct={onBuyProduct ?? setSelectedProduct}
         onViewReviewer={onViewReviewer}
+        onDelete={handleDelete}
+        onSell={isOwnProfile ? handleSell : undefined}
+        onReviewAdded={reload}
       />
 
     </div>
