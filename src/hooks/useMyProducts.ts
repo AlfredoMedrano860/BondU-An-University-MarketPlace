@@ -1,48 +1,25 @@
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useState, useEffect, useCallback } from "react";
 import type { Product } from "../components/data/Product";
-import { getProductsByUser, removeProduct, subscribeProducts } from "../components/data/ProductStore";
-import { getCurrentUser, updateUser } from "../components/data/AuthStore";
-import { notify } from "../components/data/NotificationStore";
+import { usersService } from "../services/users";
+import { apiProductToProduct } from "../utils/adapters";
+import { useProductActions } from "./useProductActions";
 
-/**
- * Hook para gestionar los productos propios de un vendedor.
- *
- * Se suscribe a los cambios del store y expone un manejador de eliminación.
- * Usado en {@link MyProductsScreen}.
- *
- * @param userId - ID del usuario cuyos productos se cargan y escuchan.
- * @returns `userProducts` — lista de productos del usuario,
- * `handleDelete` — elimina un producto y emite notificación de advertencia.
- */
+// ANTES: useMyProducts(userId: number)
+// AHORA:  useMyProducts(userId: string)
 export function useMyProducts(userId: string) {
-  const { t } = useTranslation();
-  const [userProducts, setUserProducts] = useState<Product[]>(() => getProductsByUser(userId));
+  const [userProducts, setUserProducts] = useState<Product[]>([]);
+  const { handleDelete, handleSell } = useProductActions(setUserProducts);
 
-  useEffect(() => {
-    const unsub = subscribeProducts(() => setUserProducts(getProductsByUser(userId)));
-    return unsub;
+  const load = useCallback(async () => {
+    try {
+      const apiProducts = await usersService.getProducts(userId);
+      setUserProducts(apiProducts.map(p => apiProductToProduct(p)));
+    } catch {
+      setUserProducts([]);
+    }
   }, [userId]);
 
-  /**
-   * Elimina el producto del store y emite una notificación de advertencia.
-   * @param product - Producto a eliminar.
-   */
-  function handleDelete(product: Product) {
-    removeProduct(product.id);
-    notify.warning(t("notifications.productDeleted.title"), t("notifications.productDeleted.message"));
-  }
-
-  /**
-   * Marca el producto como vendido: lo elimina del store e incrementa el contador de ventas del usuario.
-   * @param product - Producto vendido.
-   */
-  function handleSell(product: Product) {
-    removeProduct(product.id);
-    const user = getCurrentUser();
-    if (user) updateUser({ sales: (user.sales ?? 0) + 1 });
-    notify.success(t("notifications.productSold.title"), t("notifications.productSold.message"));
-  }
+  useEffect(() => { load(); }, [load]);
 
   return { userProducts, handleDelete, handleSell };
 }

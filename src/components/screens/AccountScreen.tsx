@@ -41,14 +41,15 @@ function AccountScreen({ currentUser, onBack, onUpdate }: AccountScreenProps) {
    * Crea una blob URL para previsualizar la imagen seleccionada.
    * Revoca la URL anterior para evitar memory leaks.
    */
-  const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (prevBlobRef.current) URL.revokeObjectURL(prevBlobRef.current);
-    const url = URL.createObjectURL(file);
-    prevBlobRef.current = url;
-    setters.setAvatar(url);
-  };
+ const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  if (prevBlobRef.current) URL.revokeObjectURL(prevBlobRef.current);
+  const url = URL.createObjectURL(file);
+  prevBlobRef.current = url;
+  setters.setAvatar(url);         // guarda la URL del preview (para mostrar en pantalla)
+  setters.setAvatarFile(file);    // ← NUEVO: guarda el File para subirlo al backend
+};
 
   return (
     <div className="h-screen bg-beige overflow-y-auto no-scrollbar">
