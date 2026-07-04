@@ -3,7 +3,7 @@
  * Extendido por {@link Seller} y {@link UserProfile}.
  */
 export interface User {
-  /** Identificador único del usuario. */
+  /** Identificador único del usuario (UUID del backend). */
   id: string;
   /** Nombre de usuario visible en la app. */
   username: string;
@@ -19,3 +19,4 @@ export interface User {
   /** Ubicación del usuario (ciudad o campus). */
   location: string
 }
+

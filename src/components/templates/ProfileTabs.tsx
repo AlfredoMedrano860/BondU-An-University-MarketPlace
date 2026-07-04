@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { UserProfile } from "../data/UserProfile";
 import type { Product } from "../data/Product";
+import type { Review } from "../data/Review";
 import { useProfileData } from "../../hooks/useProfileData";
 import NavigationTabs from "../ui/NavigationTabs";
 import ProfileContact from "./ProfileContact";
@@ -26,6 +27,12 @@ interface ProfileTabsProps {
   onBuyProduct?: (product: Product) => void;
   /** Se ejecuta al hacer clic en el avatar de un reseñador. */
   onViewReviewer?: (reviewerId: string) => void;
+
+  userProducts: Product[];         // ← agregar
+  reviews: Review[];  
+  onDelete?: (p: Product) => void;         // ← agregar
+  onSell?: (p: Product) => void;           // ← agregar
+  onReviewAdded?: () => void;  
 }
 
 /**
