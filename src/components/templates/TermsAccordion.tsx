@@ -9,7 +9,7 @@ import AccordionTrigger from "../ui/AccordionTrigger";
  *
  * Muestra Términos y Condiciones, Política de Privacidad y la versión de la app.
  * Los textos se leen de i18n bajo la clave `terms`.
- * Usado en {@link InfoScreen}.
+ * Usado en {@link Settings}.
  */
 function TermsAccordion() {
   const { t } = useTranslation();

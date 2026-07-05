@@ -3,7 +3,7 @@ import type { LucideIcon } from "lucide-react";
 /**
  * Props de ContactRow.
  */
-export interface ContactRowProps {
+interface ContactRowProps {
   /** Ícono de Lucide que representa el canal de contacto. */
   icon: LucideIcon;
   /** Valor a mostrar (teléfono, correo, usuario de red social). */

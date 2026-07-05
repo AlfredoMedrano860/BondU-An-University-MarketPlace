@@ -19,6 +19,8 @@ interface ProfileReviewsProps {
   sellerId: string;
   /** Se ejecuta al hacer clic en el avatar de un reseñador para ver su perfil. */
   onViewReviewer?: (reviewerId: string) => void;
+  /** Se ejecuta al enviar una reseña nueva, para refrescar los datos del perfil. */
+  onReviewAdded?: () => void;
 }
 
 /**
@@ -33,8 +35,9 @@ interface ProfileReviewsProps {
  * @param reviewer - Usuario autenticado que redactará la reseña.
  * @param sellerId - ID del vendedor receptor de la reseña.
  * @param onViewReviewer - Navega al perfil del reseñador al hacer clic en su avatar.
+ * @param onReviewAdded - Se ejecuta al enviar una reseña nueva.
  */
-export default function ProfileReviews({ reviews, isOwnProfile, reviewer, sellerId, onViewReviewer }: ProfileReviewsProps) {
+export default function ProfileReviews({ reviews, isOwnProfile, reviewer, sellerId, onViewReviewer, onReviewAdded }: ProfileReviewsProps) {
   const { t } = useTranslation();
 
   return (
@@ -50,7 +53,7 @@ export default function ProfileReviews({ reviews, isOwnProfile, reviewer, seller
         />
       ))}
       {!isOwnProfile && reviewer && (
-        <ReviewForm reviewer={reviewer} sellerId={sellerId} />
+        <ReviewForm reviewer={reviewer} sellerId={sellerId} onSubmitted={onReviewAdded} />
       )}
     </div>
   );

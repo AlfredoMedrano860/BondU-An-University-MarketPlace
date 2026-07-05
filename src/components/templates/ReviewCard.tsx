@@ -1,12 +1,24 @@
 import StarRating from "../ui/StarRating";
-import SectionCard from "../layout/SectionCard";
+import SectionCard from "../ui/SectionCard";
 import type { Review } from "../data/Review";
 
+/**
+ * Props de ReviewCard.
+ */
 interface ReviewCardProps {
+  /** Reseña a mostrar. */
   review: Review;
+  /** Se ejecuta al hacer clic en la tarjeta para ver el perfil del reseñador. */
   onViewProfile?: () => void;
 }
 
+/**
+ * Tarjeta de una reseña individual: avatar, nombre, calificación y comentario.
+ * Usada en {@link ProfileReviews}.
+ *
+ * @param review - Reseña a mostrar.
+ * @param onViewProfile - Navega al perfil del reseñador.
+ */
 export default function ReviewCard({ review, onViewProfile }: ReviewCardProps) {
     return (
         <SectionCard className="bg-white-app mx-0 my-2">

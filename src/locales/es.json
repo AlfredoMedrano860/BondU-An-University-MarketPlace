@@ -14,7 +14,10 @@
     "submit": "INICIAR SESIÓN",
     "orContinueWith": "o continuar con",
     "noAccount": "¿No tienes una cuenta?",
-    "signUp": "Regístrate"
+    "signUp": "Regístrate",
+    "errors": {
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres"
+    }
   },
   "signup": {
     "title": "Crear una cuenta",
@@ -27,7 +30,11 @@
     "passwordHint": "Mínimo 8 caracteres",
     "submit": "REGISTRARSE",
     "alreadyHaveAccount": "¿Ya tenés una cuenta?",
-    "loginLink": "Iniciar sesión"
+    "loginLink": "Iniciar sesión",
+    "errors": {
+      "usernameTooShort": "El usuario debe tener al menos 3 caracteres",
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres"
+    }
   },
   "forgotPassword": {
     "email": {
@@ -90,6 +97,7 @@
   },
   "product": {
     "buy": "COMPRAR",
+    "sold": "Vendido",
     "tabs": {
       "info": "Información",
       "seller": "Vendedor",
@@ -121,8 +129,6 @@
   },
   "myProducts": {
     "title": "Mis Productos",
-    "empty": "No tenés productos publicados",
-    "delete": "ELIMINAR",
     "edit": "EDITAR",
     "markSold": "VENDIDO"
   },
@@ -145,7 +151,14 @@
     "confirmPassword": "Confirmar nueva contraseña",
     "saved": "¡Cambios guardados!",
     "save": "GUARDAR CAMBIOS",
-    "passwordMismatch": "Las contraseñas no coinciden."
+    "passwordMismatch": "Las contraseñas no coinciden.",
+    "errors": {
+      "usernameTooShort": "El usuario debe tener al menos 3 caracteres",
+      "passwordTooShort": "La nueva contraseña debe tener al menos 6 caracteres",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "currentPasswordRequired": "Ingresá tu contraseña actual para cambiarla",
+      "currentPasswordIncorrect": "La contraseña actual es incorrecta"
+    }
   },
   "settings": {
     "myProfile": "Mi Perfil",
@@ -229,7 +242,7 @@
     "visionText": "Ser el marketplace universitario de referencia en Latinoamérica, fomentando la economía circular y el sentido de comunidad entre estudiantes.",
     "teamLabel": "El Equipo",
     "team": [
-      { "role": "Desarrollador", "description": "Descripción de su experiencia en el proyecto." },
+      { "role": "Diseñador y Desarrollador", "description": "Participar en BondU fue una experiencia de aprendizaje enriquecedora: reforcé mis habilidades en React y en el manejo de bases de datos, aunque también surgieron los típicos retos de tiempo y coordinación de un proyecto en equipo." },
       { "role": "Desarrollador", "description": "Descripción de su experiencia en el proyecto." },
       { "role": "Desarrollador", "description": "Descripción de su experiencia en el proyecto." }
     ]
@@ -280,6 +293,14 @@
       "title": "No se pudo guardar",
       "message": "Revisá los campos e intentá de nuevo."
     },
+    "productConditionError": {
+      "title": "No se pudo guardar",
+      "message": "No se pudo determinar el estado del producto. Recargá la página e intentá de nuevo."
+    },
+    "productImagesPartialFail": {
+      "title": "Producto guardado con algunas imágenes pendientes",
+      "message": "{{count}} imagen(es) no se pudieron subir. Podés intentar agregarlas de nuevo editando el producto."
+    },
     "passwordChanged": {
       "title": "¡Contraseña actualizada!",
       "message": "Ya podés iniciar sesión con tu nueva contraseña."
@@ -299,6 +320,10 @@
     "accountSaved": {
       "title": "¡Perfil actualizado!",
       "message": "Tus datos fueron guardados correctamente."
+    },
+    "passwordChangeError": {
+      "title": "No se pudo cambiar la contraseña",
+      "message": "El resto de tus datos sí se guardó. Intentá cambiar la contraseña de nuevo."
     },
     "accountRequired": {
       "title": "Campos requeridos",
@@ -367,6 +392,14 @@
     "reviewError": {
       "title": "Seleccioná una calificación",
       "message": "Elegí cuántas estrellas querés dar antes de enviar."
+    },
+    "reviewDuplicate": {
+      "title": "Ya dejaste una reseña",
+      "message": "Solo podés dejar una reseña por vendedor."
+    },
+    "reviewSaveError": {
+      "title": "No se pudo enviar la reseña",
+      "message": "Ocurrió un error, intentá de nuevo."
     }
   },
   "terms": {

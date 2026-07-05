@@ -14,7 +14,7 @@ interface SectionTitleProps {
  *
  * @param title - Texto del encabezado.
  */
-export function SectionTitle({ title }: SectionTitleProps) {
+function SectionTitle({ title }: SectionTitleProps) {
   return (
     <p className="text-xs font-bold text-gray-400 uppercase tracking-widest px-2 pt-2">
       {title}
@@ -32,7 +32,7 @@ interface SettingsSectionProps {
 
 /**
  * Agrupa filas de ajustes bajo un título común.
- * Usada en {@link SettingsScreen}.
+ * Usada en {@link Settings}.
  *
  * @param title - Título del grupo.
  * @param children - Filas de ajustes ({@link SettingRow}).

@@ -21,7 +21,7 @@ let _nextId = 1;
 let _listener: ((items: AppNotification[]) => void) | null = null;
 
 /** Emite el estado actual de notificaciones al listener registrado. */
-function _emit() { _listener?.([..._items]); }
+function _emit() { _listener?.(_items.slice()); }
 
 /**
  * Agrega una nueva notificación al store y emite el cambio.
@@ -30,7 +30,7 @@ function _emit() { _listener?.([..._items]); }
  * @param message - Mensaje descriptivo del toast.
  */
 function _add(type: NotificationType, title: string, message: string) {
-  _items = [..._items, { id: _nextId++, type, title, message }];
+  _items = _items.concat([{ id: _nextId++, type, title, message }]);
   _emit();
 }
 

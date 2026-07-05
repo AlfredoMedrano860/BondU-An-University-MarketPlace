@@ -15,7 +15,7 @@ interface NavigationTabsProps {
 /**
  * Barra de pestañas reutilizable con indicador de pestaña activa.
  *
- * Usado en {@link ProfileScreen} y {@link ProductTabs}.
+ * Usado en {@link ProfileTabs} y {@link ProductTabs}.
  *
  * @param labels - Etiquetas de las pestañas.
  * @param selected - Índice activo.

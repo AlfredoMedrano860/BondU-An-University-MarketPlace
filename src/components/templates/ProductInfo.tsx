@@ -16,7 +16,7 @@ interface ProductInfoProps {
  * Información principal de un producto en la pantalla de detalle.
  *
  * Muestra el estado como badge, el nombre y el precio.
- * Usada en {@link ProductScreen} debajo de la galería de imágenes.
+ * Usada en {@link ProductPage} debajo de la galería de imágenes.
  *
  * @param name - Nombre del producto.
  * @param price - Precio del producto.

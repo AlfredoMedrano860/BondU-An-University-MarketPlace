@@ -20,7 +20,7 @@ interface StepCodeProps {
 
 /**
  * Paso 2 del flujo de recuperación de contraseña: ingreso del código de verificación.
- * Usado en {@link ForgotPasswordScreen}.
+ * Usado en {@link ForgotPassword}.
  *
  * @param email - Correo mostrado en el texto de instrucción.
  * @param code - Valor del código de 4 dígitos.

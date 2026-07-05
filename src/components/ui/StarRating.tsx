@@ -16,7 +16,7 @@ interface StarRatingProps {
 /**
  * Muestra una fila de 5 estrellas con la puntuación promedio.
  * Opcionalmente muestra el valor numérico y la cantidad de reseñas.
- * Usado en {@link ProfileHeader} y {@link ProductInfo}.
+ * Usado en {@link Profile}, {@link SellerTab} y {@link ReviewCard}.
  *
  * @param rating - Puntuación de 0 a 5.
  * @param reviews - Cantidad de reseñas (opcional).

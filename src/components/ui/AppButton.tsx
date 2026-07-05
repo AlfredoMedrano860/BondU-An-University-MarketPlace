@@ -2,7 +2,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
 const button = cva(
-  "w-full rounded-full cursor-pointer transition-all duration-150 hover:opacity-90 active:scale-[0.98]",
+  "w-full rounded-full transition-all duration-150",
   {
     variants: {
       variant: {
@@ -10,8 +10,12 @@ const button = cva(
         secondary: "border-2 border-primary color-primary h-12 font-bold",
         aux:       "btn-aux text-white text-sm h-10",
       },
+      disabled: {
+        true:  "opacity-50 cursor-not-allowed",
+        false: "cursor-pointer hover:opacity-90 active:scale-[0.98]",
+      },
     },
-    defaultVariants: { variant: "primary" },
+    defaultVariants: { variant: "primary", disabled: false },
   }
 );
 
@@ -27,6 +31,8 @@ interface AppButtonProps extends VariantProps<typeof button> {
   type?: "button" | "submit" | "reset";
   /** Handler de clic. */
   onClick?: () => void;
+  /** Deshabilita el botón (p. ej. mientras se guarda). Por defecto `false`. */
+  disabled?: boolean;
 }
 
 /**
@@ -37,13 +43,15 @@ interface AppButtonProps extends VariantProps<typeof button> {
  * @param className - Clases extra de Tailwind.
  * @param type - Tipo HTML del botón. Por defecto `"button"`.
  * @param onClick - Handler de clic.
+ * @param disabled - Deshabilita el botón. Por defecto `false`.
  */
-function AppButton({ text, variant, className, type = "button", onClick }: AppButtonProps) {
+function AppButton({ text, variant, className, type = "button", onClick, disabled = false }: AppButtonProps) {
   return (
     <button
       type={type}
-      className={button({ variant, className })}
+      className={button({ variant, disabled, className })}
       onClick={onClick}
+      disabled={disabled}
     >
       {text}
     </button>

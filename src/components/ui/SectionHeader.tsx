@@ -14,7 +14,7 @@ interface SectionHeaderProps {
  * Cabecera visual de una sección de formulario.
  *
  * Muestra un ícono con fondo suave y una etiqueta en mayúsculas.
- * Usado en {@link AccountScreen}.
+ * Usado en {@link Account}.
  */
 function SectionHeader({ icon: Icon, label }: SectionHeaderProps) {
   return (

@@ -3,8 +3,8 @@ import { cva } from "class-variance-authority";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { XIcon } from "@phosphor-icons/react";
-import CircleButton from "../ui/CircleButton";
-import AppButton from "../ui/AppButton";
+import CircleButton from "./CircleButton";
+import AppButton from "./AppButton";
 import { stateValues, maxPrice } from "../data/Filters";
 import type { FilterValues } from "../data/Filters";
 
@@ -21,14 +21,32 @@ const chip = cva(
   }
 );
 
+/**
+ * Props de Filters.
+ */
 interface FiltersProps {
+  /** Estado seleccionado al abrir el panel. Por defecto sin filtro. */
   initialState?: string;
+  /** Precio máximo seleccionado al abrir el panel. Por defecto sin límite. */
   initialPrice?: number;
+  /** Se ejecuta al presionar "Aplicar" con los filtros seleccionados. */
   onApply: (filters: FilterValues) => void;
+  /** Se ejecuta al cerrar el panel (botón X). */
   onClose?: () => void;
+  /** Clases extra de Tailwind, típicamente para el radio de los bordes. */
   className?: string;
 }
 
+/**
+ * Formulario de filtros de producto: estado (Nuevo/Usado/Detalle) y precio máximo.
+ * Usado en {@link FilterPanel}.
+ *
+ * @param initialState - Estado con el que se abre el panel.
+ * @param initialPrice - Precio máximo con el que se abre el panel.
+ * @param onApply - Se ejecuta al aplicar los filtros.
+ * @param onClose - Se ejecuta al cerrar el panel.
+ * @param className - Clases extra de Tailwind.
+ */
 function Filters({ initialState = "", initialPrice = maxPrice, onApply, onClose, className = "rounded-3xl" }: FiltersProps) {
   const { t } = useTranslation();
   const [selectedState, setSelectedState] = useState(initialState);
