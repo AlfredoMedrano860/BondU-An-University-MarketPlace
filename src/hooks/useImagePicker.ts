@@ -1,8 +1,6 @@
 import { useRef } from "react";
 import type { ChangeEvent } from "react";
 
-// https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications
-
 /**
  * Hook para manejar la selección de imágenes desde el dispositivo.
  *

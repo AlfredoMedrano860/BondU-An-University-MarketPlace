@@ -24,7 +24,7 @@ interface InfoContentProps {
  *
  * El texto (título, descripción y botón) se obtiene de i18n según `currentIndex`.
  * Tiene diseño responsive: apilado en móvil, centrado en tarjeta en desktop.
- * Usado en {@link InfoScreen}.
+ * Usado en {@link Info}.
  *
  * @param item - Item con la imagen del slide.
  * @param currentIndex - Índice activo para leer el texto de i18n.

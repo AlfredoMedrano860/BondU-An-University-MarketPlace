@@ -15,7 +15,7 @@ interface LoadingBarProps {
  * Barra de progreso que avanza de 0 a 100% en {@link DURATION_MS} ms.
  *
  * La animación la hace el CSS (`bu-loading-fill`); este componente solo
- * temporiza el aviso de `onFinish`. Usada en {@link LoadingScreen}.
+ * temporiza el aviso de `onFinish`. Usada en {@link Loading}.
  *
  * @param onFinish - Notifica al completarse el progreso.
  */

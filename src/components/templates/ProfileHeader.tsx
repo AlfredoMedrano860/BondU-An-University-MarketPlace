@@ -14,7 +14,7 @@ interface ProfileHeaderProps {
  * Encabezado de perfil del usuario.
  *
  * Muestra el avatar, nombre y correo del usuario.
- * Usado en {@link SettingsScreen} como cabecera de la pantalla de ajustes.
+ * Renderizado por {@link AppShellLayout} como cabecera de la pantalla de ajustes.
  *
  * @param name - Nombre de usuario a mostrar.
  * @param email - Correo electrónico del usuario.

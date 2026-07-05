@@ -13,7 +13,7 @@ import { productSchema } from "../schemas/product.schema";
  * Si se pasa `initialProduct`, inicializa los campos con sus valores (modo edición);
  * de lo contrario opera en modo creación. Valida con {@link productSchema} y persiste
  * en el backend a través de `productsService` (crea o edita el producto y sube las
- * imágenes seleccionadas). Usado en {@link AddProductScreen}.
+ * imágenes seleccionadas). Usado en {@link AddProduct}.
  *
  * @param currentUser - Usuario autenticado que será el vendedor del producto.
  * @param onBack - Navega hacia atrás tras guardar exitosamente.
@@ -31,22 +31,18 @@ export function useAddProductForm(currentUser: UserProfile, onBack: () => void, 
   const [gallery,     setGallery]     = useState<string[]>(initialProduct?.gallery ?? []);
   const [files,       setFiles]       = useState<(File | null)[]>([]);
   const [conditions,  setConditions]  = useState<ApiProductCondition[]>([]);
+  const [conditionsLoaded, setConditionsLoaded] = useState(false);
+  const [isSaving,    setIsSaving]    = useState(false);
 
   // Cargar las condiciones disponibles (Nuevo, Usado, Detalle) del backend.
+  // El botón de guardar queda deshabilitado hasta que esto resuelva (éxito o error),
+  // para no enviar un condition_id vacío si el usuario guarda antes de que cargue.
   useEffect(() => {
-    productsService.getConditions().then(setConditions).catch(() => {});
+    productsService.getConditions()
+      .then(setConditions)
+      .catch(() => {})
+      .finally(() => setConditionsLoaded(true));
   }, []);
-
-  // Resincronizar los campos si cambia el producto a editar.
-  useEffect(() => {
-    if (!initialProduct) return;
-    setName(initialProduct.name ?? "");
-    setPrice(initialProduct.price?.toString() ?? "");
-    setState(initialProduct.state ?? "");
-    setDescription(initialProduct.description ?? "");
-    setGallery(initialProduct.gallery ?? []);
-    setFiles([]);
-  }, [initialProduct?.id]);
 
   /**
    * Recibe la galería actualizada del {@link ProductImagePicker} junto con el
@@ -55,7 +51,7 @@ export function useAddProductForm(currentUser: UserProfile, onBack: () => void, 
   function handleGalleryChange(newGallery: string[], file: File, slotIndex: number) {
     setGallery(newGallery);
     setFiles(prev => {
-      const updated = [...prev];
+      const updated = prev.slice();
       updated[slotIndex] = file;
       return updated;
     });
@@ -64,8 +60,10 @@ export function useAddProductForm(currentUser: UserProfile, onBack: () => void, 
   /**
    * Sube las imágenes pendientes (una por slot) al producto ya creado/editado.
    * La del slot 0 se marca como imagen principal.
+   * @returns Cantidad de imágenes que fallaron al subir.
    */
-  async function uploadFiles(productId: string) {
+  async function uploadFiles(productId: string): Promise<number> {
+    let failures = 0;
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       if (!file) continue;
@@ -75,9 +73,10 @@ export function useAddProductForm(currentUser: UserProfile, onBack: () => void, 
           await productsService.setPrimaryImage(productId, img.id);
         }
       } catch {
-        // imagen no crítica, continúa con las demás
+        failures++;
       }
     }
+    return failures;
   }
 
   /**
@@ -86,6 +85,7 @@ export function useAddProductForm(currentUser: UserProfile, onBack: () => void, 
    * y navega atrás si es exitoso.
    */
   const handleSave = async () => {
+    if (isSaving) return;
     const result = productSchema.safeParse({ name, price, state, description });
     if (!result.success) {
       const msg = result.error.issues[0]?.message ?? "notifications.productError.message";
@@ -94,8 +94,14 @@ export function useAddProductForm(currentUser: UserProfile, onBack: () => void, 
     }
     const parsedPrice = parseFloat(price);
     const condition = conditions.find(c => c.name_condition === state);
+    if (state && !condition) {
+      notify.error(t("notifications.productConditionError.title"), t("notifications.productConditionError.message"));
+      return;
+    }
 
+    setIsSaving(true);
     try {
+      let failures = 0;
       if (initialProduct) {
         const hasChanged =
           name !== initialProduct.name ||
@@ -115,8 +121,10 @@ export function useAddProductForm(currentUser: UserProfile, onBack: () => void, 
           description,
           condition_id: condition?.condition_id,
         });
-        await uploadFiles(initialProduct.id);
-        notify.success(t("notifications.productUpdated.title"), t("notifications.productUpdated.message"));
+        failures = await uploadFiles(initialProduct.id);
+        if (failures === 0) {
+          notify.success(t("notifications.productUpdated.title"), t("notifications.productUpdated.message"));
+        }
       } else {
         const created = await productsService.create({
           name,
@@ -125,12 +133,22 @@ export function useAddProductForm(currentUser: UserProfile, onBack: () => void, 
           seller_id: currentUser.id,
           condition_id: condition?.condition_id,
         });
-        await uploadFiles(created.product_id);
-        notify.success(t("notifications.productPublished.title"), t("notifications.productPublished.message"));
+        failures = await uploadFiles(created.product_id);
+        if (failures === 0) {
+          notify.success(t("notifications.productPublished.title"), t("notifications.productPublished.message"));
+        }
+      }
+      if (failures > 0) {
+        notify.warning(
+          t("notifications.productImagesPartialFail.title"),
+          t("notifications.productImagesPartialFail.message", { count: failures }),
+        );
       }
       onBack();
     } catch {
       notify.error(t("notifications.productError.title"), t("notifications.productError.message"));
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -138,5 +156,6 @@ export function useAddProductForm(currentUser: UserProfile, onBack: () => void, 
     fields:  { name, price, state, description, gallery },
     setters: { setName, setPrice, setState, setDescription, setGallery: handleGalleryChange },
     handleSave,
+    isSaving: isSaving || !conditionsLoaded,
   };
 }

@@ -21,7 +21,7 @@ interface AppHeaderProps {
  *
  * Muestra el avatar y nombre del usuario, un buscador y el botón de filtros.
  * Es responsiva: apila verticalmente en móvil y en fila en `md+`.
- * Usado en {@link MainLayout}.
+ * Usado en {@link AppShellLayout}.
  *
  * @param currentUser - Usuario cuyo avatar y nombre se muestran.
  * @param onSearch - Callback invocado al escribir en el buscador.

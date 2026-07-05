@@ -4,6 +4,13 @@ import { Info } from "lucide-react";
 import { developers } from "../data/About";
 import AccordionTrigger from "../ui/AccordionTrigger";
 
+/**
+ * Acordeón "Sobre Nosotros" anidado dentro de un acordeón exterior.
+ *
+ * Muestra misión, visión y el equipo de desarrollo (con avatar, rol y descripción por persona).
+ * Los textos se leen de i18n bajo la clave `about`; los avatares vienen de {@link developers}.
+ * Usado en {@link Settings}.
+ */
 function AboutAccordion() {
   const { t } = useTranslation();
 

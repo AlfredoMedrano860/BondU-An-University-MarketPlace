@@ -5,8 +5,8 @@ import NotificationToast from "./NotificationToast";
 /**
  * Pila global de toasts de notificación.
  *
- * Se suscribe al {@link NotificationStore} y renderiza un {@link Toast}
- * por cada notificación activa. Se monta una sola vez en {@link AppLayout}.
+ * Se suscribe al store de notificaciones y renderiza un {@link NotificationToast}
+ * por cada notificación activa. Se monta una sola vez en {@link App}.
  */
 export function NotificationStack() {
   const [notifications, setNotifications] = useState<AppNotification[]>([]);

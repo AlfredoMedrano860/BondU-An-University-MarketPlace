@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import type { UserProfile } from "../data/UserProfile";
 import type { Product } from "../data/Product";
 import type { Review } from "../data/Review";
-import { useProfileData } from "../../hooks/useProfileData";
 import NavigationTabs from "../ui/NavigationTabs";
 import ProfileContact from "./ProfileContact";
 import ProfileProducts from "./ProfileProducts";
@@ -27,24 +26,42 @@ interface ProfileTabsProps {
   onBuyProduct?: (product: Product) => void;
   /** Se ejecuta al hacer clic en el avatar de un reseñador. */
   onViewReviewer?: (reviewerId: string) => void;
-
-  userProducts: Product[];         // ← agregar
-  reviews: Review[];  
-  onDelete?: (p: Product) => void;         // ← agregar
-  onSell?: (p: Product) => void;           // ← agregar
-  onReviewAdded?: () => void;  
+  /** Productos publicados por el usuario del perfil. */
+  userProducts: Product[];
+  /** Reseñas recibidas por el usuario del perfil. */
+  reviews: Review[];
+  /** Se ejecuta al eliminar un producto (perfil propio). */
+  onDelete: (p: Product) => void;
+  /** Se ejecuta al marcar un producto como vendido (perfil propio). */
+  onSell?: (p: Product) => void;
+  /** Se ejecuta al marcar/desmarcar un producto como favorito (perfil ajeno). */
+  onToggleFavorite?: (p: Product) => void;
+  /** Se ejecuta al agregar una reseña nueva, para refrescar los datos del perfil. */
+  onReviewAdded?: () => void;
 }
 
 /**
  * Sistema de pestañas del perfil: Contacto, Productos y Reseñas.
  *
- * Gestiona el índice de pestaña activa internamente y delega los datos
- * a {@link useProfileData}. Usado en {@link ProfileScreen}.
+ * Gestiona el índice de pestaña activa internamente; los datos (productos,
+ * reseñas) se reciben ya cargados desde {@link Profile} (vía {@link useProfileData}).
+ *
+ * @param currentUser - Usuario cuyo perfil se muestra.
+ * @param isOwnProfile - Si el perfil pertenece al usuario autenticado.
+ * @param reviewer - Usuario autenticado que puede dejar reseñas (perfil ajeno).
+ * @param onEdit - Se ejecuta al editar un producto (perfil propio).
+ * @param onBuyProduct - Se ejecuta al comprar un producto (perfil ajeno).
+ * @param onViewReviewer - Navega al perfil de un reseñador.
+ * @param userProducts - Productos publicados por el usuario del perfil.
+ * @param reviews - Reseñas recibidas por el usuario del perfil.
+ * @param onDelete - Se ejecuta al eliminar un producto (perfil propio).
+ * @param onSell - Se ejecuta al marcar un producto como vendido (perfil propio).
+ * @param onToggleFavorite - Se ejecuta al marcar/desmarcar un favorito (perfil ajeno).
+ * @param onReviewAdded - Se ejecuta al agregar una reseña nueva.
  */
-function ProfileTabs({ currentUser, isOwnProfile = true, reviewer, onEdit, onBuyProduct, onViewReviewer }: ProfileTabsProps) {
+function ProfileTabs({ currentUser, isOwnProfile = true, reviewer, onEdit, onBuyProduct, onViewReviewer, userProducts, reviews, onDelete, onSell, onToggleFavorite, onReviewAdded }: ProfileTabsProps) {
   const { t } = useTranslation();
   const [selectedTab, setSelectedTab] = useState(0);
-  const { userProducts, reviews, handleDelete, handleSell } = useProfileData(currentUser.id);
   const tabLabels = [t("profile.contact"), t("profile.products"), t("profile.reviews")];
 
   return (
@@ -63,8 +80,9 @@ function ProfileTabs({ currentUser, isOwnProfile = true, reviewer, onEdit, onBuy
             isOwnProfile={isOwnProfile}
             onEdit={onEdit}
             onBuyProduct={onBuyProduct ?? noop}
-            onDelete={handleDelete}
-            onSell={isOwnProfile ? handleSell : undefined}
+            onDelete={onDelete}
+            onSell={isOwnProfile ? onSell : undefined}
+            onToggleFavorite={onToggleFavorite ?? noop}
           />
         )}
         {selectedTab === 2 && (
@@ -74,6 +92,7 @@ function ProfileTabs({ currentUser, isOwnProfile = true, reviewer, onEdit, onBuy
             reviewer={reviewer}
             sellerId={currentUser.id}
             onViewReviewer={onViewReviewer}
+            onReviewAdded={onReviewAdded}
           />
         )}
       </div>

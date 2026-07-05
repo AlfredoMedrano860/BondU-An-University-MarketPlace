@@ -4,8 +4,16 @@ import { usersService } from "../services/users";
 import { apiProductToProduct } from "../utils/adapters";
 import { useProductActions } from "./useProductActions";
 
-// ANTES: useMyProducts(userId: number)
-// AHORA:  useMyProducts(userId: string)
+/**
+ * Hook que gestiona los productos publicados por el usuario autenticado.
+ *
+ * Usado en {@link MyProducts}.
+ *
+ * @param userId - ID del usuario cuyos productos se muestran.
+ * @returns `userProducts` — productos del usuario,
+ * `handleDelete` — elimina un producto de la lista y del backend,
+ * `handleSell` — lo marca como vendido (permanece en la lista con status "Vendido").
+ */
 export function useMyProducts(userId: string) {
   const [userProducts, setUserProducts] = useState<Product[]>([]);
   const { handleDelete, handleSell } = useProductActions(setUserProducts);

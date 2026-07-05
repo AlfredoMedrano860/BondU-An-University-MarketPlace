@@ -1,3 +1,5 @@
+import alfredoAvatar from "../../assets/imgs/Alfredo.webp";
+
 /**
  * Información de un miembro del equipo de desarrollo.
  */
@@ -12,7 +14,7 @@ export interface Developer {
 
 /** Equipo de desarrollo del proyecto ── completar avatares cuando estén disponibles. */
 export const developers: Developer[] = [
-  { id: 1, name: "Alfredo Medrano", avatar: "" },
+  { id: 1, name: "Alfredo Medrano", avatar: alfredoAvatar },
   { id: 2, name: "Sophia Kane",     avatar: "" },
   { id: 3, name: "Aarón Mayorga",   avatar: "" },
 ];

@@ -3,6 +3,15 @@ import type { Product } from "../components/data/Product";
 import { favoritesService } from "../services/favorites";
 import { notify } from "../components/data/NotificationStore";
 
+/**
+ * Hook que agrega/quita un producto de favoritos, con notificación estandarizada.
+ *
+ * Usado en {@link useHomeProducts}, {@link useFavoriteProducts} y {@link useMarketplaceProducts}.
+ *
+ * @param userId - ID del usuario dueño de los favoritos.
+ * @param refresh - Se ejecuta tras guardar el cambio, para recargar la lista de productos.
+ * @returns Función que alterna el favorito de un producto dado.
+ */
 export function useFavoriteToggle(userId: string, refresh: () => void | Promise<void>) {
   const { t } = useTranslation();
 

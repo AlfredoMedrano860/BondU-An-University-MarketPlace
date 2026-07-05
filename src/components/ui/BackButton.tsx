@@ -12,8 +12,8 @@ interface BackButtonProps {
  * Botón de navegación hacia atrás.
  *
  * Se ancla al borde izquierdo de la pantalla con borde redondeado solo a la derecha.
- * Usado en {@link AccountScreen}, {@link ProductScreen}, {@link ProductImagePicker}
- * y {@link MyProductsScreen}.
+ * Usado en {@link BannerHeaderLayout}, {@link AuthLayout}, {@link AuthHeader},
+ * {@link Profile} y {@link Product}.
  *
  * @param onClick - Se ejecuta al presionar el botón para navegar atrás.
  */

@@ -1,3 +1,5 @@
+/*Referencia del Acordion: https://www.radix-ui.com/primitives/docs/components/accordion*/
+
 @layer components {
   .accordion-content {
     overflow: hidden;

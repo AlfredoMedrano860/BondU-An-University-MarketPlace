@@ -1,7 +1,7 @@
 import { SendHorizonal } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { UserProfile } from "../data/UserProfile";
-import SectionCard from "../layout/SectionCard";
+import SectionCard from "../ui/SectionCard";
 import InputSpace from "../ui/InputSpace";
 import IconButton from "../ui/IconButton";
 import StarPicker from "../ui/StarPicker";
@@ -15,6 +15,8 @@ interface ReviewFormProps {
   reviewer: UserProfile;
   /** ID del vendedor que recibirá la reseña. */
   sellerId: string;
+  /** Se ejecuta al enviar la reseña exitosamente. */
+  onSubmitted?: () => void;
 }
 
 /**
@@ -26,10 +28,11 @@ interface ReviewFormProps {
  *
  * @param reviewer - Usuario que escribe la reseña.
  * @param sellerId - ID del vendedor receptor.
+ * @param onSubmitted - Se ejecuta al enviar la reseña exitosamente.
  */
-export default function ReviewForm({ reviewer, sellerId }: ReviewFormProps) {
+export default function ReviewForm({ reviewer, sellerId, onSubmitted }: ReviewFormProps) {
   const { t } = useTranslation();
-  const { rating, setRating, text, setText, handleSubmit } = useReviewForm(reviewer, sellerId);
+  const { rating, setRating, text, setText, handleSubmit, isSubmitting } = useReviewForm(reviewer, sellerId, onSubmitted);
 
   return (
     <SectionCard className="bg-white-app mx-0 mt-2 mb-4">
@@ -49,7 +52,7 @@ export default function ReviewForm({ reviewer, sellerId }: ReviewFormProps) {
           />
 
           <div className="flex justify-end">
-            <IconButton label={t("review.send")} icon={SendHorizonal} onClick={handleSubmit} />
+            <IconButton label={t("review.send")} icon={SendHorizonal} onClick={handleSubmit} disabled={isSubmitting} />
           </div>
         </div>
       </div>

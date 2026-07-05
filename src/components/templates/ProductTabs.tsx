@@ -1,7 +1,10 @@
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import type { Product } from "../data/Product";
 import NavigationTabs from "../ui/NavigationTabs";
 import type { Seller } from "../data/Seller";
+import { computeRating } from "../data/Review";
+import { usersService } from "../../services/users";
 import SellerTab from "./SellerTab";
 import ShareTab from "./ShareTab";
 
@@ -24,7 +27,7 @@ interface ProductTabsProps {
  *
  * Renderiza tres pestañas: Información, Vendedor y Compartir.
  * Cada pestaña delega el contenido a su componente correspondiente.
- * Usado en {@link ProductScreen}.
+ * Usado en {@link ProductPage}.
  *
  * @param product - Producto cuyos datos se muestran.
  * @param selectedTab - Índice de la pestaña activa.
@@ -33,7 +36,25 @@ interface ProductTabsProps {
  */
 function ProductTabs({ product, selectedTab, onSelectTab, onViewSellerProfile }: ProductTabsProps) {
   const { t } = useTranslation();
+  const [seller, setSeller] = useState<Seller>(product.seller);
   const tabLabels = [t("product.tabs.info"), t("product.tabs.seller"), t("product.tabs.share")];
+
+  // Carga la calificación real del vendedor al abrir la pestaña Vendedor.
+  // La calificación se calcula a partir de las reseñas reales (más confiable
+  // que las estadísticas agregadas, que el backend no siempre recalcula).
+  useEffect(() => {
+    if (selectedTab !== 1) return;
+    Promise.all([
+      usersService.getReviews(product.seller.id).catch(() => []),
+      usersService.getStats(product.seller.id).catch(() => null),
+    ]).then(([apiReviews, stats]) => {
+      setSeller(Object.assign({}, product.seller, {
+        rating: computeRating(apiReviews.map(r => ({ rating: Number(r.rating) }))),
+        reviews: apiReviews.length,
+        sales: stats?.sales_count ?? 0,
+      }));
+    });
+  }, [selectedTab, product.seller.id]);
 
   return (
     <div>
@@ -47,7 +68,7 @@ function ProductTabs({ product, selectedTab, onSelectTab, onViewSellerProfile }:
         {selectedTab === 1 && (
           <div>
             <p>{t("product.verifiedSeller")}</p>
-            <SellerTab seller={product.seller} onViewProfile={onViewSellerProfile ? () => onViewSellerProfile(product.seller) : undefined} />
+            <SellerTab seller={seller} onViewProfile={onViewSellerProfile ? () => onViewSellerProfile(seller) : undefined} />
           </div>
         )}
 

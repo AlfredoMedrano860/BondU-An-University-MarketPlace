@@ -4,7 +4,6 @@
 
   Referencia del gradient: https://cssgradient.io/gradient-backgrounds/
   Referencia del hover del boton: https://codepen.io/davidicus/pen/emgQKJ
-  Referencia del Acordion: https://www.radix-ui.com/primitives/docs/components/accordion
 */
 
 :root,
@@ -58,7 +57,6 @@
   .color-secondary  { color: var(--color-secondary); }
   .color-aux        { color: var(--color-aux); }
   .color-text       { color: var(--color-text); }
-  .secondary-text   { color: var(--color-secondary); }
   .color-inactive   { color: var(--color-inactive); }
 
   .bg-primary       { background-color: var(--color-primary); }

@@ -2,7 +2,7 @@ import { Trash2, Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import AppButton from "../ui/AppButton";
 import CircleButton from "../ui/CircleButton";
-import CardLayout from "../layout/CardLayout";
+import CardLayout from "../ui/CardLayout";
 import type { Product } from "../data/Product";
 
 /**
@@ -28,22 +28,32 @@ interface ProductCardProps {
  *
  * Muestra imagen, nombre, precio y estado del producto. Si `isOwner` es `true`,
  * el botón de la esquina superior derecha elimina el producto; de lo contrario
- * permite marcarlo como favorito. Usado en {@link ProductGrid} y {@link ProfileProducts}.
+ * permite marcarlo como favorito. Cuando `product.status` es `"Vendido"`, se
+ * muestra una etiqueta sobre la imagen y el botón de comprar queda deshabilitado
+ * (y el de "marcar vendido" se oculta, para el dueño). Usado en {@link ProductGrid}
+ * y {@link ProfileProducts}.
  *
  * @param product - Producto a mostrar.
  * @param onBuy - Handler del botón principal.
  * @param onToggleFavorite - Handler del botón de favorito o eliminar.
  * @param buttonLabel - Etiqueta del botón principal.
  * @param isOwner - Si `true`, activa el modo de gestión del propietario.
+ * @param onSell - Marca el producto como vendido. Solo se usa si `isOwner` es `true`.
  */
 function ProductCard({ product, onBuy, onToggleFavorite, buttonLabel, isOwner = false, onSell }: ProductCardProps) {
   const { t } = useTranslation();
+  const isSold = product.status === "Vendido";
 
   return (
     <CardLayout>
 
       {/* Área imagen */}
       <div className="relative w-full aspect-square bg-neutral-100 rounded-2xl flex items-center justify-center overflow-hidden">
+        {isSold && (
+          <span className="absolute top-2 left-2 z-10 bg-black/70 text-white text-[11px] font-bold uppercase px-2.5 py-1 rounded-full">
+            {t("product.sold")}
+          </span>
+        )}
         <div className="absolute top-2 right-2">
           {isOwner ? (
             <CircleButton size="sm" variant="danger" onClick={() => onToggleFavorite(product)} className="hover:scale-110">
@@ -55,7 +65,7 @@ function ProductCard({ product, onBuy, onToggleFavorite, buttonLabel, isOwner = 
             </CircleButton>
           )}
         </div>
-        <img src={product.image} alt={product.name} className="w-4/5 h-4/5 object-contain" />
+        <img src={product.image} alt={product.name} className={`w-4/5 h-4/5 object-contain ${isSold ? "opacity-50" : ""}`} />
       </div>
 
       {/* Info */}
@@ -68,10 +78,12 @@ function ProductCard({ product, onBuy, onToggleFavorite, buttonLabel, isOwner = 
         {isOwner && onSell ? (
           <div className="flex gap-2">
             <AppButton variant="aux" text={buttonLabel ?? t("product.buy")} onClick={() => onBuy(product)} className="flex-1" />
-            <AppButton variant="aux" text={t("myProducts.markSold")} onClick={() => onSell(product)} className="flex-1" />
+            {!isSold && (
+              <AppButton variant="aux" text={t("myProducts.markSold")} onClick={() => onSell(product)} className="flex-1" />
+            )}
           </div>
         ) : (
-          <AppButton variant="aux" text={buttonLabel ?? t("product.buy")} onClick={() => onBuy(product)} />
+          <AppButton variant="aux" text={isSold ? t("product.sold") : (buttonLabel ?? t("product.buy"))} onClick={() => onBuy(product)} disabled={isSold} />
         )}
       </div>
 

@@ -1,6 +1,6 @@
-import banner1 from "../../assets/imgs/Banner1.png";
-import banner2 from "../../assets/imgs/Banner2.png";
-import banner3 from "../../assets/imgs/Banner3.png";
+import banner1 from "../../assets/imgs/Banner1.webp";
+import banner2 from "../../assets/imgs/Banner2.webp";
+import banner3 from "../../assets/imgs/Banner3.webp";
 
 /**
  * Item del banner destacado en la pantalla principal.

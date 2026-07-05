@@ -1,4 +1,4 @@
-import avatarDefault from '../assets/imgs/IconoPerfil.png';
+import avatarDefault from '../assets/imgs/IconoPerfil.webp';
 import type { ApiUser, ApiUserStats, ApiUserContact } from '../types/user';
 import type { ApiProduct, ApiReview } from '../types/product';
 import type { UserProfile } from '../components/data/UserProfile';
@@ -6,12 +6,16 @@ import type { Product } from '../components/data/Product';
 import type { Review } from '../components/data/Review';
 import type { Seller } from '../components/data/Seller';
 
-export function apiUserToSeller(user: ApiUser, stats?: ApiUserStats | null): Seller {
+/**
+ * Convierte un usuario del API al formato {@link Seller} usado por las pantallas.
+ * @param user - Usuario tal como lo devuelve el backend.
+ * @param stats - Estadísticas del usuario (ventas, calificación, reseñas), si se cargaron.
+ */
+function apiUserToSeller(user: ApiUser, stats?: ApiUserStats | null): Seller {
     return {
         id: user.id,
         username: user.username,
         email: user.email,
-        password: '',
         avatar: user.avatar ?? avatarDefault,
         location: user.location ?? '',
         createdAt: new Date(user.created_at),
@@ -21,6 +25,14 @@ export function apiUserToSeller(user: ApiUser, stats?: ApiUserStats | null): Sel
     };
 }
 
+/**
+ * Convierte un usuario del API al formato {@link UserProfile} usado por las pantallas,
+ * combinando estadísticas, preferencias e información de contacto opcionales.
+ * @param user - Usuario tal como lo devuelve el backend.
+ * @param stats - Estadísticas del usuario, si se cargaron.
+ * @param preferences - Preferencias de idioma/notificaciones, si se cargaron.
+ * @param contact - Información de contacto, si se cargó.
+ */
 export function apiUserToProfile(
     user: ApiUser,
     stats?: ApiUserStats | null,
@@ -31,7 +43,6 @@ export function apiUserToProfile(
         id: user.id,
         username: user.username,
         email: user.email,
-        password: '',
         avatar: user.avatar ?? avatarDefault,
         location: user.location ?? '',
         createdAt: new Date(user.created_at),
@@ -45,23 +56,29 @@ export function apiUserToProfile(
         language: (preferences?.language as 'es' | 'en') ?? undefined,
         contact: contact ? {
             bio: contact.bio ?? '',
-            phone: user.phone ?? undefined,
             instagram: contact.instagram ?? undefined,
             telegram: contact.telegram ?? undefined,
         } : undefined,
     };
 }
 
+/**
+ * Convierte un producto del API al formato {@link Product} usado por las pantallas.
+ * La imagen principal (`is_primary`) queda siempre en `gallery[0]`.
+ * @param product - Producto tal como lo devuelve el backend.
+ * @param favoriteIds - IDs de productos favoritos del usuario actual, para marcar `isFavorite`.
+ */
 export function apiProductToProduct(
     product: ApiProduct,
     favoriteIds?: Set<string>,
 ): Product {
-    const primaryImage =
-        product.images?.find(i => i.is_primary)?.url ??
-        product.images?.[0]?.url ??
-        '';
+    const images = product.images ?? [];
+    const primary = images.find(i => i.is_primary) ?? images[0];
+    const primaryImage = primary?.url ?? '';
 
-    const gallery = product.images?.filter(i => !i.is_primary).map(i => i.url) ?? [];
+    const gallery = primary
+        ? [primary.url].concat(images.filter(i => i.id !== primary.id).map(i => i.url))
+        : [];
 
     const seller: Seller = product.seller
         ? apiUserToSeller(product.seller as ApiUser)
@@ -69,7 +86,6 @@ export function apiProductToProduct(
               id: product.seller_id ?? '',
               username: 'Vendedor',
               email: '',
-              password: '',
               avatar: avatarDefault,
               location: '',
               createdAt: new Date(),
@@ -88,9 +104,14 @@ export function apiProductToProduct(
         description: product.description,
         seller,
         isFavorite: favoriteIds ? favoriteIds.has(product.product_id) : false,
+        status: product.status?.name_status ?? '',
     };
 }
 
+/**
+ * Convierte una reseña del API al formato {@link Review} usado por las pantallas.
+ * @param review - Reseña tal como la devuelve el backend.
+ */
 export function apiReviewToReview(review: ApiReview): Review {
     return {
         id: review.id,

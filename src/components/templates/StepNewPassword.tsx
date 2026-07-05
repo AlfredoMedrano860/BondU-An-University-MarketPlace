@@ -14,13 +14,13 @@ interface StepNewPasswordProps {
   confirm: string;
   /** Actualiza el valor de la confirmación. */
   onConfirmChange: (value: string) => void;
-  /** Valida y actualiza la contraseña en el store. */
+  /** Valida y envía la nueva contraseña al backend. */
   onSubmit: () => void;
 }
 
 /**
  * Paso 3 del flujo de recuperación de contraseña: ingreso y confirmación de la nueva contraseña.
- * Usado en {@link ForgotPasswordScreen}.
+ * Usado en {@link ForgotPassword}.
  *
  * @param password - Nueva contraseña.
  * @param onPasswordChange - Actualiza la contraseña.

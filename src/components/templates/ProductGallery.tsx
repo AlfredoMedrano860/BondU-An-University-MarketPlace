@@ -33,7 +33,7 @@ interface ProductGalleryProps {
  *
  * Muestra las imágenes del producto como botones seleccionables.
  * La miniatura activa se resalta con un borde de color primario.
- * Usada en {@link ProductScreen} para cambiar la imagen principal.
+ * Usada en {@link ProductPage} para cambiar la imagen principal.
  *
  * @param gallery - Lista de URLs de imágenes del producto.
  * @param selectedImage - Índice de la imagen actualmente seleccionada.

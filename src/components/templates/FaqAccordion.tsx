@@ -7,7 +7,7 @@ import AccordionTrigger from "../ui/AccordionTrigger";
  * Acordeón de preguntas frecuentes anidado dentro de un acordeón exterior.
  *
  * Las preguntas y respuestas se leen de i18n bajo la clave `faq.items`.
- * Usado en {@link InfoScreen}.
+ * Usado en {@link Settings}.
  */
 function FaqAccordion() {
   const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import iconoPerfil from "../../assets/imgs/IconoPerfil.png";
+import iconoPerfil from "../../assets/imgs/IconoPerfil.webp";
 import BackButton from "../ui/BackButton";
 
 /**
@@ -17,7 +17,7 @@ interface AuthHeaderProps {
  * Cabecera compartida de las pantallas de autenticación.
  *
  * Incluye el botón de retroceso, el avatar de perfil, el título y la descripción.
- * Usado en {@link LoginScreen} y {@link SignUpScreen}.
+ * Usado en {@link Login} y {@link SignUp}.
  *
  * @param onBack - Navega a la pantalla anterior.
  * @param title - Título principal de la pantalla.

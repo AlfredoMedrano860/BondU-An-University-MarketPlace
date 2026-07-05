@@ -23,7 +23,7 @@ interface CodeInputProps {
  * entre cajas sin pasar por el estado de React, y sin violar las Reglas de
  * Hooks que prohíben llamar a `useRef` dentro de arrays u otras estructuras.
  *
- * Usado en {@link ForgotPasswordScreen} en el paso de verificación.
+ * Usado en {@link ForgotPassword} en el paso de verificación.
  *
  * @see {@link https://react.dev/reference/react/useRef useRef}
  * @see {@link https://react.dev/learn/manipulating-the-dom-with-refs Manipular el DOM con refs}
