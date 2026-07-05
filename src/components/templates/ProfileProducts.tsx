@@ -1,10 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { Product } from "../data/Product";
-import { toggleFavorite } from "../data/ProductStore";
 import EmptyState from "../ui/EmptyState";
 import ProductCard from "./ProductCard";
-
-const toggleFavoriteById = (p: Product) => toggleFavorite(p.id);
 
 /**
  * Props de ProfileProducts.
@@ -22,6 +19,8 @@ interface ProfileProductsProps {
   onDelete: (product: Product) => void;
   /** Se ejecuta al marcar un producto como vendido (perfil propio). */
   onSell?: (product: Product) => void;
+  /** Se ejecuta al marcar/desmarcar un producto como favorito (perfil ajeno). */
+  onToggleFavorite: (product: Product) => void;
 }
 
 /**
@@ -29,15 +28,17 @@ interface ProfileProductsProps {
  *
  * Si no hay productos muestra un estado vacío. Adapta el botón y el handler
  * de cada tarjeta según si es perfil propio o ajeno.
- * Usado en {@link ProfileTabs}.
+ * Usado en {@link ProfileTabs} y {@link MyProducts} (siempre con `isOwnProfile`).
  *
  * @param userProducts - Productos del usuario a mostrar.
  * @param isOwnProfile - Si `true`, muestra opciones de edición y eliminación.
  * @param onEdit - Handler de edición del producto.
  * @param onBuyProduct - Handler de compra del producto.
  * @param onDelete - Handler de eliminación del producto.
+ * @param onSell - Handler para marcar el producto como vendido (perfil propio).
+ * @param onToggleFavorite - Handler de favorito (perfil ajeno).
  */
-export default function ProfileProducts({ userProducts, isOwnProfile, onEdit, onBuyProduct, onDelete, onSell }: ProfileProductsProps) {
+export default function ProfileProducts({ userProducts, isOwnProfile, onEdit, onBuyProduct, onDelete, onSell, onToggleFavorite }: ProfileProductsProps) {
   const { t } = useTranslation();
 
   if (userProducts.length === 0) {
@@ -52,7 +53,7 @@ export default function ProfileProducts({ userProducts, isOwnProfile, onEdit, on
           product={product}
           isOwner={isOwnProfile}
           onBuy={isOwnProfile ? onEdit : onBuyProduct}
-          onToggleFavorite={isOwnProfile ? onDelete : toggleFavoriteById}
+          onToggleFavorite={isOwnProfile ? onDelete : onToggleFavorite}
           onSell={isOwnProfile ? onSell : undefined}
           buttonLabel={isOwnProfile ? t("myProducts.edit") : t("product.buy")}
         />

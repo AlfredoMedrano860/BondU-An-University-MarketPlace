@@ -16,7 +16,7 @@ interface StepEmailProps {
 
 /**
  * Paso 1 del flujo de recuperación de contraseña: ingreso del correo electrónico.
- * Usado en {@link ForgotPasswordScreen}.
+ * Usado en {@link ForgotPassword}.
  *
  * @param email - Valor del campo de correo.
  * @param onEmailChange - Actualiza el correo.

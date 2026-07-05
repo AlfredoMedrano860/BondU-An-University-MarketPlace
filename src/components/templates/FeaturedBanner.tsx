@@ -27,7 +27,7 @@ function FeaturedBanner() {
   return (
     <div className="px-6 sm:px-10 md:px-16 lg:px-20 mt-5">
 
-      <h2 className="secondary-text text-2xl font-bold mb-4">{t("home.specialForYou")}</h2>
+      <h2 className="color-secondary text-2xl font-bold mb-4">{t("home.specialForYou")}</h2>
 
       <div className="rounded-2xl overflow-hidden shadow-sm bg-white">
 

@@ -57,7 +57,7 @@ interface CloseOrDeleteProps extends VariantProps<typeof accentBg> {
  *
  * Muestra un overlay semitransparente con un card que incluye ícono,
  * título, mensaje y dos botones (cancelar y confirmar).
- * Usado en {@link SettingsScreen} para cerrar sesión y eliminar cuenta.
+ * Usado en {@link Settings} para cerrar sesión y eliminar cuenta.
  *
  * @param variant - Variante visual: `"logout"` (azul) o `"delete"` (rojo).
  * @param title - Título del diálogo.

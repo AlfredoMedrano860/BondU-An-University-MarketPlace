@@ -4,6 +4,20 @@ import { authService } from "../services/auth";
 import { notify } from "../components/data/NotificationStore";
 import { forgotPasswordSchema, resetPasswordSchema } from "../schemas/auth.schema";
 
+/**
+ * Hook con el flujo de recuperación de contraseña en 3 pasos: email, código y nueva contraseña.
+ *
+ * El `resetToken` que autoriza el cambio se obtiene ya en el paso 1
+ * (`handleSendCode`); el paso 2 (`handleVerifyCode`) solo valida localmente
+ * que se hayan ingresado 4 dígitos, sin verificarlos contra el backend.
+ * Usado en {@link ForgotPassword}.
+ *
+ * @param onSuccess - Se ejecuta tras cambiar la contraseña exitosamente.
+ * @returns `step` — paso actual (1 a 3), `fields`/`setters` — campos del formulario,
+ * `handleSendCode` — pide el reset token, `handleVerifyCode` — avanza al paso 3,
+ * `handleChangePassword` — aplica la nueva contraseña, `handleBack` — retrocede un paso,
+ * `handleResend` — vuelve al paso 1 para reintentar.
+ */
 export function useForgotPassword(onSuccess: () => void) {
   const { t } = useTranslation();
   const [step,       setStep]       = useState<1 | 2 | 3>(1);

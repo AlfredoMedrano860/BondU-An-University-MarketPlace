@@ -19,7 +19,7 @@ interface ProductImagePickerProps {
  *
  * Muestra un slot principal y miniaturas secundarias (hasta {@link maxProductImages}).
  * Al pulsar cualquier slot abre el selector de archivos del sistema.
- * Usado en {@link AddProductScreen}.
+ * Usado en {@link AddProduct}.
  *
  * @param gallery - URLs de imágenes actuales.
  * @param onGalleryChange - Callback con la galería actualizada.

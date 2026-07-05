@@ -2,28 +2,21 @@ import { apiClient } from './api';
 import type { ApiUser, ApiUserStats, ApiUserPreferences, ApiUserContact, UpdateUserData } from '../types/user';
 import type { ApiProduct, ApiReview } from '../types/product';
 
-
+/** Cliente HTTP para usuarios: perfil, estadísticas, contacto, preferencias y favoritos relacionados. */
 export const usersService = {
-    // GET /users  → todos los usuarios
-    async getAll(): Promise<ApiUser[]> {
-        const response = await apiClient.get<ApiUser[]>('/users');
-        return response.data;
-    },
-
-    // GET /users/:id  → un usuario específico
+    /** GET /users/:id → un usuario específico. */
     async getById(id: string): Promise<ApiUser> {
         const response = await apiClient.get<ApiUser>(`/users/${id}`);
         return response.data;
     },
 
-    // PUT /users/:id  → actualiza datos del usuario (nombre, email, universidad, etc.)
+    /** PUT /users/:id → actualiza datos del usuario (nombre, email, universidad, etc.). */
     async update(id: string, data: UpdateUserData): Promise<ApiUser> {
         const response = await apiClient.put<ApiUser>(`/users/${id}`, data);
         return response.data;
     },
 
-    // PATCH /users/:id/avatar  → sube una foto de perfil
-    // Usa FormData porque es un archivo, igual que uploadImage de productos
+    /** PATCH /users/:id/avatar → sube una foto de perfil (FormData porque es un archivo). */
     async uploadAvatar(id: string, file: File): Promise<ApiUser> {
         const form = new FormData();
         form.append('avatar', file);
@@ -33,36 +26,41 @@ export const usersService = {
         return response.data;
     },
 
-    // DELETE /users/:id  → elimina la cuenta
+    /** PATCH /users/:id/password → cambia la contraseña (requiere la actual). */
+    async changePassword(id: string, data: { currentPassword: string; newPassword: string }): Promise<void> {
+        await apiClient.patch(`/users/${id}/password`, data);
+    },
+
+    /** DELETE /users/:id → elimina la cuenta. */
     async remove(id: string): Promise<void> {
         await apiClient.delete(`/users/${id}`);
     },
 
-    // GET /users/:id/products  → productos publicados por el usuario
+    /** GET /users/:id/products → productos publicados por el usuario. */
     async getProducts(userId: string): Promise<ApiProduct[]> {
         const response = await apiClient.get<ApiProduct[]>(`/users/${userId}/products`);
         return response.data;
     },
 
-    // GET /users/:id/reviews  → reseñas recibidas por el usuario
+    /** GET /users/:id/reviews → reseñas recibidas por el usuario. */
     async getReviews(userId: string): Promise<ApiReview[]> {
         const response = await apiClient.get<ApiReview[]>(`/users/${userId}/reviews`);
         return response.data;
     },
 
-    // GET /users/stats/:id  → ventas, calificación promedio, conteo de reseñas
+    /** GET /users/stats/:id → ventas, calificación promedio y conteo de reseñas. */
     async getStats(userId: string): Promise<ApiUserStats> {
         const response = await apiClient.get<ApiUserStats>(`/users/stats/${userId}`);
         return response.data;
     },
 
-    // GET /users/contact/:id  → bio, instagram, telegram
+    /** GET /users/contact/:id → bio, Instagram y Telegram. */
     async getContact(userId: string): Promise<ApiUserContact> {
         const response = await apiClient.get<ApiUserContact>(`/users/contact/${userId}`);
         return response.data;
     },
 
-    // PUT /users/contact/:id  → actualiza bio, instagram, telegram
+    /** PUT /users/contact/:id → actualiza bio, Instagram y Telegram. */
     async updateContact(
         userId: string,
         data: Partial<Pick<ApiUserContact, 'bio' | 'instagram' | 'telegram'>>
@@ -71,13 +69,13 @@ export const usersService = {
         return response.data;
     },
 
-    // GET /users/preferences/:id  → idioma y notificaciones guardados
+    /** GET /users/preferences/:id → idioma y notificaciones guardados. */
     async getPreferences(userId: string): Promise<ApiUserPreferences> {
         const response = await apiClient.get<ApiUserPreferences>(`/users/preferences/${userId}`);
         return response.data;
     },
 
-    // PUT /users/preferences/:id  → guarda idioma y notificaciones
+    /** PUT /users/preferences/:id → guarda idioma y notificaciones. */
     async updatePreferences(
         userId: string,
         data: Partial<ApiUserPreferences>

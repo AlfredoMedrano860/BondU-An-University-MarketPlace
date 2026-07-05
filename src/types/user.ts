@@ -1,3 +1,4 @@
+/** Usuario tal como lo devuelve el backend. */
 export interface ApiUser {
     id: string;
     username: string;
@@ -11,6 +12,7 @@ export interface ApiUser {
     updated_at: string;
 }
 
+/** Estadísticas de un usuario (ventas, calificación, reseñas). */
 export interface ApiUserStats {
     id: string;
     user_id: string;
@@ -20,6 +22,7 @@ export interface ApiUserStats {
     updated_at: string;
 }
 
+/** Preferencias de idioma y notificaciones de un usuario. */
 export interface ApiUserPreferences {
     id: string;
     user_id: string;
@@ -27,6 +30,7 @@ export interface ApiUserPreferences {
     notifications: boolean;
 }
 
+/** Información de contacto (bio, Instagram, Telegram) de un usuario. */
 export interface ApiUserContact {
     id: string;
     user_id: string;
@@ -36,6 +40,7 @@ export interface ApiUserContact {
     updated_at: string;
 }
 
+/** Datos enviados al editar un usuario. */
 export interface UpdateUserData {
     username?: string;
     email?: string;

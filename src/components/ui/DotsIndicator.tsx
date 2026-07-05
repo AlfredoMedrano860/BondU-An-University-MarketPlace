@@ -11,7 +11,7 @@ interface DotsIndicatorProps {
 }
 
 /**
- * Indicador de puntos animado para el carrusel del {@link FeaturedBanner}.
+ * Indicador de puntos animado para un carrusel. Usado en {@link FeaturedBanner} e {@link InfoContent}.
  *
  * Muestra `total` puntos y desliza una píldora de color primario
  * sobre el punto correspondiente al `currentIndex`.

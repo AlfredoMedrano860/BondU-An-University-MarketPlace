@@ -1,4 +1,4 @@
-import mascotaTriste from "../../assets/imgs/MascotaTriste.png";
+import mascotaTriste from "../../assets/imgs/MascotaTriste.webp";
 
 /**
  * Props de EmptyState.
@@ -12,8 +12,8 @@ interface EmptyStateProps {
  * Estado vacío con mascota triste y mensaje personalizado.
  *
  * Se muestra cuando no hay contenido que renderizar en una pantalla.
- * Usado en {@link HomeScreen}, {@link MarketPlaceScreen}, {@link FavoriteScreen}
- * y {@link MyProductsScreen}.
+ * Usado en {@link Home}, {@link MarketPlace}, {@link Favorite}
+ * y {@link MyProducts}.
  *
  * @param message - Mensaje a mostrar según el contexto de uso.
  */

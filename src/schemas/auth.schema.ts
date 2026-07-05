@@ -1,26 +1,24 @@
 import { z } from 'zod';
 
+/** Valida el formulario de inicio de sesión. Usado en {@link useLogin}. */
 export const loginSchema = z.object({
   email: z.email(),
   password: z.string().min(6, 'login.errors.passwordTooShort'),
 });
 
-export type LoginFormData = z.infer<typeof loginSchema>;
-
+/** Valida el formulario de registro. Usado en {@link useSignUp}. */
 export const registerSchema = z.object({
   username: z.string().min(3, 'signup.errors.usernameTooShort'),
   email: z.email(),
   password: z.string().min(6, 'signup.errors.passwordTooShort'),
 });
 
-export type RegisterFormData = z.infer<typeof registerSchema>;
-
+/** Valida el correo del primer paso de recuperación de contraseña. Usado en {@link useForgotPassword}. */
 export const forgotPasswordSchema = z.object({
   email: z.email(),
 });
 
-export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
-
+/** Valida la nueva contraseña del último paso de recuperación de contraseña. Usado en {@link useForgotPassword}. */
 export const resetPasswordSchema = z
   .object({
     password: z.string().min(6, 'forgotPassword.errors.passwordTooShort'),
@@ -30,5 +28,3 @@ export const resetPasswordSchema = z
     message: 'forgotPassword.errors.passwordMismatch',
     path: ['confirm'],
   });
-
-export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;

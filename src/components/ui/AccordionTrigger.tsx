@@ -2,11 +2,24 @@ import type { ReactNode } from "react";
 import { Accordion } from "radix-ui";
 import { ChevronDown, type LucideIcon } from "lucide-react";
 
+/**
+ * Props de AccordionTrigger.
+ */
 interface AccordionTriggerProps {
+  /** Ícono de Lucide a mostrar antes del texto. */
   icon: LucideIcon;
+  /** Texto del encabezado del acordeón. */
   children: ReactNode;
 }
 
+/**
+ * Encabezado clickeable de un item de acordeón de Radix, con ícono y chevron
+ * que rota al expandirse (vía la clase `accordion-chevron`).
+ * Usado en {@link FaqAccordion}, {@link AboutAccordion} y {@link TermsAccordion}.
+ *
+ * @param icon - Ícono de Lucide a mostrar.
+ * @param children - Texto del encabezado.
+ */
 function AccordionTrigger({ icon: Icon, children }: AccordionTriggerProps) {
   return (
     <Accordion.Header>

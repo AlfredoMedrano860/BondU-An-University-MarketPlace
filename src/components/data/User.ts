@@ -9,14 +9,11 @@ export interface User {
   username: string;
   /** Correo electrónico del usuario. */
   email: string;
-  /** Contraseña del usuario ── reemplazar por hash cuando se integre el backend. */
-  password: string;
   /** URL del avatar del usuario. */
   avatar: string;
   /** Fecha de creación de la cuenta. */
   createdAt: Date;
-
   /** Ubicación del usuario (ciudad o campus). */
-  location: string
+  location: string;
 }
 

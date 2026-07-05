@@ -14,7 +14,10 @@
     "submit": "LOG IN",
     "orContinueWith": "or continue with",
     "noAccount": "Don't have an account?",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "errors": {
+      "passwordTooShort": "Password must be at least 6 characters"
+    }
   },
   "signup": {
     "title": "Create an account",
@@ -27,7 +30,11 @@
     "passwordHint": "At least 8 characters",
     "submit": "SIGN UP",
     "alreadyHaveAccount": "Already have an account?",
-    "loginLink": "Login"
+    "loginLink": "Login",
+    "errors": {
+      "usernameTooShort": "Username must be at least 3 characters",
+      "passwordTooShort": "Password must be at least 6 characters"
+    }
   },
   "forgotPassword": {
     "email": {
@@ -90,6 +97,7 @@
   },
   "product": {
     "buy": "BUY",
+    "sold": "Sold",
     "tabs": {
       "info": "Information",
       "seller": "Seller",
@@ -121,8 +129,6 @@
   },
   "myProducts": {
     "title": "My Products",
-    "empty": "You have no published products",
-    "delete": "DELETE",
     "edit": "EDIT",
     "markSold": "SOLD"
   },
@@ -145,7 +151,14 @@
     "confirmPassword": "Confirm new password",
     "saved": "Changes saved!",
     "save": "SAVE CHANGES",
-    "passwordMismatch": "Passwords do not match."
+    "passwordMismatch": "Passwords do not match.",
+    "errors": {
+      "usernameTooShort": "Username must be at least 3 characters",
+      "passwordTooShort": "New password must be at least 6 characters",
+      "passwordMismatch": "Passwords do not match",
+      "currentPasswordRequired": "Enter your current password to change it",
+      "currentPasswordIncorrect": "Current password is incorrect"
+    }
   },
   "settings": {
     "myProfile": "My Profile",
@@ -229,7 +242,7 @@
     "visionText": "To be the reference university marketplace in Latin America, fostering the circular economy and sense of community among students.",
     "teamLabel": "The Team",
     "team": [
-      { "role": "Developer", "description": "Description of their experience in the project." },
+      { "role": "Designer and Developer", "description": "Working on BondU was a rewarding learning experience: I strengthened my React and database skills, though it also came with the usual time and coordination challenges of a team project." },
       { "role": "Developer", "description": "Description of their experience in the project." },
       { "role": "Developer", "description": "Description of their experience in the project." }
     ]
@@ -280,6 +293,14 @@
       "title": "Could not save",
       "message": "Check the fields and try again."
     },
+    "productConditionError": {
+      "title": "Could not save",
+      "message": "Could not determine the product's condition. Reload the page and try again."
+    },
+    "productImagesPartialFail": {
+      "title": "Product saved with some images pending",
+      "message": "{{count}} image(s) could not be uploaded. You can try adding them again by editing the product."
+    },
     "passwordChanged": {
       "title": "Password updated!",
       "message": "You can now log in with your new password."
@@ -299,6 +320,10 @@
     "accountSaved": {
       "title": "Profile updated!",
       "message": "Your information was saved successfully."
+    },
+    "passwordChangeError": {
+      "title": "Couldn't change the password",
+      "message": "The rest of your info was saved. Try changing the password again."
     },
     "accountRequired": {
       "title": "Required fields",
@@ -367,6 +392,14 @@
     "reviewError": {
       "title": "Select a rating",
       "message": "Choose how many stars to give before sending."
+    },
+    "reviewDuplicate": {
+      "title": "You already reviewed this seller",
+      "message": "You can only leave one review per seller."
+    },
+    "reviewSaveError": {
+      "title": "Couldn't send the review",
+      "message": "Something went wrong, please try again."
     }
   },
   "terms": {

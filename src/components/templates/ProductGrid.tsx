@@ -21,7 +21,7 @@ interface ProductGridProps {
  *
  * Renderiza una lista de {@link ProductCard} en un grid de 2 a 4 columnas
  * dependiendo del ancho de pantalla. Opcionalmente muestra un botón "Ver todos".
- * Usado en {@link HomeScreen}.
+ * Usado en {@link Home}, {@link MarketPlace} y {@link Favorite}.
  *
  * @param products - Productos a mostrar.
  * @param onBuy - Handler del botón Comprar.

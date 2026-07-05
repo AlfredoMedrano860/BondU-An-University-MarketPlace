@@ -1,7 +1,7 @@
 const TOKEN_KEY = 'bondu_auth_token';
 const USER_KEY  = 'bondu_auth_user';
-const LANG_KEY  = 'bondu_auth_lang';
 
+/** Acceso al token y usuario de sesión persistidos en `localStorage`. */
 export const tokenStorage = {
     getToken(): string | null {
         return localStorage.getItem(TOKEN_KEY);
@@ -21,20 +21,15 @@ export const tokenStorage = {
     removeUser(): void {
         localStorage.removeItem(USER_KEY);
     },
-    getLang(): string | null {
-        return localStorage.getItem(LANG_KEY);
-    },
-    setLang(lang: string): void {
-        localStorage.setItem(LANG_KEY, lang);
-    },
+    /** Limpia el token y el usuario de sesión (logout). */
     clear(): void {
         this.removeToken();
         this.removeUser();
-        localStorage.removeItem(LANG_KEY);
     },
 };
 
-export const decodeToken = (token: string): { exp: number } | null => {
+/** Decodifica el payload de un JWT sin verificar su firma. */
+const decodeToken = (token: string): { exp: number } | null => {
     try {
         const payload = token.split('.')[1];
         return JSON.parse(atob(payload));
@@ -43,6 +38,7 @@ export const decodeToken = (token: string): { exp: number } | null => {
     }
 };
 
+/** Indica si un JWT ya expiró según su claim `exp`. Trata un token indecodificable como expirado. */
 export const isTokenExpired = (token: string): boolean => {
     const decoded = decodeToken(token);
     if (!decoded?.exp) return true;

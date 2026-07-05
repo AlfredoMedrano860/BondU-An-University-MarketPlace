@@ -16,7 +16,7 @@ interface BottomNavProps {
  *
  * Renderiza los ítems definidos en {@link navItems} y anima una
  * píldora de fondo sobre el ícono activo mediante una variable CSS `--i`.
- * Usado en {@link AppLayout}.
+ * Usado en {@link AppShellLayout}.
  *
  * @param onNavigate - Navega a la pantalla indicada.
  * @param currentScreen - Nombre de la pantalla activa.

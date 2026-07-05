@@ -2,6 +2,7 @@
 import { cva } from "class-variance-authority";
 import type { ElementType, ReactNode } from "react";
 import { ChevronRight } from "lucide-react";
+import { clickableRowProps } from "../../utils/accessibility";
 
 const settingRow = cva(
   "w-full flex items-center justify-between px-5 py-4 transition-colors duration-150",
@@ -37,7 +38,7 @@ interface SettingRowProps {
  *
  * Si recibe `onClick`, actúa como botón con hover y soporte de teclado.
  * El slot `right` permite pasar un `Toggle`, un badge u otro elemento.
- * Usada en {@link SettingsScreen}.
+ * Usada en {@link Settings}.
  *
  * @param icon - Ícono de la fila.
  * @param label - Texto principal.
@@ -48,13 +49,14 @@ interface SettingRowProps {
  */
 export function SettingRow({ icon: Icon, label, onClick, border = true, danger = false, right }: SettingRowProps) {
   const colorClass = danger ? "text-red-400" : "text-black";
+  const rowProps = clickableRowProps(onClick);
 
   return (
     <div
-      role={onClick ? "button" : undefined}
-      tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
-      onKeyDown={onClick ? (e) => { if (e.key === "Enter" || e.key === " ") onClick(); } : undefined}
+      role={rowProps.role}
+      tabIndex={rowProps.tabIndex}
+      onKeyDown={rowProps.onKeyDown}
       className={settingRow({ border, interactive: !!onClick })}
     >
       <div className="flex items-center gap-3">

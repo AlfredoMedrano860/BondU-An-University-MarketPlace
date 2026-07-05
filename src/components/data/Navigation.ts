@@ -17,8 +17,9 @@ export interface NavItem {
 export const navItems: NavItem[] = [
   { 
     id: 0, 
+    
     icon: Home,        
-    screen: "home"        
+    screen: "home" 
   },
   { 
     id: 1, 
@@ -27,22 +28,17 @@ export const navItems: NavItem[] = [
   },
   { 
     id: 2, 
-    icon: CirclePlus,
-    screen: "addproduct"
+    icon: CirclePlus,  
+    screen: "addproduct" 
   },
-  {
-    id: 3,
-    icon: Heart,
-    screen: "favorite"    
+  { 
+    id: 3, 
+    icon: Heart,       
+    screen: "favorite" 
   },
   { 
     id: 4, 
     icon: Cog,         
-    screen: "settings"    
+    screen: "settings" 
   },
 ];
-
-/** Tabs del detalle de producto usados en {@link ProductTabs}. */
-export const productTabs: string[] = ["Información", "Vendedor", "Compartir"];
-
-

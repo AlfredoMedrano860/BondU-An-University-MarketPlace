@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import logoHorizontal from "../../assets/imgs/LogoHorizontal.png";
+import logoHorizontal from "../../assets/imgs/LogoHorizontal.webp";
 import BackButton from "../ui/BackButton";
 
 /**
@@ -19,7 +19,7 @@ interface AuthLayoutProps {
  * Panel izquierdo: branding con fondo verde y círculos decorativos.
  * Panel derecho: fondo blanco con el formulario pasado como `children`.
  * En móvil los paneles se apilan verticalmente.
- * Usado en {@link LoginScreen}, {@link SignUpScreen} y {@link ForgotPasswordScreen}.
+ * Usado en {@link Welcome}, {@link Login}, {@link SignUp} y {@link ForgotPassword}.
  *
  * @param children - Contenido del panel derecho (formulario).
  * @param onBack - Muestra un botón de retroceso si se pasa.
